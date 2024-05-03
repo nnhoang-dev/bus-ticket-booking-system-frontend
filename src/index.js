@@ -12,6 +12,8 @@ import EmailVerificationPage from "./pages/EmailVerificationPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import LookUpResultPage from "./pages/LookUpResultPage";
+import ProfileManagementPage from "./pages/ProfileManagementPage";
+import BookingTicketPage from "./pages/BookingTicketPage";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +55,14 @@ const router = createBrowserRouter([
   {
     path: "lookupresult",
     element: <LookUpResultPage />,
+  },
+  {
+    path: "profilemanagement",
+    element: <ProfileManagementPage />,
+  },
+  {
+    path: "bookingticket",
+    element: <BookingTicketPage />,
   },
 ]);
 
