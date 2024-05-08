@@ -1,736 +1,532 @@
-import React from "react";
+/** @format */
 
-function BookingTicketForm({ userInfo }) {
-  return (
-    <div className="w-full bg-slate-50 lg:p-10">
-      <div className="flex w-full lg:w-[70%] flex-col lg:flex-row mx-auto gap-8">
-        <div className="basis-2/3 w-full flex flex-col gap-5">
-          <div className="seat-section bg-white rounded-t-xl p-5 border border-slate-200">
-            <h3 className="text-xl font-medium">Chọn ghế</h3>
-            <div className="flex flex-row mt-5 gap-8">
-              <div>
-                <table>
-                  <tr className="flex items-center gap-1 justify-between">
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        06
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        05
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        04
-                      </span>
-                    </td>
-                    <td className="relative w-6"></td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        03
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        02
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        01
-                      </span>
-                    </td>
-                  </tr>
-                  <tr className="flex items-center gap-1 justify-between">
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        12
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        11
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        10
-                      </span>
-                    </td>
-                    <td className="relative w-6"></td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        09
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        08
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        07
-                      </span>
-                    </td>
-                  </tr>
-                  <tr className="flex items-center gap-1 justify-between">
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        18
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        17
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        16
-                      </span>
-                    </td>
-                    <td className="relative w-6"></td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        15
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        14
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        13
-                      </span>
-                    </td>
-                  </tr>
-                  <tr className="flex items-center gap-1 justify-between">
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        24
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        23
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        22
-                      </span>
-                    </td>
-                    <td className="relative w-6"></td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        21
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        20
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        19
-                      </span>
-                    </td>
-                  </tr>
-                  <tr className="flex items-center gap-1 justify-between">
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        30
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        29
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        28
-                      </span>
-                    </td>
-                    <td className="relative w-6"></td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        27
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        26
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        25
-                      </span>
-                    </td>
-                  </tr>
-                  <tr className="flex items-center gap-1 justify-between">
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        36
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        35
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        34
-                      </span>
-                    </td>
-                    <td className="relative w-6"></td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        33
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        32
-                      </span>
-                    </td>
-                    <td className="mt-1 text-center relative flex justify-center">
-                      <img
-                        width="32"
-                        src="https://futabus.vn/images/icons/seat_active.svg"
-                        alt="seat icon"
-                      />
-                      <span class="absolute text-sm font-semibold lg:text-[12px] text-blue-400 top-1">
-                        31
-                      </span>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <div className="flex flex-col gap-3 text-sm">
-                <span class="flex items-center">
-                  <div class="mr-2 h-4 w-4 rounded bg-[#D5D9DD] border-[#C0C6CC]"></div>
-                  Đã bán
-                </span>
-                <span class="flex items-center">
-                  <div class="mr-2 h-4 w-4 rounded bg-[#DEF3FF] border-[#96C5E7]"></div>
-                  Còn trống
-                </span>
-                <span class="flex items-center">
-                  <div class="mr-2 h-4 w-4 rounded bg-[#FDEDE8] border-[#F8BEAB]"></div>
-                  Đang chọn
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="user-info-section bg-white border border-slate-200 p-5">
-            <div className="flex flex-row gap-8">
-              <div className="basis-1/2 w-full">
-                <h3 className="text-xl font-semibold">Thông tin khách hàng</h3>
-                <form action="" className="mt-5">
-                  {userInfo.map((info) => (
-                    <>
-                      <div className="mb-5">
-                        <p className="text-sm mb-1">
-                          Họ và tên <span className="text-orange-600">*</span>
-                        </p>
-                        <input
-                          type="text"
-                          name="fullname"
-                          className="rounded-xl border border-slate-200 w-full"
-                          value={`${info.last_name} ${info.first_name}`}
-                          disabled
-                        />
-                      </div>
-                      <div className="mb-5">
-                        <p className="text-sm mb-1">
-                          Số điện thoại{" "}
-                          <span className="text-orange-600">*</span>
-                        </p>
-                        <input
-                          disabled
-                          type="text"
-                          name="fullname"
-                          className="rounded-xl border border-slate-200 w-full"
-                          value={info.phone_number}
-                        />
-                      </div>
-                      <div>
-                        <p className="text-sm mb-1">
-                          Email <span className="text-orange-600">*</span>
-                        </p>
-                        <input
-                          disabled
-                          type="text"
-                          name="fullname"
-                          className="rounded-xl border border-slate-200 w-full"
-                          value={info.email}
-                        />
-                      </div>
-                    </>
-                  ))}
-                </form>
-              </div>
-              <div className="basis-1/2 w-full">
-                <h3 className="text-orange-500 text-center mb-5 font-semibold">
-                  ĐIỀU KHOẢN & LƯU Ý
-                </h3>
-                <p className="text-[15px] text-justify mb-3 font-[500] leading-6">
-                  (*) Quý khách vui lòng có mặt tại bến xuất phát của xe trước
-                  ít nhất 30 phút giờ xe khởi hành, mang theo thông báo đã thanh
-                  toán vé thành công có chứa mã vé được gửi từ hệ thống FUTA BUS
-                  LINE. Vui lòng liên hệ Trung tâm tổng đài{" "}
-                  <span className="text-orange-600">1900 6067</span> để được hỗ
-                  trợ.
-                </p>
-                <p className="text-[15px] text-justify font-[500] leading-6">
-                  (*) Nếu quý khách có nhu cầu trung chuyển, vui lòng liên hệ
-                  Tổng đài trung chuyển{" "}
-                  <span className="text-orange-600">1900 6918</span> trước khi
-                  đặt vé. Chúng tôi không đón/trung chuyển tại những điểm xe
-                  trung chuyển không thể tới được.
-                </p>
-              </div>
-            </div>
-            <div className="mt-5 text-sm font-[400]">
-              <input type="checkbox"></input>
-              <span>
-                <span class="cursor-pointer text-orange-500 underline ml-3">
-                  Chấp nhận điều khoản
-                </span>{" "}
-                đặt vé &amp; chính sách bảo mật thông tin của FUTABusline
-              </span>
-            </div>
-          </div>
-          <div className="address-info-section bg-white border border-slate-200 p-5">
-            <div className="flex flex-row items-center gap-x-3 mb-5">
-              <h3 className="text-xl font-semibold">Thông tin đón trả</h3>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-7 h-7 text-orange-500"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
-                />
-              </svg>
-            </div>
-            <div className="flex flex-col lg:flex-row gap-8">
-              <div className="basis-1/2 w-full">
-                <h4 className="text-medium font-[500] mb-5">ĐIỂM ĐÓN</h4>
-                <div className="flex flex-row items-center gap-x-5">
-                  <div>
-                    <input
-                      disabled
-                      checked
-                      id="disabled-radio-1"
-                      type="radio"
-                      value=""
-                      name="disabled-radio1"
-                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                    ></input>
-                    <label
-                      for="disabled-radio-1"
-                      class="ms-2 text-sm font-medium text-blue-500 "
-                    >
-                      Điểm đón
-                    </label>
-                  </div>
-                  <div>
-                    {" "}
-                    <input
-                      disabled
-                      id="disabled-radio-2"
-                      type="radio"
-                      value=""
-                      name="disabled-radio2"
-                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                    ></input>
-                    <label
-                      for="disabled-radio-2"
-                      class="ms-2 text-sm font-medium text-gray-400"
-                    >
-                      Trung chuyển
-                    </label>
-                  </div>
-                  <div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-7 h-7 text-orange-500"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div className="my-5">
-                  <input
-                    type="text"
-                    value="Bến Xe Miền Tây"
-                    disabled
-                    className="border border-slate-300 rounded-xl w-full"
-                  />
-                </div>
-                <div class="flex flex-wrap gap-1 text-justify font-[420] text-[15px] leading-6">
-                  <span>
-                    Quý khách vui lòng có mặt tại Bến xe/Văn Phòng{" "}
-                    <span className="font-bold">BX Miền Tây</span>
-                    <span className="font-bold text-orange-500">
-                      {" "}
-                      Trước 19:15 04/05/2024
-                    </span>{" "}
-                    để được trung chuyển hoặc kiểm tra thông tin trước khi lên
-                    xe.
-                  </span>
-                </div>
-              </div>
-              <div className="basis-1/2 w-full">
-                <h4 className="text-medium font-[500] mb-5">ĐIỂM TRẢ</h4>
-                <div className="flex flex-row items-center gap-x-5">
-                  <div>
-                    <input
-                      disabled
-                      checked
-                      id="disabled-radio-3"
-                      type="radio"
-                      value=""
-                      name="disabled-radio-3"
-                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                    ></input>
-                    <label
-                      for="disabled-radio-3"
-                      class="ms-2 text-sm font-medium text-blue-500 "
-                    >
-                      Điểm đón
-                    </label>
-                  </div>
-                  <div>
-                    {" "}
-                    <input
-                      disabled
-                      id="disabled-radio-4"
-                      type="radio"
-                      value=""
-                      name="disabled-radio-4"
-                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-                    ></input>
-                    <label
-                      for="disabled-radio-4"
-                      class="ms-2 text-sm font-medium text-gray-400"
-                    >
-                      Trung chuyển
-                    </label>
-                  </div>
-                  <div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-7 h-7 text-orange-500"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div className="my-5">
-                  <input
-                    type="text"
-                    value="Vũng Tàu"
-                    disabled
-                    className="border border-slate-300 rounded-xl w-full"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="payment-section"></div>
-          </div>
-          <div className="payment-section bg-white border border-slate-200 p-5 rounded-b-xl flex items-center">
-            <div class="flex flex-col">
-              <span class="w-16 rounded-xl bg-[#00613D] py-1 text-center text-xs text-white">
-                FUTAPAY
-              </span>
-              <span class="mt-2 text-2xl font-medium text-black">0đ</span>
-            </div>
-            <div class="flex flex-auto items-center justify-end">
-              <button
-                type="button"
-                className="px-10 py-2 border border-slate-200 text-blue-600 rounded-full mr-6 hover:bg-blue-600 hover:text-white transition-all"
-              >
-                <span className="text-sm font-medium">Hủy</span>
-              </button>
-              <button
-                type="button"
-                class="px-5 py-2 text-white rounded-full mr-6 bg-orange-500 hover:bg-orange-600 transition-all"
-              >
-                <span className="text-sm font-medium">Thanh toán</span>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="basis-1/3 w-full flex flex-col gap-y-5">
-          <div className="bg-white border border-slate-200 p-5 rounded-xl">
-            <h3 className="text-xl font-medium">Thông tin lượt đi</h3>
-            <div class="mt-4 flex justify-between">
-              <span class="text-slate-500">Tuyến xe</span>
-              <span class="text-right font-medium">
-                BX Mien Tay - Quan 1 - Vung Tau
-              </span>
-            </div>
-            <div class="mt-1 flex items-center justify-between">
-              <span class="text-slate-500">Thời gian xuất bến</span>
-              <span class="text-green-600 font-medium">05:30 05-05-2024</span>
-            </div>
-            <div class="mt-1 flex items-center justify-between">
-              <span class="text-slate-500">Số lượng ghế</span>
-              <span class="font-semibold">0 Ghế</span>
-            </div>
-            <div class="mt-1 flex items-center justify-between">
-              <span class="text-slate-500">Số ghế</span>
-              <span class="text-green-600 font-medium"></span>
-            </div>
-            <div class="mt-1 flex items-center justify-between">
-              <span class="text-slate-500">Tổng tiền lượt đi</span>
-              <span class="text-green-600 font-medium">0đ</span>
-            </div>
-          </div>
-          <div className="bg-white border border-slate-200 p-5 rounded-xl">
-            <div className="flex flex-row items-center gap-x-3">
-              {" "}
-              <h3 className="text-xl font-medium">Chi tiết giá</h3>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-7 h-7 text-orange-500"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
-                />
-              </svg>
-            </div>
-            <div class="mt-4 flex items-center justify-between">
-              <span class="text-slate-500">Giá vé lượt đi</span>
-              <span class="text-orange-600 font-medium">0đ</span>
-            </div>
-            <div class="mt-1 flex items-center justify-between">
-              <span class="text-slate-500">Phí thanh toán</span>
-              <span class="font-medium">0đ</span>
-            </div>
-            <hr className="my-3" />
-            <div class="flex items-center justify-between">
-              <span class="text-slate-500">Tổng tiền</span>
-              <span class="text-orange-600 font-medium">0đ</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { API_URL } from '../configs/env';
+
+function BookingTicketForm() {
+	const [searchParams, setSearchParams] = useSearchParams();
+	const [seat1, setSeat1] = useState([]);
+	const [seat2, setSeat2] = useState([]);
+	const [numberOfSeats, setNumberOfSeatsSelected] = useState(0);
+	const [price, setPrice] = useState(0);
+	const [start_time, setStart_time] = useState('');
+	const [tuyenXe, setTuyenXe] = useState('');
+	const [khachHang, setKhachHang] = useState('');
+	const navigate = useNavigate();
+
+	let id = searchParams.get('id');
+
+	useEffect(() => {
+		if (id) {
+			fetchData();
+			testFetchKhachHang();
+		} else {
+			navigate('/');
+		}
+	}, []);
+
+	const payment = async () => {
+		if (!numberOfSeats) {
+			alert('Bạn chưa chọn ghế');
+			return;
+		}
+		let body = {
+			chuyen_xe_id: id,
+			khach_hang_id: khachHang.id,
+			seat: idSeat(),
+			discount: '',
+			price: price,
+			quantity: numberOfSeats,
+			amount: price * numberOfSeats,
+			language: 'vn',
+			bankCode: '',
+		};
+
+		testFetchKhachHang();
+
+		const token = sessionStorage.getItem('token');
+		await axios.post(API_URL + `khach-hang/thanh-toan`, body, { headers: { Authorization: `Bearer ${token}` } }).then((res) => {
+			if (res.status === 200) {
+				window.location.href = res.data;
+			}
+		});
+	};
+
+	const fetchData = async () => {
+		// get chuyenXe
+		await axios.get(API_URL + `chuyen-xe/${id}`).then((res) => {
+			setPrice(res.data.price);
+			setStart_time(res.data.start_time.substring(0, res.data.start_time.length - 3) + ' ' + res.data.date);
+			setTuyenXe(res.data.tuyen_xe.name);
+
+			let newSeat1 = new Array(18).fill('0');
+			let newSeat2 = new Array(18).fill('0');
+
+			for (let i = 1; i < 37; i++) {
+				if (res.data.seat.includes(i.toString())) {
+					if (parseInt(i) > 18) {
+						newSeat2[i - 19] = '2';
+					} else {
+						newSeat1[i - 1] = '2';
+					}
+				}
+			}
+
+			setSeat1(newSeat1);
+			setSeat2(newSeat2);
+		});
+	};
+
+	const testFetchKhachHang = async () => {
+		// get khachHang
+		const token = sessionStorage.getItem('token');
+		if (token) {
+			axios
+				.get(API_URL + 'khach-hang/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
+				.then((res) => {
+					setKhachHang(res.data.khachHang);
+				})
+				.catch((err) => {
+					navigate('/login');
+				});
+		}
+	};
+
+	const chooseSeat = (seat) => {
+		let newSeat = [];
+		if (seat > 18) {
+			newSeat = [...seat2];
+			if (newSeat[seat - 19] === '0') {
+				newSeat[seat - 19] = '1';
+				setNumberOfSeatsSelected(numberOfSeats + 1);
+			} else if (newSeat[seat - 19] === '1') {
+				newSeat[seat - 19] = '0';
+				setNumberOfSeatsSelected(numberOfSeats - 1);
+			}
+			setSeat2(newSeat);
+		} else {
+			newSeat = [...seat1];
+			if (newSeat[seat - 1] === '0') {
+				newSeat[seat - 1] = '1';
+				setNumberOfSeatsSelected(numberOfSeats + 1);
+			} else if (newSeat[seat - 1] === '1') {
+				newSeat[seat - 1] = '0';
+				setNumberOfSeatsSelected(numberOfSeats - 1);
+			}
+			setSeat1(newSeat);
+		}
+	};
+
+	const idSeat = () => {
+		let res = '';
+		seat1.map((v, i) => {
+			if (v === '1') {
+				res += i + 1 + ',';
+			}
+		});
+		seat2.map((v, i) => {
+			if (v === '1') {
+				res += i + 19 + ',';
+			}
+		});
+		return res.substring(0, res.length - 1);
+	};
+
+	return (
+		<div className="w-full bg-slate-50 lg:p-10">
+			<div className="flex max-w-screen-lg flex-col lg:flex-row mx-auto gap-8">
+				<div className="basis-2/3 w-full flex flex-col gap-5">
+					<div className="seat-section bg-white rounded-t-xl p-5 border border-slate-200">
+						<h3 className="text-xl font-medium">Chọn ghế</h3>
+						<div className="flex flex-row mt-5 gap-8">
+							<div className="grid grid-cols-3 gap-2 cursor-pointer">
+								{seat1.map((v, i) => {
+									return (
+										<div
+											key={i}
+											className="mt-1 text-center relative flex justify-center"
+											onClick={() => chooseSeat(i + 1)}
+										>
+											<img
+												width="32"
+												src={
+													v === '0'
+														? 'https://futabus.vn/images/icons/seat_active.svg'
+														: v === '2'
+														? 'https://futabus.vn/images/icons/seat_disabled.svg'
+														: 'https://futabus.vn/images/icons/seat_selecting.svg'
+												}
+												alt="seat icon"
+											/>
+											<span
+												className={`absolute text-sm font-semibold sm:text-[12px] ${
+													v === '2' ? 'text-gray-400' : v === '0' ? 'text-blue-400' : 'text-red-400'
+												} top-1`}
+											>
+												{i + 1}
+											</span>
+										</div>
+									);
+								})}
+							</div>
+
+							<div className="grid grid-cols-3 gap-2 cursor-pointer">
+								{seat2.map((v, i) => {
+									return (
+										<div
+											key={i}
+											className="mt-1 text-center relative flex justify-center"
+											onClick={() => chooseSeat(i + 19)}
+										>
+											<img
+												width="32"
+												src={
+													v === '0'
+														? 'https://futabus.vn/images/icons/seat_active.svg'
+														: v === '2'
+														? 'https://futabus.vn/images/icons/seat_disabled.svg'
+														: 'https://futabus.vn/images/icons/seat_selecting.svg'
+												}
+												alt="seat icon"
+											/>
+											<span
+												className={`absolute text-sm font-semibold sm:text-[12px] ${
+													v === '2' ? 'text-gray-400' : v === '0' ? 'text-blue-400' : 'text-red-400'
+												} top-1`}
+											>
+												{i + 19}
+											</span>
+										</div>
+									);
+								})}
+							</div>
+
+							<div className="flex flex-col gap-3 text-sm">
+								<span className="flex items-center">
+									<div className="mr-2 h-4 w-4 rounded bg-[#D5D9DD] border-[#C0C6CC]"></div>
+									Đã bán
+								</span>
+								<span className="flex items-center">
+									<div className="mr-2 h-4 w-4 rounded bg-[#DEF3FF] border-[#96C5E7]"></div>
+									Còn trống
+								</span>
+								<span className="flex items-center">
+									<div className="mr-2 h-4 w-4 rounded bg-[#FDEDE8] border-[#F8BEAB]"></div>
+									Đang chọn
+								</span>
+							</div>
+						</div>
+					</div>
+					<div className="user-info-section bg-white border border-slate-200 p-5">
+						<div className="flex flex-row gap-8">
+							<div className="basis-1/2 w-full">
+								<h3 className="text-xl font-semibold">Thông tin khách hàng</h3>
+								<form
+									action=""
+									className="mt-5"
+								>
+									<div>
+										<div className="mb-5">
+											<p className="text-sm mb-1">
+												Họ và tên <span className="text-orange-600">*</span>
+											</p>
+											<input
+												type="text"
+												name="fullname"
+												className="rounded-xl border border-slate-200 w-full bg-gray-200 text-gray-500"
+												value={`${khachHang.last_name} ${khachHang.first_name}`}
+												disabled
+											/>
+										</div>
+										<div className="mb-5">
+											<p className="text-sm mb-1">
+												Số điện thoại <span className="text-orange-600">*</span>
+											</p>
+											<input
+												disabled
+												type="text"
+												name="fullname"
+												className="rounded-xl border border-slate-200 w-full bg-gray-200 text-gray-500"
+												value={khachHang.phone_number}
+											/>
+										</div>
+										<div>
+											<p className="text-sm mb-1">
+												Email <span className="text-orange-600">*</span>
+											</p>
+											<input
+												disabled
+												type="text"
+												name="fullname"
+												className="rounded-xl border border-slate-200 w-full bg-gray-200 text-gray-500"
+												value={khachHang.email}
+											/>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div className="basis-1/2 w-full">
+								<h3 className="text-orange-500 text-center mb-5 font-semibold">ĐIỀU KHOẢN & LƯU Ý</h3>
+								<p className="text-[15px] text-justify mb-3 font-[500] leading-6">
+									(*) Quý khách vui lòng có mặt tại bến xuất phát của xe trước ít nhất 30 phút giờ xe khởi hành, mang theo thông báo đã thanh
+									toán vé thành công có chứa mã vé được gửi từ hệ thống FUTA BUS LINE. Vui lòng liên hệ Trung tâm tổng đài{' '}
+									<span className="text-orange-600">1900 6067</span> để được hỗ trợ.
+								</p>
+								<p className="text-[15px] text-justify font-[500] leading-6">
+									(*) Nếu quý khách có nhu cầu trung chuyển, vui lòng liên hệ Tổng đài trung chuyển{' '}
+									<span className="text-orange-600">1900 6918</span> trước khi đặt vé. Chúng tôi không đón/trung chuyển tại những điểm xe
+									trung chuyển không thể tới được.
+								</p>
+							</div>
+						</div>
+						<div className="mt-5 text-sm font-[400]">
+							<input type="checkbox"></input>
+							<span>
+								<span className="cursor-pointer text-orange-500 underline ml-3">Chấp nhận điều khoản</span> đặt vé &amp; chính sách bảo mật
+								thông tin của FUTABusline
+							</span>
+						</div>
+					</div>
+					{/* <div className="address-info-section bg-white border border-slate-200 p-5">
+						<div className="flex flex-row items-center gap-x-3 mb-5">
+							<h3 className="text-xl font-semibold">Thông tin đón trả</h3>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								strokeWidth="1.5"
+								stroke="currentColor"
+								className="w-7 h-7 text-orange-500"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+								/>
+							</svg>
+						</div>
+						<div className="flex flex-col lg:flex-row gap-8">
+							<div className="basis-1/2 w-full">
+								<h4 className="text-medium font-[500] mb-5">ĐIỂM ĐÓN</h4>
+								<div className="flex flex-row items-center gap-x-5">
+									<div>
+										<input
+											disabled
+											checked
+											id="disabled-radio-1"
+											type="radio"
+											value=""
+											name="disabled-radio1"
+											className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+										></input>
+										<label
+											htmlFor="disabled-radio-1"
+											className="ms-2 text-sm font-medium text-blue-500 "
+										>
+											Điểm đón
+										</label>
+									</div>
+									<div>
+										{' '}
+										<input
+											disabled
+											id="disabled-radio-2"
+											type="radio"
+											value=""
+											name="disabled-radio2"
+											className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+										></input>
+										<label
+											htmlFor="disabled-radio-2"
+											className="ms-2 text-sm font-medium text-gray-400"
+										>
+											Trung chuyển
+										</label>
+									</div>
+									<div>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											strokeWidth="1.5"
+											stroke="currentColor"
+											className="w-7 h-7 text-orange-500"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+											/>
+										</svg>
+									</div>
+								</div>
+								<div className="my-5">
+									<input
+										type="text"
+										value="Bến Xe Miền Tây"
+										disabled
+										className="border border-slate-300 rounded-xl w-full"
+									/>
+								</div>
+								<div className="flex flex-wrap gap-1 text-justify font-[420] text-[15px] leading-6">
+									<span>
+										Quý khách vui lòng có mặt tại Bến xe/Văn Phòng <span className="font-bold">BX Miền Tây</span>
+										<span className="font-bold text-orange-500"> Trước 19:15 04/05/2024</span> để được trung chuyển hoặc kiểm tra thông tin
+										trước khi lên xe.
+									</span>
+								</div>
+							</div>
+							<div className="basis-1/2 w-full">
+								<h4 className="text-medium font-[500] mb-5">ĐIỂM TRẢ</h4>
+								<div className="flex flex-row items-center gap-x-5">
+									<div>
+										<input
+											disabled
+											checked
+											id="disabled-radio-3"
+											type="radio"
+											value=""
+											name="disabled-radio-3"
+											className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+										></input>
+										<label
+											htmlFor="disabled-radio-3"
+											className="ms-2 text-sm font-medium text-blue-500 "
+										>
+											Điểm đón
+										</label>
+									</div>
+									<div>
+										{' '}
+										<input
+											disabled
+											id="disabled-radio-4"
+											type="radio"
+											value=""
+											name="disabled-radio-4"
+											className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+										></input>
+										<label
+											htmlFor="disabled-radio-4"
+											className="ms-2 text-sm font-medium text-gray-400"
+										>
+											Trung chuyển
+										</label>
+									</div>
+									<div>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											strokeWidth="1.5"
+											stroke="currentColor"
+											className="w-7 h-7 text-orange-500"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+											/>
+										</svg>
+									</div>
+								</div>
+								<div className="my-5">
+									<input
+										type="text"
+										value="Vũng Tàu"
+										disabled
+										className="border border-slate-300 rounded-xl w-full"
+									/>
+								</div>
+							</div>
+						</div>
+						<div className="payment-section"></div>
+					</div> */}
+					<div className="payment-section bg-white border border-slate-200 p-5 rounded-b-xl flex items-center">
+						<div className="flex flex-col">
+							<span className="w-16 rounded-xl bg-[#00613D] py-1 text-center text-xs text-white">FUTAPAY</span>
+							<span className="mt-2 text-2xl font-medium text-black">{price * numberOfSeats} đ</span>
+						</div>
+						<div className="flex flex-auto items-center justify-end">
+							{/* <button
+								type="button"
+								className="px-10 py-2 border border-slate-200 text-blue-600 rounded-full mr-6 hover:bg-blue-600 hover:text-white transition-all"
+							>
+								<span className="text-sm font-medium">Hủy</span>
+							</button> */}
+							<button
+								type="button"
+								className="px-5 py-2 text-white rounded-full mr-6 bg-orange-500 hover:bg-orange-600 transition-all"
+								onClick={payment}
+							>
+								<span className="text-sm font-medium">Thanh toán</span>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div className="basis-1/3 w-full flex flex-col gap-y-5">
+					<div className="bg-white border border-slate-200 p-5 rounded-xl">
+						<h3 className="text-xl font-medium">Thông tin lượt đi</h3>
+						<div className="mt-4 flex justify-between">
+							<span className="text-slate-500">Tuyến xe</span>
+							<span className="text-right font-medium">{tuyenXe}</span>
+						</div>
+						<div className="mt-1 flex items-center justify-between">
+							<span className="text-slate-500">Thời gian xuất bến</span>
+							<span className="text-green-600 font-medium">{start_time}</span>
+						</div>
+						<div className="mt-1 flex items-center justify-between">
+							<span className="text-slate-500">Số lượng ghế</span>
+							<span className="font-semibold">{numberOfSeats} Ghế</span>
+						</div>
+						<div className="mt-1 flex items-center justify-between">
+							<span className="text-slate-500">Số ghế</span>
+							<span className="text-green-600 font-medium">{idSeat()}</span>
+						</div>
+						<div className="mt-1 flex items-center justify-between">
+							<span className="text-slate-500">Tổng tiền lượt đi</span>
+							<span className="text-green-600 font-medium">{price * numberOfSeats} đ</span>
+						</div>
+					</div>
+					<div className="bg-white border border-slate-200 p-5 rounded-xl">
+						<div className="flex flex-row items-center gap-x-3">
+							{' '}
+							<h3 className="text-xl font-medium">Chi tiết giá</h3>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+								strokeWidth="1.5"
+								stroke="currentColor"
+								className="w-7 h-7 text-orange-500"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+								/>
+							</svg>
+						</div>
+						<div className="mt-4 flex items-center justify-between">
+							<span className="text-slate-500">Giá vé lượt đi</span>
+							<span className="text-orange-600 font-medium">{price * numberOfSeats} đ</span>
+						</div>
+						<div className="mt-1 flex items-center justify-between">
+							<span className="text-slate-500">Phí thanh toán</span>
+							<span className="font-medium">0đ</span>
+						</div>
+						<hr className="my-3" />
+						<div className="flex items-center justify-between">
+							<span className="text-slate-500">Tổng tiền</span>
+							<span className="text-orange-600 font-medium">{price * numberOfSeats} đ</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 }
 
 export default BookingTicketForm;

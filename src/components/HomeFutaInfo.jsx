@@ -9,7 +9,7 @@ function HomeFutaInfo(props) {
       <span className="home-title-content text-slate-500 my-3">
         Được khách hàng tin tưởng và lựa chọn
       </span>
-      <hr class="w-4/5 mx-auto h-0.5 bg-gray-200 md:w-2/5 xl:w-1/5" />
+      <hr className="w-4/5 mx-auto h-0.5 bg-gray-200 md:w-2/5 xl:w-1/5" />
       <div className="layout mt-8 sm:grid sm:grid-cols-2 sm:gap-16">
         <div>
           <div className="mb-6 flex items-center">
