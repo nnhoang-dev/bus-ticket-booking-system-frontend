@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { REACT_URL } from '../configs/env';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import CheckFailure from '../svg/svg';
+import { CheckFailure } from '../svg/svg';
 
 function ResultBookingPage(props) {
 	const navigate = useNavigate();

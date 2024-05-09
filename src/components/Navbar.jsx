@@ -14,7 +14,7 @@ function Navbar(props) {
 				.get(API_URL + 'khach-hang/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
 					setCustomer(res.data.khachHang);
-					console.log(customer);
+					// console.log(customer);
 				})
 				.catch((error) => {});
 		}

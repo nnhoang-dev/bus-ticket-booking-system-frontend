@@ -3,11 +3,26 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { API_URL, REACT_URL } from '../configs/env';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 function LoginForm(props) {
+	const navigate = useNavigate();
 	const [phone_number, setPhoneNumber] = useState('');
 	const [password, setPassword] = useState('');
+
+	useEffect(() => {
+		const token = sessionStorage.getItem('token');
+		if (token) {
+			axios
+				.get(API_URL + 'khach-hang/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
+				.then((res) => {
+					navigate('/');
+				})
+				.catch((error) => {
+					navigate('/dang-nhap');
+				});
+		}
+	}, []);
 
 	const submitLogin = async () => {
 		const data = {

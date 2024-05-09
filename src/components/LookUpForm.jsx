@@ -15,13 +15,13 @@ function LookUpForm(props) {
 			phone_number,
 			ve_id,
 		};
-		let res = await axios
+		await axios
 			.get(API_URL + 'khach-hang/tra-cuu-ve', { params })
 			.then((res) => {
 				setTicket(res.data);
 			})
 			.catch((err) => {
-				console.log(err);
+				alert('Tra cứu vé thất bại, vui lòng kiểm tra lại thông tin');
 			});
 	};
 	return (

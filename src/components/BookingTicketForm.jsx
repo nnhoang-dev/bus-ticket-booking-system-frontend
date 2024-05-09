@@ -81,16 +81,20 @@ function BookingTicketForm() {
 
 	const testFetchKhachHang = async () => {
 		// get khachHang
+		console.log('test');
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
 				.get(API_URL + 'khach-hang/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
+					console.log(res.data.khachHang);
 					setKhachHang(res.data.khachHang);
 				})
 				.catch((err) => {
-					navigate('/login');
+					navigate('/dang-nhap');
 				});
+		} else {
+			navigate('/dang-nhap');
 		}
 	};
 
