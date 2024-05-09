@@ -21,7 +21,7 @@ function LookUpForm(props) {
 				setTicket(res.data);
 			})
 			.catch((err) => {
-				alert('Tra cứu vé thất bại, vui lòng kiểm tra lại thông tin');
+				alert(err.response.data.message);
 			});
 	};
 	return (

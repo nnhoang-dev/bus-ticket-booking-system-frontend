@@ -22,7 +22,6 @@ function SignupForm(props) {
 			password_confirmation,
 		};
 
-		// console.log(data);
 		await axios
 			.post(API_URL + 'khach-hang/dang-ky', data)
 			.then((res) => {

@@ -14,9 +14,7 @@ import ResultBookingPage from './pages/ResultBookingPage';
 import SignupPage from './pages/SignupPage';
 import EmailVerificationPage from './pages/EmailVerificationPage';
 import ProfileManagementPage from './pages/ProfileManagementPage';
-import NavBarOperator from './components/admin/nav/NavBarOperator';
 import BusesManagement from './components/admin/BusesManagement';
-import NavBarCustomerService from './components/admin/nav/NavBarCustomerService';
 import NavBarAdmin from './pages/admin/NavBarAdmin';
 import TicketManagement from './components/admin/TicketManagement';
 
