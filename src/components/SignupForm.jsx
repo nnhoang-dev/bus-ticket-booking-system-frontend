@@ -21,7 +21,6 @@ function SignupForm(props) {
 			password,
 			password_confirmation,
 		};
-
 		await axios
 			.post(API_URL + 'khach-hang/dang-ky', data)
 			.then((res) => {
@@ -181,7 +180,7 @@ function SignupForm(props) {
 							htmlFor=""
 							className="absolute text-md text-white duration-300 tranform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
 						>
-							Xác thực mật khẩu
+							Nhập lại mật khẩu
 						</label>
 						<span className="absolute top-1 right-1 ">
 							<svg
@@ -211,7 +210,7 @@ function SignupForm(props) {
 						<span className="m-4">
 							Đã có tài khoản?{' '}
 							<a
-								href="/login"
+								href="/dang-nhap"
 								className="text-cyan-300"
 							>
 								Đăng nhập

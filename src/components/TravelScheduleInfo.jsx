@@ -66,7 +66,7 @@ function TravelScheduleInfo(props) {
 						<div className="basis-1/6 font-semibold">{v.date}</div>
 						<div className="basis-1/6 font-semibold">{v.start_time}</div>
 						<div className="basis-1/6 font-semibold">{v.end_time}</div>
-						<div className="basis-1/6 font-semibold text-center">{v.price}</div>
+						<div className="basis-1/6 font-semibold text-center">{v.price / 1000 + '.000'}</div>
 						<NavLink
 							to={`/dat-ve?id=${v.id}`}
 							className="text-center basis-1/6 text-sm font-semibold text-white hover:bg-red-600 transition-all border border-transparent bg-red-500 py-1 px-2 rounded-full"

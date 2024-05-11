@@ -123,19 +123,21 @@ const TicketManagement = () => {
 	};
 
 	const deleteTicket = async () => {
-		const token = sessionStorage.getItem('token');
-		if (token) {
-			await axios
-				.delete(API_URL + `nhan-vien/huy-ve/${ticket.id}`, { headers: { Authorization: `Bearer ${token}` } })
-				.then((res) => {
-					alert(res.data.message);
-					refesh();
-				})
-				.catch((err) => {
-					alert(err.response.data.message);
-				});
-		} else {
-			navigate('/admin');
+		if (window.confirm('Bạn có chắc chắn muốn xóa chuyến xe này ?')) {
+			const token = sessionStorage.getItem('token');
+			if (token) {
+				await axios
+					.delete(API_URL + `nhan-vien/huy-ve/${ticket.id}`, { headers: { Authorization: `Bearer ${token}` } })
+					.then((res) => {
+						alert(res.data.message);
+						refesh();
+					})
+					.catch((err) => {
+						alert(err.response.data.message);
+					});
+			} else {
+				navigate('/admin');
+			}
 		}
 	};
 

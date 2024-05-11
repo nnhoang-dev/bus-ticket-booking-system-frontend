@@ -43,15 +43,19 @@ function BookingTicketForm() {
 			language: 'vn',
 			bankCode: '',
 		};
-
 		testFetchKhachHang();
 
 		const token = sessionStorage.getItem('token');
-		await axios.post(API_URL + `khach-hang/thanh-toan`, body, { headers: { Authorization: `Bearer ${token}` } }).then((res) => {
-			if (res.status === 200) {
-				window.location.href = res.data;
-			}
-		});
+		await axios
+			.post(API_URL + `khach-hang/thanh-toan`, body, { headers: { Authorization: `Bearer ${token}` } })
+			.then((res) => {
+				if (res.status === 200) {
+					window.location.href = res.data;
+				}
+			})
+			.catch((error) => {
+				alert(error.response.data.message);
+			});
 	};
 
 	const fetchData = async () => {
@@ -451,7 +455,7 @@ function BookingTicketForm() {
 					<div className="payment-section bg-white border border-slate-200 p-5 rounded-b-xl flex items-center">
 						<div className="flex flex-col">
 							<span className="w-16 rounded-xl bg-[#00613D] py-1 text-center text-xs text-white">FUTAPAY</span>
-							<span className="mt-2 text-2xl font-medium text-black">{price * numberOfSeats} đ</span>
+							<span className="mt-2 text-2xl font-medium text-black">{(price * numberOfSeats) / 1000 + '.000'} đ</span>
 						</div>
 						<div className="flex flex-auto items-center justify-end">
 							{/* <button
@@ -491,7 +495,7 @@ function BookingTicketForm() {
 						</div>
 						<div className="mt-1 flex items-center justify-between">
 							<span className="text-slate-500">Tổng tiền lượt đi</span>
-							<span className="text-green-600 font-medium">{price * numberOfSeats} đ</span>
+							<span className="text-green-600 font-medium">{(price * numberOfSeats) / 1000 + '.000'} đ</span>
 						</div>
 					</div>
 					<div className="bg-white border border-slate-200 p-5 rounded-xl">
@@ -515,7 +519,7 @@ function BookingTicketForm() {
 						</div>
 						<div className="mt-4 flex items-center justify-between">
 							<span className="text-slate-500">Giá vé lượt đi</span>
-							<span className="text-orange-600 font-medium">{price * numberOfSeats} đ</span>
+							<span className="text-orange-600 font-medium">{(price * numberOfSeats) / 1000 + '.000'} đ</span>
 						</div>
 						<div className="mt-1 flex items-center justify-between">
 							<span className="text-slate-500">Phí thanh toán</span>
@@ -524,7 +528,7 @@ function BookingTicketForm() {
 						<hr className="my-3" />
 						<div className="flex items-center justify-between">
 							<span className="text-slate-500">Tổng tiền</span>
-							<span className="text-orange-600 font-medium">{price * numberOfSeats} đ</span>
+							<span className="text-orange-600 font-medium">{(price * numberOfSeats) / 1000 + '.000'} đ</span>
 						</div>
 					</div>
 				</div>

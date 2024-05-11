@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { API_URL, REACT_URL } from '../configs/env';
 import axios from 'axios';
 import { useSearchParams } from 'react-router-dom';
@@ -8,8 +8,23 @@ import { useSearchParams } from 'react-router-dom';
 function EmailVerificationForm(props) {
 	const [otp, setOtp] = useState('');
 	const [searchParams, setSearchParams] = useSearchParams();
+	const [second, setSecond] = useState(15);
 
 	let khach_hang_id = searchParams.get('id');
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			if (second > 0) {
+				setSecond(second - 1);
+			} else {
+				clearInterval(interval);
+			}
+		}, 1000);
+
+		return () => {
+			clearInterval(interval);
+		};
+	}, [second]);
 
 	if (!khach_hang_id) {
 		window.location.href = REACT_URL + 'dang-ky';
@@ -42,6 +57,8 @@ function EmailVerificationForm(props) {
 		await axios.post(API_URL + 'khach-hang/gui-lai-ma-xac-thuc-email', data).then((res) => {
 			alert('Mã OTP đã được gửi đến địa chỉ email của bạn');
 		});
+
+		setSecond(59);
 	};
 
 	return (
@@ -88,12 +105,16 @@ function EmailVerificationForm(props) {
 							</svg>
 						</span>
 					</div>
-					<div
-						className="text-end text-cyan-300"
-						onClick={resendOTP}
-					>
-						Gửi lại mã xác thực
-					</div>
+					{second > 0 ? (
+						<div className="text-left text-white">Gửi lại mã sau: {second < 10 ? '0' + second : second}</div>
+					) : (
+						<div
+							className="text-end text-cyan-300 cursor-pointer"
+							onClick={resendOTP}
+						>
+							Gửi lại mã xác thực
+						</div>
+					)}
 					<button
 						type="submit"
 						className="transition-colors duration-300 w-full mb-4 text-[18px] mt-6 rounded-full bg-white text-black hover:bg-cyan-500 hover:text-white py-2"

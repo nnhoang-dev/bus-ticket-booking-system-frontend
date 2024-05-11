@@ -69,6 +69,10 @@ const BusesManagerment = () => {
 	};
 
 	const sendRequestCreateChuyenXe = async () => {
+		if (new Date().getTime() > new Date(date).getTime()) {
+			alert('Ngày khởi hành không hợp lệ');
+			return;
+		}
 		let data = {
 			tuyen_xe_id: tuyenXe,
 			xe_id: xe,
@@ -103,7 +107,7 @@ const BusesManagerment = () => {
 		await axios
 			.put(API_URL + `chuyen-xe/${idChuyenXe}`, data)
 			.then((res) => {
-				if (res.status === 201) {
+				if (res.status === 200) {
 					alert(res.data.message);
 					resetInput();
 				}
@@ -136,17 +140,19 @@ const BusesManagerment = () => {
 	};
 
 	const deleteBtn = async (id) => {
-		await axios
-			.delete(API_URL + `chuyen-xe/${id}`)
-			.then((res) => {
-				if (res.status === 200) {
-					alert(res.data.message);
-				}
-			})
-			.catch((err) => {
-				alert(err.response.data.message);
-			});
-		fetchChuyenXeAll();
+		if (window.confirm('Bạn có chắc chắn muốn xóa chuyến xe này ?')) {
+			await axios
+				.delete(API_URL + `chuyen-xe/${id}`)
+				.then((res) => {
+					if (res.status === 200) {
+						alert(res.data.message);
+					}
+				})
+				.catch((err) => {
+					alert(err.response.data.message);
+				});
+			fetchChuyenXeAll();
+		}
 	};
 
 	return (
@@ -245,18 +251,18 @@ const BusesManagerment = () => {
 							className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 							onClick={sendRequestCreateChuyenXe}
 						>
-							Create
+							Thêm
 						</button>
 					) : (
 						<button
 							className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 							onClick={sendRequestUpdateChuyenXe}
 						>
-							Update
+							Chỉnh sửa
 						</button>
 					)}
 				</div>
-				<div className="max-w-screen-lg mx-auto -my-2 mt-8">
+				<div className="max-w-screen-xl mx-auto -my-2 mt-8">
 					<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
 						<table className="w-full text-sm text-left  text-gray-500 ">
 							<thead className="text-xs text-gray-700 uppercase bg-gray-50">
@@ -328,20 +334,20 @@ const BusesManagerment = () => {
 											<td className="px-6 py-4">{v.start_time + '-' + v.end_time}</td>
 											<td className="px-6 py-4">{v.date}</td>
 											<td className="px-6 py-4">{v.tuyen_xe.start_address.name + ' - ' + v.tuyen_xe.end_address.name}</td>
-											<td className="px-6 py-4">{v.price}</td>
+											<td className="px-6 py-4">{v.price / 1000 + '.000'}</td>
 											<td className="px-6 py-4">{v.xe.license}</td>
 											<td className="px-6 py-4">
 												<button
 													onClick={() => editBtn(v.id)}
-													className="font-medium text-blue-500 hover:underline"
+													className="mr-2 font-medium text-blue-500 hover:underline"
 												>
-													Edit
+													Sửa
 												</button>
 												<button
 													onClick={() => deleteBtn(v.id)}
 													className="font-medium text-red-500 hover:underline"
 												>
-													Delete
+													Xóa
 												</button>
 											</td>
 										</tr>
