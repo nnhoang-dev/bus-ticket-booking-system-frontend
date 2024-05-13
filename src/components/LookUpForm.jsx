@@ -16,7 +16,7 @@ function LookUpForm(props) {
 			ve_id,
 		};
 		await axios
-			.get(API_URL + 'khach-hang/tra-cuu-ve', { params })
+			.get(API_URL + 'customer/tra-cuu-ve', { params })
 			.then((res) => {
 				setTicket(res.data);
 			})

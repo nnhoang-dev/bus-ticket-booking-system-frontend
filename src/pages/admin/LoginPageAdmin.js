@@ -14,7 +14,7 @@ function LoginPageAdmin(props) {
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
-				.get(API_URL + 'nhan-vien/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
+				.get(API_URL + 'employee/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
 					if (res.status === 200) {
 						navigate('home');
@@ -30,7 +30,7 @@ function LoginPageAdmin(props) {
 			password,
 		};
 		await axios
-			.post(API_URL + 'nhan-vien/dang-nhap', data)
+			.post(API_URL + 'employee/dang-nhap', data)
 			.then((res) => {
 				if (res.status === 200) {
 					sessionStorage.setItem('token', res.data.token);

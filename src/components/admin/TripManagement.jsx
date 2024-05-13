@@ -6,83 +6,83 @@ import { API_URL } from '../../configs/env';
 
 const BusesManagerment = () => {
 	const [isCreate, setIsCreate] = useState(true);
-	const [idChuyenXe, setIdChuyenXe] = useState('');
+	const [idTrip, setIdTrip] = useState('');
 
-	const [tuyenXeAll, setTuyenXeAll] = useState([]);
-	const [xeAll, setXeAll] = useState([]);
-	const [taiXeAll, setTaiXeAll] = useState([]);
-	const [chuyenXeAll, setChuyenXeAll] = useState([]);
-	const [tuyenXe, setTuyenXe] = useState('');
-	const [xe, setXe] = useState('');
-	const [taiXe, setTaiXe] = useState('');
+	const [routeAll, setRouteAll] = useState([]);
+	const [busAll, setBusAll] = useState([]);
+	const [driverAll, setDriverAll] = useState([]);
+	const [tripAll, setTripAll] = useState([]);
+	const [route, setRoute] = useState('');
+	const [bus, setBus] = useState('');
+	const [driver, setTaiXe] = useState('');
 	const [date, setDate] = useState('');
 	const [time, setTime] = useState('');
 
 	useEffect(() => {
-		fetchTuyenXeAll();
-		fetchXeAll();
-		fetchTaiXeAll();
-		fetchChuyenXeAll();
+		getRouteAll();
+		getBusAll();
+		getDriverAll();
+		getTripAll();
 	}, []);
 
-	const fetchTuyenXeAll = async () => {
+	const getRouteAll = async () => {
 		await axios
-			.get(API_URL + 'tuyen-xe')
+			.get(API_URL + 'route')
 			.then((res) => {
-				setTuyenXeAll(res.data);
+				setRouteAll(res.data.route);
 			})
 			.catch((err) => {});
 	};
-	const fetchXeAll = async () => {
+	const getBusAll = async () => {
 		await axios
-			.get(API_URL + 'xe')
+			.get(API_URL + 'bus')
 			.then((res) => {
-				setXeAll(res.data.data);
+				setBusAll(res.data.data);
 			})
 			.catch((err) => {});
 	};
-	const fetchTaiXeAll = async () => {
+	const getDriverAll = async () => {
 		await axios
-			.get(API_URL + 'nhan-vien/TX')
+			.get(API_URL + 'employee/TX')
 			.then((res) => {
-				setTaiXeAll(res.data.data);
+				setDriverAll(res.data.data);
 			})
 			.catch((err) => {});
 	};
-	const fetchChuyenXeAll = async () => {
+	const getTripAll = async () => {
 		await axios
-			.get(API_URL + 'chuyen-xe')
+			.get(API_URL + 'trip')
 			.then((res) => {
 				// console.log(res.data);
-				setChuyenXeAll(res.data);
+				setTripAll(res.data);
 			})
 			.catch((err) => {});
 	};
 
 	const resetInput = () => {
 		setTaiXe('');
-		setTuyenXe('');
-		setXe('');
+		setRoute('');
+		setBus('');
 		setTaiXe('');
 		setDate('');
 		setTime('');
 	};
 
-	const sendRequestCreateChuyenXe = async () => {
+	const sendRequestCreateTrip = async () => {
 		if (new Date().getTime() > new Date(date).getTime()) {
 			alert('Ngày khởi hành không hợp lệ');
 			return;
 		}
 		let data = {
-			tuyen_xe_id: tuyenXe,
-			xe_id: xe,
-			tai_xe_id: taiXe,
+			tuyen_xe_id: route,
+			xe_id: bus,
+			tai_xe_id: driver,
 			date: date,
 			start_time: time + ':00',
 		};
 
 		await axios
-			.post(API_URL + 'chuyen-xe', data)
+			.post(API_URL + 'trip', data)
 			.then((res) => {
 				if (res.status === 201) {
 					alert('Tạo chuyến xe thành công');
@@ -92,20 +92,20 @@ const BusesManagerment = () => {
 			.catch((err) => {
 				alert('Tạo chuyến xe thất bại');
 			});
-		fetchChuyenXeAll();
+		getTripAll();
 	};
 
-	const sendRequestUpdateChuyenXe = async () => {
+	const sendRequestUpdateTrip = async () => {
 		let data = {
-			tuyen_xe_id: tuyenXe,
-			xe_id: xe,
-			tai_xe_id: taiXe,
+			tuyen_xe_id: route,
+			xe_id: bus,
+			tai_xe_id: driver,
 			date: date,
 			start_time: time,
 		};
 
 		await axios
-			.put(API_URL + `chuyen-xe/${idChuyenXe}`, data)
+			.put(API_URL + `trip/${idTrip}`, data)
 			.then((res) => {
 				if (res.status === 200) {
 					alert(res.data.message);
@@ -115,20 +115,20 @@ const BusesManagerment = () => {
 			.catch((err) => {
 				alert(err.response.data.message);
 			});
-		fetchChuyenXeAll();
+		getTripAll();
 		resetInput();
-		setIdChuyenXe('');
+		setIdTrip('');
 		setIsCreate(true);
 	};
 
 	const editBtn = async (id) => {
 		await axios
-			.get(API_URL + `chuyen-xe/${id}`)
+			.get(API_URL + `trip/${id}`)
 			.then((res) => {
 				let data = res.data;
 				setTaiXe(data.tai_xe_id);
-				setTuyenXe(data.tuyen_xe_id);
-				setXe(data.xe_id);
+				setRoute(data.tuyen_xe_id);
+				setBus(data.xe_id);
 				setDate(data.date);
 				setTime(data.start_time);
 			})
@@ -136,13 +136,13 @@ const BusesManagerment = () => {
 				alert(err.response.data.message);
 			});
 		setIsCreate(false);
-		setIdChuyenXe(id);
+		setIdTrip(id);
 	};
 
 	const deleteBtn = async (id) => {
 		if (window.confirm('Bạn có chắc chắn muốn xóa chuyến xe này ?')) {
 			await axios
-				.delete(API_URL + `chuyen-xe/${id}`)
+				.delete(API_URL + `trip/${id}`)
 				.then((res) => {
 					if (res.status === 200) {
 						alert(res.data.message);
@@ -151,7 +151,7 @@ const BusesManagerment = () => {
 				.catch((err) => {
 					alert(err.response.data.message);
 				});
-			fetchChuyenXeAll();
+			getTripAll();
 		}
 	};
 
@@ -162,14 +162,14 @@ const BusesManagerment = () => {
 					<div className="flex -mx-2 my-2">
 						<div className="basis-full mx-2">
 							<select
-								onChange={(e) => setTuyenXe(e.target.value)}
-								value={tuyenXe}
+								onChange={(e) => setRoute(e.target.value)}
+								value={route}
 								id="countries"
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
 							>
-								<option selected>Chọn tuyến xe</option>
-								{tuyenXeAll.length !== 0 &&
-									tuyenXeAll.map((v, i) => (
+								<option selected>Choose route</option>
+								{routeAll.length !== 0 &&
+									routeAll.map((v, i) => (
 										<option
 											key={i}
 											value={v.id}
@@ -183,14 +183,14 @@ const BusesManagerment = () => {
 					<div className="flex -mx-2 my-2">
 						<div className="basis-1/2 mx-2">
 							<select
-								onChange={(e) => setXe(e.target.value)}
-								value={xe}
+								onChange={(e) => setBus(e.target.value)}
+								value={bus}
 								id="xe"
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
 							>
-								<option selected>Chọn xe</option>
-								{xeAll.length !== 0 &&
-									xeAll.map((v, i) => (
+								<option selected>Choose bus</option>
+								{busAll.length !== 0 &&
+									busAll.map((v, i) => (
 										<option
 											key={i}
 											value={v.id}
@@ -203,13 +203,13 @@ const BusesManagerment = () => {
 						<div className="basis-1/2 mx-2">
 							<select
 								onChange={(e) => setTaiXe(e.target.value)}
-								value={taiXe}
-								id="taiXe"
+								value={driver}
+								id="driver"
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
 							>
-								<option selected>Chọn tài xế</option>
-								{taiXeAll.length !== 0 &&
-									taiXeAll.map((v, i) => (
+								<option selected>Choose driver</option>
+								{driverAll.length !== 0 &&
+									driverAll.map((v, i) => (
 										<option
 											key={i}
 											value={v.id}
@@ -249,14 +249,14 @@ const BusesManagerment = () => {
 					{isCreate ? (
 						<button
 							className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-							onClick={sendRequestCreateChuyenXe}
+							onClick={sendRequestCreateTrip}
 						>
 							Thêm
 						</button>
 					) : (
 						<button
 							className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-							onClick={sendRequestUpdateChuyenXe}
+							onClick={sendRequestUpdateTrip}
 						>
 							Chỉnh sửa
 						</button>
@@ -313,13 +313,13 @@ const BusesManagerment = () => {
 										scope="col"
 										className="px-6 py-3"
 									>
-										Hành động
+										Action
 									</th>
 								</tr>
 							</thead>
 							<tbody>
-								{chuyenXeAll.length !== 0 &&
-									chuyenXeAll.map((v, i) => (
+								{tripAll.length !== 0 &&
+									tripAll.map((v, i) => (
 										<tr
 											key={i}
 											className="odd:bg-white even:bg-gray-50 border-b "

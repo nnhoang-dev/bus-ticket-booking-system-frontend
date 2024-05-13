@@ -10,7 +10,7 @@ function EmailVerificationForm(props) {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [second, setSecond] = useState(15);
 
-	let khach_hang_id = searchParams.get('id');
+	let customer_id = searchParams.get('id');
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -26,18 +26,18 @@ function EmailVerificationForm(props) {
 		};
 	}, [second]);
 
-	if (!khach_hang_id) {
+	if (!customer_id) {
 		window.location.href = REACT_URL + 'dang-ky';
 	}
 
 	const confirmEmailBtn = async () => {
 		const data = {
-			khach_hang_id,
+			customer_id,
 			otp,
 		};
 
 		await axios
-			.post(API_URL + 'khach-hang/xac-thuc-email', data)
+			.post(API_URL + 'customer/confirm-email', data)
 			.then((res) => {
 				if (res.status === 200) {
 					alert('Bạn đã đăng ký tài khoản thành công');
@@ -51,14 +51,13 @@ function EmailVerificationForm(props) {
 
 	const resendOTP = async (e) => {
 		const data = {
-			khach_hang_id,
+			customer_id,
 		};
 
-		await axios.post(API_URL + 'khach-hang/gui-lai-ma-xac-thuc-email', data).then((res) => {
+		setSecond(59);
+		await axios.post(API_URL + 'customer/gui-lai-ma-xac-thuc-email', data).then((res) => {
 			alert('Mã OTP đã được gửi đến địa chỉ email của bạn');
 		});
-
-		setSecond(59);
 	};
 
 	return (

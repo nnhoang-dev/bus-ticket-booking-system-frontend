@@ -17,13 +17,13 @@ const NavBarAdmin = () => {
 	}, []);
 
 	const getRole = async () => {
-		// get khachHang
+		// get customer
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
-				.get(API_URL + 'nhan-vien/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
+				.get(API_URL + 'employee/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
-					roleResponse = res.data.nhanVien.role;
+					roleResponse = res.data.employee.role;
 					setRole(roleResponse);
 				})
 				.catch((err) => {

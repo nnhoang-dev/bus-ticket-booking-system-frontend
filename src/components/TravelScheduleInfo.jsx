@@ -12,7 +12,7 @@ function TravelScheduleInfo(props) {
 	useEffect(() => {
 		if (searchParams.get('start_address')) {
 			const getChuyenXe = () => {
-				axios.get(API_URL + 'chuyen-xe').then((res) => {
+				axios.get(API_URL + 'trip').then((res) => {
 					let start_city = '';
 					let end_city = '';
 					let end_address = searchParams.get('end_address').toLowerCase().toString().trim();

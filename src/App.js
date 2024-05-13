@@ -14,9 +14,12 @@ import ResultBookingPage from './pages/ResultBookingPage';
 import SignupPage from './pages/SignupPage';
 import EmailVerificationPage from './pages/EmailVerificationPage';
 import ProfileManagementPage from './pages/ProfileManagementPage';
-import BusesManagement from './components/admin/BusesManagement';
+import TripManagement from './components/admin/TripManagement';
 import NavBarAdmin from './pages/admin/NavBarAdmin';
 import TicketManagement from './components/admin/TicketManagement';
+import BusManagerment from './components/admin/BusManagement';
+import BusStationManagement from './components/admin/BusStationManagement';
+import RouteManagement from './components/admin/RouteManagement';
 
 function App() {
 	return (
@@ -95,12 +98,24 @@ function App() {
 						element={<></>}
 					/>
 					<Route
-						path="chuyen-xe"
-						element={<BusesManagement />}
+						path="trip"
+						element={<TripManagement />}
 					/>
 					<Route
 						path="ve-xe"
 						element={<TicketManagement />}
+					/>
+					<Route
+						path="bus"
+						element={<BusManagerment />}
+					/>
+					<Route
+						path="bus-station"
+						element={<BusStationManagement />}
+					/>
+					<Route
+						path="route"
+						element={<RouteManagement />}
 					/>
 					{/* 
 					<Route

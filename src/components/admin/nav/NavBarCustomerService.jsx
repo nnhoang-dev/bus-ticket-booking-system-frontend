@@ -10,14 +10,14 @@ const NavBarCustomerService = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		authNhanVien();
+		authEmployee();
 	});
 
 	const logout = async () => {
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			await axios
-				.get(API_URL + 'nhan-vien/dang-xuat', { headers: { Authorization: `Bearer ${token}` } })
+				.get(API_URL + 'employee/dang-xuat', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
 					if (res.status === 200) {
 						navigate('/admin');
@@ -30,15 +30,15 @@ const NavBarCustomerService = () => {
 		}
 	};
 
-	const authNhanVien = async () => {
-		// get khachHang
+	const authEmployee = async () => {
+		// get customer
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
-				.get(API_URL + 'nhan-vien/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
+				.get(API_URL + 'employee/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
-					if (res.data.nhanVien.role !== 'CS') {
-						checkRole(res.data.nhanVien.role);
+					if (res.data.employee.role !== 'CS') {
+						checkRole(res.data.employee.role);
 					}
 				})
 				.catch((err) => {

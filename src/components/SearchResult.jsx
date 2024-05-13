@@ -17,7 +17,7 @@ function SearchResult(props) {
 	useEffect(() => {
 		if (searchParams.get('start_address')) {
 			const getChuyenXe = () => {
-				axios.get(API_URL + 'chuyen-xe').then((res) => {
+				axios.get(API_URL + 'trip').then((res) => {
 					let start_city = '';
 					let end_city = '';
 					let end_address = searchParams.get('end_address').toLowerCase().toString().trim();
@@ -26,7 +26,7 @@ function SearchResult(props) {
 					res.data?.map((v) => {
 						start_city = v.tuyen_xe.start_address.city.toLowerCase().toString().trim();
 						end_city = v.tuyen_xe.end_address.city.toLowerCase().toString().trim();
-						console.log(v);
+
 						if (start_city.includes(start_address) && end_city.includes(end_address) && date === v.date) {
 							setTravelInfo([
 								...travelInfo,

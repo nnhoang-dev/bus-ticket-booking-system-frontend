@@ -13,7 +13,7 @@ function BookingTicketForm() {
 	const [price, setPrice] = useState(0);
 	const [start_time, setStart_time] = useState('');
 	const [tuyenXe, setTuyenXe] = useState('');
-	const [khachHang, setKhachHang] = useState('');
+	const [customer, setCustomer] = useState('');
 	const navigate = useNavigate();
 
 	let id = searchParams.get('id');
@@ -21,7 +21,7 @@ function BookingTicketForm() {
 	useEffect(() => {
 		if (id) {
 			fetchData();
-			testFetchKhachHang();
+			testFetchCustomer();
 		} else {
 			navigate('/');
 		}
@@ -34,7 +34,7 @@ function BookingTicketForm() {
 		}
 		let body = {
 			chuyen_xe_id: id,
-			khach_hang_id: khachHang.id,
+			khach_hang_id: customer.id,
 			seat: idSeat(),
 			discount: '',
 			price: price,
@@ -43,11 +43,11 @@ function BookingTicketForm() {
 			language: 'vn',
 			bankCode: '',
 		};
-		testFetchKhachHang();
+		testFetchCustomer();
 
 		const token = sessionStorage.getItem('token');
 		await axios
-			.post(API_URL + `khach-hang/thanh-toan`, body, { headers: { Authorization: `Bearer ${token}` } })
+			.post(API_URL + `customer/thanh-toan`, body, { headers: { Authorization: `Bearer ${token}` } })
 			.then((res) => {
 				if (res.status === 200) {
 					window.location.href = res.data;
@@ -60,7 +60,7 @@ function BookingTicketForm() {
 
 	const fetchData = async () => {
 		// get chuyenXe
-		await axios.get(API_URL + `chuyen-xe/${id}`).then((res) => {
+		await axios.get(API_URL + `trip/${id}`).then((res) => {
 			setPrice(res.data.price);
 			setStart_time(res.data.start_time.substring(0, res.data.start_time.length - 3) + ' ' + res.data.date);
 			setTuyenXe(res.data.tuyen_xe.name);
@@ -83,16 +83,16 @@ function BookingTicketForm() {
 		});
 	};
 
-	const testFetchKhachHang = async () => {
-		// get khachHang
+	const testFetchCustomer = async () => {
+		// get customer
 		console.log('test');
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
-				.get(API_URL + 'khach-hang/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
+				.get(API_URL + 'customer/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
-					console.log(res.data.khachHang);
-					setKhachHang(res.data.khachHang);
+					console.log(res.data.customer);
+					setCustomer(res.data.customer);
 				})
 				.catch((err) => {
 					navigate('/dang-nhap');
@@ -244,7 +244,7 @@ function BookingTicketForm() {
 												type="text"
 												name="fullname"
 												className="rounded-xl border border-slate-200 w-full bg-gray-200 text-gray-500"
-												value={`${khachHang.last_name} ${khachHang.first_name}`}
+												value={`${customer.last_name} ${customer.first_name}`}
 												disabled
 											/>
 										</div>
@@ -257,7 +257,7 @@ function BookingTicketForm() {
 												type="text"
 												name="fullname"
 												className="rounded-xl border border-slate-200 w-full bg-gray-200 text-gray-500"
-												value={khachHang.phone_number}
+												value={customer.phone_number}
 											/>
 										</div>
 										<div>
@@ -269,7 +269,7 @@ function BookingTicketForm() {
 												type="text"
 												name="fullname"
 												className="rounded-xl border border-slate-200 w-full bg-gray-200 text-gray-500"
-												value={khachHang.email}
+												value={customer.email}
 											/>
 										</div>
 									</div>

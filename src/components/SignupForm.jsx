@@ -22,14 +22,14 @@ function SignupForm(props) {
 			password_confirmation,
 		};
 		await axios
-			.post(API_URL + 'khach-hang/dang-ky', data)
+			.post(API_URL + 'customer/register', data)
 			.then((res) => {
 				if (res.status === 201) {
 					window.location.href = REACT_URL + 'xac-thuc-email?id=' + res.data.id;
 				}
 			})
 			.catch((err) => {
-				console.log(err);
+				alert(err.response.data.message);
 			});
 	};
 

@@ -14,7 +14,7 @@ function LoginForm(props) {
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
-				.get(API_URL + 'khach-hang/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
+				.get(API_URL + 'customer/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
 					navigate('/');
 				})
@@ -31,7 +31,7 @@ function LoginForm(props) {
 		};
 		// console.log(data);
 		await axios
-			.post(API_URL + 'khach-hang/dang-nhap', data)
+			.post(API_URL + 'customer/login', data)
 			.then((res) => {
 				if (res.status === 200) {
 					sessionStorage.setItem('token', res.data.token);

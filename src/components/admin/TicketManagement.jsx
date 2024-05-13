@@ -22,7 +22,7 @@ const TicketManagement = () => {
 				ve_id,
 			};
 			await axios
-				.get(API_URL + 'khach-hang/tra-cuu-ve', { params })
+				.get(API_URL + 'customer/tra-cuu-ve', { params })
 				.then((res) => {
 					setTicket(res.data);
 				})
@@ -42,7 +42,7 @@ const TicketManagement = () => {
 				ve_id,
 			};
 			await axios
-				.get(API_URL + `nhan-vien/tra-cuu-ve/${ticket.id}`)
+				.get(API_URL + `employee/tra-cuu-ve/${ticket.id}`)
 				.then((res) => {
 					setTicket(res.data.veXe);
 				})
@@ -65,7 +65,7 @@ const TicketManagement = () => {
 		if (token) {
 			let tuyen_xe_id = '';
 			await axios
-				.get(API_URL + `chuyen-xe/${ticket.chuyen_xe_id}`)
+				.get(API_URL + `trip/${ticket.chuyen_xe_id}`)
 				.then((res) => {
 					tuyen_xe_id = res.data.tuyen_xe_id;
 				})
@@ -77,7 +77,7 @@ const TicketManagement = () => {
 				tuyen_xe_id,
 			};
 			await axios
-				.get(API_URL + 'chuyen-xe-cung-tuyen', { params })
+				.get(API_URL + 'trip-cung-tuyen', { params })
 				.then((res) => {
 					setChuyenXe(res.data.chuyenXe);
 				})
@@ -104,7 +104,7 @@ const TicketManagement = () => {
 					};
 
 					await axios
-						.put(API_URL + `nhan-vien/doi-ve/${ticket.id}`, data, { headers: { Authorization: `Bearer ${token}` } })
+						.put(API_URL + `employee/doi-ve/${ticket.id}`, data, { headers: { Authorization: `Bearer ${token}` } })
 						.then((res) => {
 							alert(res.data.message);
 							fetchChuyenXe();
@@ -127,7 +127,7 @@ const TicketManagement = () => {
 			const token = sessionStorage.getItem('token');
 			if (token) {
 				await axios
-					.delete(API_URL + `nhan-vien/huy-ve/${ticket.id}`, { headers: { Authorization: `Bearer ${token}` } })
+					.delete(API_URL + `employee/huy-ve/${ticket.id}`, { headers: { Authorization: `Bearer ${token}` } })
 					.then((res) => {
 						alert(res.data.message);
 						refesh();
@@ -374,7 +374,7 @@ const TicketManagement = () => {
 								scope="col"
 								className="px-2 py-3"
 							>
-								Hành động
+								Action
 							</th>
 						</tr>
 					</thead>

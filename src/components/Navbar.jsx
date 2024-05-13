@@ -11,10 +11,9 @@ function Navbar(props) {
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
-				.get(API_URL + 'khach-hang/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
+				.get(API_URL + 'customer/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
-					setCustomer(res.data.khachHang);
-					// console.log(customer);
+					setCustomer(res.data?.customer);
 				})
 				.catch((error) => {});
 		}
@@ -35,41 +34,48 @@ function Navbar(props) {
 					<span className="self-center text-2xl font-semibold whitespace-nowrap">Futa Bus Lines</span>
 				</NavLink>
 				<div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-					<span
-						type="button"
-						className=" md:hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
-					>
-						{!customer.id ? (
-							<NavLink to="dang-nhap">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									viewBox="0 0 24 24"
-									fill="currentColor"
-									className="w-6 h-6"
-								>
-									<path
-										fillRule="evenodd"
-										d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
-										clipRule="evenodd"
-									/>
-								</svg>
-							</NavLink>
-						) : (
+					{!customer.id ? (
+						<NavLink
+							to="dang-nhap"
+							className=" md:hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 24 24"
+								fill="currentColor"
+								className="w-6 h-6"
+							>
+								<path
+									fillRule="evenodd"
+									d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+									clipRule="evenodd"
+								/>
+							</svg>
+						</NavLink>
+					) : (
+						<span
+							type="button"
+							className=" md:hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
+						>
 							<div>
 								{customer.first_name} {customer.last_name}
 							</div>
-						)}
-					</span>
+						</span>
+					)}
 					{!customer.id ? (
-						<div className="cursor-pointer hidden md:flex text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">
-							<NavLink to="dang-nhap">Đăng nhập/Đăng ký</NavLink>
-						</div>
+						<NavLink
+							to="dang-nhap"
+							className="cursor-pointer hidden md:flex text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
+						>
+							Đăng nhập/Đăng ký
+						</NavLink>
 					) : (
-						<div className="cursor-pointer hidden md:flex text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">
-							<NavLink to="/tai-khoan">
-								{customer.first_name} {customer.last_name}
-							</NavLink>
-						</div>
+						<NavLink
+							to="/tai-khoan"
+							className="cursor-pointer hidden md:flex text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
+						>
+							{customer.first_name} {customer.last_name}
+						</NavLink>
 					)}
 					<button
 						data-collapse-toggle="navbar-sticky"
