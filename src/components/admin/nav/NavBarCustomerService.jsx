@@ -17,7 +17,7 @@ const NavBarCustomerService = () => {
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			await axios
-				.get(API_URL + 'employee/dang-xuat', { headers: { Authorization: `Bearer ${token}` } })
+				.get(API_URL + 'employee/logout', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
 					if (res.status === 200) {
 						navigate('/admin');
@@ -35,9 +35,9 @@ const NavBarCustomerService = () => {
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
-				.get(API_URL + 'employee/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
+				.get(API_URL + 'employee/me', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
-					if (res.data.employee.role !== 'CS') {
+					if (res.data.employee.role !== 'customer_service') {
 						checkRole(res.data.employee.role);
 					}
 				})
@@ -51,19 +51,19 @@ const NavBarCustomerService = () => {
 
 	const checkRole = (role) => {
 		switch (role) {
-			case 'QL':
+			case 'manager':
 				navigate('/admin/quan-ly');
 				break;
-			case 'KT':
+			case 'accountant':
 				navigate('/admin/ke-toan');
 				break;
-			case 'CS':
+			case 'customer_service':
 				navigate('/admin/cham-soc-khach-hang');
 				break;
-			case 'TX':
+			case 'driver':
 				navigate('/admin/tai-xe');
 				break;
-			case 'VH':
+			case 'operator':
 				navigate('/admin/van-hanh');
 				break;
 			default:
@@ -73,15 +73,15 @@ const NavBarCustomerService = () => {
 
 	return (
 		<div>
-			<div className="w-44"></div>
+			<div className="w-60"></div>
 			<div className="fixed">
-				<div className="bg-blue-500 w-44 h-screen flex flex-col">
-					<h1 className="w-full text-white font-bold text-2xl mt-2 text-center">Chăm sóc khách hàng</h1>
+				<div className="bg-blue-500 w-60 h-screen flex flex-col">
+					<h1 className="w-full text-white font-bold text-2xl mt-2 text-center">Customer Service</h1>
 					<div className="flex flex-col flex-grow justify-between my-4">
 						<div
 							className="w-full flex items-center cursor-pointer py-2
                             hover:bg-blue-400 transition-all duration-100 ease-linear"
-							onClick={() => navigate('ve-xe')}
+							onClick={() => navigate('ticket')}
 						>
 							<Buses
 								className="ml-4"
@@ -98,7 +98,7 @@ const NavBarCustomerService = () => {
 									className="ml-4"
 									style={{ width: '16px', height: '16px' }}
 								/>
-								<div className="text-white  text-sm  m-2">Quản lý tài khoản</div>
+								<div className="text-white  text-sm  m-2">Account Management</div>
 							</div>
 							<div
 								className="w-full flex items-center cursor-pointer py-2 
@@ -109,7 +109,7 @@ const NavBarCustomerService = () => {
 									className="ml-4"
 									style={{ width: '16px', height: '16px' }}
 								/>
-								<div className="text-white  text-sm  m-2">Đăng xuất</div>
+								<div className="text-white  text-sm  m-2">Logout</div>
 							</div>
 						</div>
 					</div>

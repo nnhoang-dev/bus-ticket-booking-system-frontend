@@ -11,8 +11,8 @@ function BookingTicketForm() {
 	const [seat2, setSeat2] = useState([]);
 	const [numberOfSeats, setNumberOfSeatsSelected] = useState(0);
 	const [price, setPrice] = useState(0);
-	const [start_time, setStart_time] = useState('');
-	const [tuyenXe, setTuyenXe] = useState('');
+	const [start_time, setStartTime] = useState('');
+	const [route, setRoute] = useState('');
 	const [customer, setCustomer] = useState('');
 	const navigate = useNavigate();
 
@@ -20,8 +20,8 @@ function BookingTicketForm() {
 
 	useEffect(() => {
 		if (id) {
-			fetchData();
-			testFetchCustomer();
+			getTrip();
+			authCustomer();
 		} else {
 			navigate('/');
 		}
@@ -33,8 +33,8 @@ function BookingTicketForm() {
 			return;
 		}
 		let body = {
-			chuyen_xe_id: id,
-			khach_hang_id: customer.id,
+			trip_id: id,
+			customer_id: customer.id,
 			seat: idSeat(),
 			discount: '',
 			price: price,
@@ -43,11 +43,12 @@ function BookingTicketForm() {
 			language: 'vn',
 			bankCode: '',
 		};
-		testFetchCustomer();
+		console.log(body);
+		authCustomer();
 
 		const token = sessionStorage.getItem('token');
 		await axios
-			.post(API_URL + `customer/thanh-toan`, body, { headers: { Authorization: `Bearer ${token}` } })
+			.post(API_URL + `customer/payment`, body, { headers: { Authorization: `Bearer ${token}` } })
 			.then((res) => {
 				if (res.status === 200) {
 					window.location.href = res.data;
@@ -58,18 +59,17 @@ function BookingTicketForm() {
 			});
 	};
 
-	const fetchData = async () => {
-		// get chuyenXe
-		await axios.get(API_URL + `trip/${id}`).then((res) => {
-			setPrice(res.data.price);
-			setStart_time(res.data.start_time.substring(0, res.data.start_time.length - 3) + ' ' + res.data.date);
-			setTuyenXe(res.data.tuyen_xe.name);
+	const getTrip = async () => {
+		await axios.get(API_URL + `employee/trip/${id}`).then((res) => {
+			setPrice(res.data.trip.price);
+			setStartTime(res.data.trip.start_time.substring(0, res.data.trip.start_time.length - 3) + ' ' + res.data.date);
+			setRoute(res.data.trip.route.name);
 
 			let newSeat1 = new Array(18).fill('0');
 			let newSeat2 = new Array(18).fill('0');
 
 			for (let i = 1; i < 37; i++) {
-				if (res.data.seat.includes(i.toString())) {
+				if (res.data.trip.seat.includes(i.toString())) {
 					if (parseInt(i) > 18) {
 						newSeat2[i - 19] = '2';
 					} else {
@@ -83,22 +83,20 @@ function BookingTicketForm() {
 		});
 	};
 
-	const testFetchCustomer = async () => {
-		// get customer
-		console.log('test');
+	const authCustomer = async () => {
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
-				.get(API_URL + 'customer/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
+				.get(API_URL + 'customer/me', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
 					console.log(res.data.customer);
 					setCustomer(res.data.customer);
 				})
 				.catch((err) => {
-					navigate('/dang-nhap');
+					navigate('/login');
 				});
 		} else {
-			navigate('/dang-nhap');
+			navigate('/login');
 		}
 	};
 
@@ -479,7 +477,7 @@ function BookingTicketForm() {
 						<h3 className="text-xl font-medium">Thông tin lượt đi</h3>
 						<div className="mt-4 flex justify-between">
 							<span className="text-slate-500">Tuyến xe</span>
-							<span className="text-right font-medium">{tuyenXe}</span>
+							<span className="text-right font-medium">{route}</span>
 						</div>
 						<div className="mt-1 flex items-center justify-between">
 							<span className="text-slate-500">Thời gian xuất bến</span>

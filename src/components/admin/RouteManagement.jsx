@@ -23,7 +23,10 @@ const RouteManagement = () => {
 
 	const getBusStationAll = async () => {
 		await axios
-			.get(API_URL + 'bus-station')
+			.get(
+				API_URL + 'employee/bus-station'
+				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
+			)
 			.then((res) => {
 				setBusStationAll(res.data.data);
 			})
@@ -32,7 +35,10 @@ const RouteManagement = () => {
 
 	const getRouteAll = async () => {
 		await axios
-			.get(API_URL + 'route')
+			.get(
+				API_URL + 'employee/route'
+				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
+			)
 			.then((res) => {
 				setRouteAll(res.data.route);
 			})
@@ -61,7 +67,9 @@ const RouteManagement = () => {
 			time: time + ':00',
 		};
 		await axios
-			.post(API_URL + 'route', data)
+			.post(API_URL + 'employee/route', data, {
+				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
+			})
 			.then((res) => {
 				alert(res.data.message);
 				resetInput();
@@ -80,7 +88,9 @@ const RouteManagement = () => {
 			time: time + ':00',
 		};
 		await axios
-			.put(API_URL + `route/${idRoute}`, data)
+			.put(API_URL + `employee/route/${idRoute}`, data, {
+				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
+			})
 			.then((res) => {
 				alert(res.data.message);
 				resetInput();
@@ -95,7 +105,10 @@ const RouteManagement = () => {
 
 	const editBtn = async (id) => {
 		await axios
-			.get(API_URL + `route/${id}`)
+			.get(
+				API_URL + `employee/route/${id}`
+				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
+			)
 			.then((res) => {
 				setInput(res.data.route);
 				setIsCreate(false);
@@ -109,7 +122,9 @@ const RouteManagement = () => {
 	const deleteBtn = async (id) => {
 		if (window.confirm('Bạn có chắc chắn muốn xóa chuyến xe này ?')) {
 			await axios
-				.delete(API_URL + `route/${id}`)
+				.delete(API_URL + `employee/route/${id}`, {
+					headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
+				})
 				.then((res) => {
 					alert(res.data.message);
 					getRouteAll();
@@ -200,7 +215,7 @@ const RouteManagement = () => {
 							className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
 							onClick={sendRequestCreateRoute}
 						>
-							Thêm
+							Add
 						</button>
 					) : (
 						<button
@@ -214,7 +229,7 @@ const RouteManagement = () => {
 						className="ml-2 text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
 						onClick={refeshBtn}
 					>
-						Hoàn tác
+						Refresh
 					</button>
 				</div>
 				<div className="max-w-screen-xl mx-auto -my-2 mt-8">
@@ -282,13 +297,13 @@ const RouteManagement = () => {
 													onClick={() => editBtn(v.id)}
 													className="mr-2 font-medium text-blue-500 hover:underline"
 												>
-													Sửa
+													Edit
 												</button>
 												<button
 													onClick={() => deleteBtn(v.id)}
 													className="font-medium text-red-500 hover:underline"
 												>
-													Xóa
+													Delete
 												</button>
 											</td>
 										</tr>

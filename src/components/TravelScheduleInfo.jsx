@@ -12,23 +12,23 @@ function TravelScheduleInfo(props) {
 	useEffect(() => {
 		if (searchParams.get('start_address')) {
 			const getChuyenXe = () => {
-				axios.get(API_URL + 'trip').then((res) => {
+				axios.get(API_URL + 'employee/trip').then((res) => {
 					let start_city = '';
 					let end_city = '';
 					let end_address = searchParams.get('end_address').toLowerCase().toString().trim();
 					let start_address = searchParams.get('start_address').toLowerCase().toString().trim();
 					let date = searchParams.get('date');
 					res.data?.map((v) => {
-						start_city = v.tuyen_xe.start_address.city.toLowerCase().toString().trim();
-						end_city = v.tuyen_xe.end_address.city.toLowerCase().toString().trim();
+						start_city = v.route.start_address.city.toLowerCase().toString().trim();
+						end_city = v.route.end_address.city.toLowerCase().toString().trim();
 
 						if (start_city.includes(start_address) && end_city.includes(end_address) && date === v.date) {
 							setTravelInfo([
 								...travelInfo,
 								{
 									id: v.id,
-									end_address: v.tuyen_xe.end_address.city,
-									start_address: v.tuyen_xe.start_address.city,
+									end_address: v.route.end_address.city,
+									start_address: v.route.start_address.city,
 									date: v.date,
 									start_time: v.start_time,
 									end_time: v.end_time,

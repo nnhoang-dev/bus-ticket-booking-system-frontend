@@ -6,6 +6,7 @@ import { API_URL } from '../../configs/env';
 import { useNavigate } from 'react-router-dom';
 import NavBarCustomerService from '../../components/admin/nav/NavBarCustomerService';
 import NavBarOperator from '../../components/admin/nav/NavBarOperator';
+import NavBarManager from '../../components/admin/nav/NavBarManager';
 
 const NavBarAdmin = () => {
 	const navigate = useNavigate();
@@ -21,7 +22,7 @@ const NavBarAdmin = () => {
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
-				.get(API_URL + 'employee/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
+				.get(API_URL + 'employee/me', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
 					roleResponse = res.data.employee.role;
 					setRole(roleResponse);
@@ -36,18 +37,17 @@ const NavBarAdmin = () => {
 
 	const renderNavbar = () => {
 		switch (role) {
-			case 'QL':
-				// navigate('/admin/quan-ly');
-				break;
-			case 'KT':
+			case 'manager':
+				return <NavBarManager />;
+			case 'accountant':
 				// navigate('/admin/ke-toan');
 				break;
-			case 'CS':
+			case 'customer_service':
 				return <NavBarCustomerService />;
-			case 'TX':
+			case 'driver':
 				// navigate('/admin/tai-xe');
 				break;
-			case 'VH':
+			case 'operator':
 				return <NavBarOperator />;
 			default:
 				break;

@@ -11,7 +11,7 @@ function Navbar(props) {
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
-				.get(API_URL + 'customer/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
+				.get(API_URL + 'customer/me', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
 					setCustomer(res.data?.customer);
 				})
@@ -36,7 +36,7 @@ function Navbar(props) {
 				<div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
 					{!customer.id ? (
 						<NavLink
-							to="dang-nhap"
+							to="login"
 							className=" md:hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
 						>
 							<svg
@@ -64,7 +64,7 @@ function Navbar(props) {
 					)}
 					{!customer.id ? (
 						<NavLink
-							to="dang-nhap"
+							to="login"
 							className="cursor-pointer hidden md:flex text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
 						>
 							Đăng nhập/Đăng ký

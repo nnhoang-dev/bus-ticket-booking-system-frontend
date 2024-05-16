@@ -210,7 +210,7 @@ function SignupForm(props) {
 						<span className="m-4">
 							Đã có tài khoản?{' '}
 							<a
-								href="/dang-nhap"
+								href="/login"
 								className="text-cyan-300"
 							>
 								Đăng nhập

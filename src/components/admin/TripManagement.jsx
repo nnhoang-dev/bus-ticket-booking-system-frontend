@@ -27,7 +27,10 @@ const BusesManagerment = () => {
 
 	const getRouteAll = async () => {
 		await axios
-			.get(API_URL + 'route')
+			.get(
+				API_URL + 'employee/route'
+				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
+			)
 			.then((res) => {
 				setRouteAll(res.data.route);
 			})
@@ -35,7 +38,10 @@ const BusesManagerment = () => {
 	};
 	const getBusAll = async () => {
 		await axios
-			.get(API_URL + 'bus')
+			.get(
+				API_URL + 'employee/bus'
+				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
+			)
 			.then((res) => {
 				setBusAll(res.data.data);
 			})
@@ -43,7 +49,10 @@ const BusesManagerment = () => {
 	};
 	const getDriverAll = async () => {
 		await axios
-			.get(API_URL + 'employee/TX')
+			.get(
+				API_URL + 'employee/get-employees-by-role/driver'
+				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
+			)
 			.then((res) => {
 				setDriverAll(res.data.data);
 			})
@@ -51,9 +60,11 @@ const BusesManagerment = () => {
 	};
 	const getTripAll = async () => {
 		await axios
-			.get(API_URL + 'trip')
+			.get(
+				API_URL + 'employee/trip'
+				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
+			)
 			.then((res) => {
-				// console.log(res.data);
 				setTripAll(res.data);
 			})
 			.catch((err) => {});
@@ -68,69 +79,83 @@ const BusesManagerment = () => {
 		setTime('');
 	};
 
+	const setInput = (data) => {
+		setTaiXe(data.driver_id);
+		setRoute(data.route_id);
+		setBus(data.bus_id);
+		setDate(data.date);
+		setTime(data.start_time);
+	};
+
 	const sendRequestCreateTrip = async () => {
-		if (new Date().getTime() > new Date(date).getTime()) {
-			alert('Ngày khởi hành không hợp lệ');
+		// Validate Start Date
+		if (new Date() > new Date(date + 'T' + time)) {
+			alert('Invalid departure time');
 			return;
 		}
+
 		let data = {
-			tuyen_xe_id: route,
-			xe_id: bus,
-			tai_xe_id: driver,
+			route_id: route,
+			bus_id: bus,
+			driver_id: driver,
 			date: date,
 			start_time: time + ':00',
 		};
 
 		await axios
-			.post(API_URL + 'trip', data)
+			.post(API_URL + 'employee/trip', data, {
+				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
+			})
 			.then((res) => {
-				if (res.status === 201) {
-					alert('Tạo chuyến xe thành công');
-					resetInput();
-				}
+				alert(res.data.message);
+				getTripAll();
+				resetInput();
 			})
 			.catch((err) => {
-				alert('Tạo chuyến xe thất bại');
+				alert(err.response.data.message);
 			});
-		getTripAll();
 	};
 
 	const sendRequestUpdateTrip = async () => {
+		if (new Date() > new Date(date + 'T' + time)) {
+			alert('Invalid departure time');
+			return;
+		}
+
 		let data = {
-			tuyen_xe_id: route,
-			xe_id: bus,
-			tai_xe_id: driver,
+			route_id: route,
+			bus_id: bus,
+			driver_id: driver,
 			date: date,
 			start_time: time,
 		};
 
 		await axios
-			.put(API_URL + `trip/${idTrip}`, data)
+			.put(API_URL + `employee/trip/${idTrip}`, data, {
+				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
+			})
 			.then((res) => {
 				if (res.status === 200) {
 					alert(res.data.message);
 					resetInput();
+					getTripAll();
+					setIdTrip('');
+					setIsCreate(true);
 				}
 			})
 			.catch((err) => {
 				alert(err.response.data.message);
 			});
-		getTripAll();
-		resetInput();
-		setIdTrip('');
-		setIsCreate(true);
 	};
 
 	const editBtn = async (id) => {
 		await axios
-			.get(API_URL + `trip/${id}`)
+			.get(
+				API_URL + `employee/trip/${id}`
+				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
+			)
 			.then((res) => {
-				let data = res.data;
-				setTaiXe(data.tai_xe_id);
-				setRoute(data.tuyen_xe_id);
-				setBus(data.xe_id);
-				setDate(data.date);
-				setTime(data.start_time);
+				setInput(res.data.trip);
 			})
 			.catch((err) => {
 				alert(err.response.data.message);
@@ -140,9 +165,11 @@ const BusesManagerment = () => {
 	};
 
 	const deleteBtn = async (id) => {
-		if (window.confirm('Bạn có chắc chắn muốn xóa chuyến xe này ?')) {
+		if (window.confirm('Bạn có chắc chắn muốn xóa chuyến bus này ?')) {
 			await axios
-				.delete(API_URL + `trip/${id}`)
+				.delete(API_URL + `employee/trip/${id}`, {
+					headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
+				})
 				.then((res) => {
 					if (res.status === 200) {
 						alert(res.data.message);
@@ -153,6 +180,12 @@ const BusesManagerment = () => {
 				});
 			getTripAll();
 		}
+	};
+
+	const refeshBtn = () => {
+		resetInput();
+		setIsCreate(true);
+		getTripAll();
 	};
 
 	return (
@@ -185,7 +218,7 @@ const BusesManagerment = () => {
 							<select
 								onChange={(e) => setBus(e.target.value)}
 								value={bus}
-								id="xe"
+								id="bus"
 								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
 							>
 								<option selected>Choose bus</option>
@@ -251,7 +284,7 @@ const BusesManagerment = () => {
 							className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 							onClick={sendRequestCreateTrip}
 						>
-							Thêm
+							Add
 						</button>
 					) : (
 						<button
@@ -261,6 +294,12 @@ const BusesManagerment = () => {
 							Chỉnh sửa
 						</button>
 					)}
+					<button
+						className="ml-2 text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+						onClick={refeshBtn}
+					>
+						Refresh
+					</button>
 				</div>
 				<div className="max-w-screen-xl mx-auto -my-2 mt-8">
 					<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -271,43 +310,43 @@ const BusesManagerment = () => {
 										scope="col"
 										className="px-6 py-3"
 									>
-										Tuyến xe
+										Route
 									</th>
 									<th
 										scope="col"
 										className="px-6 py-3"
 									>
-										Ghế
+										Seat
 									</th>
 									<th
 										scope="col"
 										className="px-6 py-3"
 									>
-										Thời gian
+										Time
 									</th>
 									<th
 										scope="col"
 										className="px-6 py-3"
 									>
-										Ngày
+										Date
 									</th>
 									<th
 										scope="col"
 										className="px-6 py-3"
 									>
-										Hành trình
+										Bus Station
 									</th>
 									<th
 										scope="col"
 										className="px-6 py-3"
 									>
-										Giá
+										Price
 									</th>
 									<th
 										scope="col"
 										className="px-6 py-3"
 									>
-										Xe
+										Bus
 									</th>
 									<th
 										scope="col"
@@ -328,26 +367,26 @@ const BusesManagerment = () => {
 												scope="row"
 												className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
 											>
-												{v.tuyen_xe.name}
+												{v.route.name}
 											</th>
 											<td className="px-6 py-4">{v.seat}</td>
 											<td className="px-6 py-4">{v.start_time + '-' + v.end_time}</td>
 											<td className="px-6 py-4">{v.date}</td>
-											<td className="px-6 py-4">{v.tuyen_xe.start_address.name + ' - ' + v.tuyen_xe.end_address.name}</td>
+											<td className="px-6 py-4">{v.route.start_address.name + ' - ' + v.route.end_address.name}</td>
 											<td className="px-6 py-4">{v.price / 1000 + '.000'}</td>
-											<td className="px-6 py-4">{v.xe.license}</td>
+											<td className="px-6 py-4">{v.bus.license}</td>
 											<td className="px-6 py-4">
 												<button
 													onClick={() => editBtn(v.id)}
 													className="mr-2 font-medium text-blue-500 hover:underline"
 												>
-													Sửa
+													Edit
 												</button>
 												<button
 													onClick={() => deleteBtn(v.id)}
 													className="font-medium text-red-500 hover:underline"
 												>
-													Xóa
+													Delete
 												</button>
 											</td>
 										</tr>

@@ -14,12 +14,12 @@ function LoginForm(props) {
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
-				.get(API_URL + 'customer/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
+				.get(API_URL + 'customer/me', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
 					navigate('/');
 				})
 				.catch((error) => {
-					navigate('/dang-nhap');
+					navigate('/login');
 				});
 		}
 	}, []);
@@ -29,7 +29,6 @@ function LoginForm(props) {
 			phone_number,
 			password,
 		};
-		// console.log(data);
 		await axios
 			.post(API_URL + 'customer/login', data)
 			.then((res) => {

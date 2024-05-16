@@ -13,13 +13,13 @@ function ProfileManagementForm() {
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
-				.get(API_URL + 'customer/thong-tin-ca-nhan', { headers: { Authorization: `Bearer ${token}` } })
+				.get(API_URL + 'customer/me', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
 					setCustomer(res.data.customer);
 					console.log(customer);
 				})
 				.catch((error) => {
-					navigate('/dang-nhap');
+					navigate('/login');
 				});
 		}
 	}, []);
@@ -28,7 +28,7 @@ function ProfileManagementForm() {
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			await axios
-				.get(API_URL + 'customer/dang-xuat', { headers: { Authorization: `Bearer ${token}` } })
+				.get(API_URL + 'customer/logout', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
 					if (res.status === 200) {
 						navigate('/');
@@ -100,7 +100,7 @@ function ProfileManagementForm() {
 							className="basis-3/4 ml-3"
 							onClick={logout}
 						>
-							Đăng xuất
+							Logout
 						</div>
 					</div>
 				</div>

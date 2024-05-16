@@ -20,7 +20,10 @@ const BusStationManagement = () => {
 
 	const getBusStationAll = async () => {
 		await axios
-			.get(API_URL + 'bus-station')
+			.get(
+				API_URL + 'employee/bus-station'
+				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
+			)
 			.then((res) => {
 				setBusStationAll(res.data.data);
 			})
@@ -50,7 +53,9 @@ const BusStationManagement = () => {
 		};
 
 		await axios
-			.post(API_URL + 'bus-station', data)
+			.post(API_URL + 'employee/bus-station', data, {
+				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
+			})
 			.then((res) => {
 				if (res.status === 201) {
 					alert(res.data.message);
@@ -67,7 +72,9 @@ const BusStationManagement = () => {
 		let data = { name, city, address, phone_number: phoneNumber };
 
 		await axios
-			.put(API_URL + `bus-station/${idBusStation}`, data)
+			.put(API_URL + `employee/bus-station/${idBusStation}`, data, {
+				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
+			})
 			.then((res) => {
 				alert(res.data.message);
 				resetInput();
@@ -82,7 +89,10 @@ const BusStationManagement = () => {
 
 	const editBtn = async (id) => {
 		await axios
-			.get(API_URL + `bus-station/${id}`)
+			.get(
+				API_URL + `employee/bus-station/${id}`
+				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
+			)
 			.then((res) => {
 				let data = res.data.data;
 				setInput(data);
@@ -97,7 +107,9 @@ const BusStationManagement = () => {
 	const deleteBtn = async (id) => {
 		if (window.confirm('Bạn có chắc chắn muốn xóa chuyến xe này ?')) {
 			await axios
-				.delete(API_URL + `trip/${id}`)
+				.delete(API_URL + `employee/bus-station/${id}`, {
+					headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
+				})
 				.then((res) => {
 					if (res.status === 200) {
 						alert(res.data.message);
@@ -174,7 +186,7 @@ const BusStationManagement = () => {
 							className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
 							onClick={sendRequestCreateBusStation}
 						>
-							Thêm
+							Add
 						</button>
 					) : (
 						<button
@@ -188,7 +200,7 @@ const BusStationManagement = () => {
 						className="ml-2 text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
 						onClick={refeshBtn}
 					>
-						Hoàn tác
+						Refresh
 					</button>
 				</div>
 				<div className="max-w-screen-xl mx-auto -my-2 mt-8">
@@ -249,13 +261,13 @@ const BusStationManagement = () => {
 													onClick={() => editBtn(v.id)}
 													className="mr-2 font-medium text-blue-500 hover:underline"
 												>
-													Sửa
+													Edit
 												</button>
 												<button
 													onClick={() => deleteBtn(v.id)}
 													className="font-medium text-red-500 hover:underline"
 												>
-													Xóa
+													Delete
 												</button>
 											</td>
 										</tr>

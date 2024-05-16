@@ -41,7 +41,7 @@ function EmailVerificationForm(props) {
 			.then((res) => {
 				if (res.status === 200) {
 					alert('Bạn đã đăng ký tài khoản thành công');
-					window.location.href = REACT_URL + 'dang-nhap';
+					window.location.href = REACT_URL + 'login';
 				}
 			})
 			.catch((err) => {
@@ -55,7 +55,7 @@ function EmailVerificationForm(props) {
 		};
 
 		setSecond(59);
-		await axios.post(API_URL + 'customer/gui-lai-ma-xac-thuc-email', data).then((res) => {
+		await axios.post(API_URL + 'customer/resend-confirm-email', data).then((res) => {
 			alert('Mã OTP đã được gửi đến địa chỉ email của bạn');
 		});
 	};

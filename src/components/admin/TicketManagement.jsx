@@ -1,7 +1,7 @@
 /** @format */
 
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { API_URL } from '../../configs/env';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,112 +9,119 @@ const TicketManagement = () => {
 	const navigate = useNavigate();
 	const [ticket, setTicket] = useState({});
 	const [phone_number, setPhoneNumber] = useState('');
-	const [ve_id, setVeId] = useState('');
-	const [chuyenXe, setChuyenXe] = useState([]);
-
-	useEffect(() => {}, []);
+	const [ticket_id, setTicketId] = useState('');
+	const [trip, setTrip] = useState([]);
 
 	const getTicket = async () => {
-		const token = sessionStorage.getItem('token');
-		if (token) {
-			let params = {
-				phone_number,
-				ve_id,
-			};
-			await axios
-				.get(API_URL + 'customer/tra-cuu-ve', { params })
-				.then((res) => {
-					setTicket(res.data);
-				})
-				.catch((err) => {
+		let params = {
+			phone_number,
+			ticket_id,
+		};
+		await axios
+			.get(API_URL + 'customer/lookup-ticket', { params })
+			.then((res) => {
+				setTicket(res.data);
+			})
+			.catch((err) => {
+				if (err.response.status === 401) {
+					navigate('/admin');
+				} else {
 					alert(err.response.data.message);
-				});
-		} else {
-			navigate('/admin');
-		}
+				}
+			});
 	};
 
 	const getTicketById = async () => {
-		const token = sessionStorage.getItem('token');
-		if (token) {
-			let params = {
-				phone_number,
-				ve_id,
-			};
-			await axios
-				.get(API_URL + `employee/tra-cuu-ve/${ticket.id}`)
-				.then((res) => {
-					setTicket(res.data.veXe);
-				})
-				.catch((err) => {
+		let params = {
+			phone_number: ticket.phone_number,
+			ticket_id: ticket.ticket_id,
+		};
+		await axios
+			.get(API_URL + 'customer/lookup-ticket', { params })
+			.then((res) => {
+				setTicket(res.data);
+			})
+			.catch((err) => {
+				if (err.response.status === 401) {
+					navigate('/admin');
+				} else {
 					alert(err.response.data.message);
-				});
-		} else {
-			navigate('/admin');
-		}
+				}
+			});
 	};
 	const refesh = () => {
 		setTicket({});
 		setPhoneNumber('');
-		setVeId('');
-		setChuyenXe([]);
+		setTicketId('');
+		setTrip([]);
 	};
 
-	const fetchChuyenXe = async () => {
-		const token = sessionStorage.getItem('token');
-		if (token) {
-			let tuyen_xe_id = '';
-			await axios
-				.get(API_URL + `trip/${ticket.chuyen_xe_id}`)
-				.then((res) => {
-					tuyen_xe_id = res.data.tuyen_xe_id;
-				})
-				.catch((err) => {
+	const getTrip = async () => {
+		let route_id = '';
+		await axios
+			.get(API_URL + `employee/trip/${ticket.trip_id}`)
+			.then((res) => {
+				route_id = res.data.trip.route_id;
+			})
+			.catch((err) => {
+				if (err.response.status === 401) {
+					navigate('/admin');
+				} else {
 					alert(err.response.data.message);
-				});
+				}
+			});
 
-			let params = {
-				tuyen_xe_id,
-			};
-			await axios
-				.get(API_URL + 'trip-cung-tuyen', { params })
-				.then((res) => {
-					setChuyenXe(res.data.chuyenXe);
-				})
-				.catch((err) => {
+		let params = {
+			route_id,
+		};
+		await axios
+			.get(API_URL + 'employee/get-trip-same-route', { params })
+			.then((res) => {
+				if (res.data.trip.length === 0) {
+					alert('No buses found on the same route');
+				}
+				let trips = res.data.trip.filter((v) => new Date() < new Date(v.date + 'T' + v.start_time));
+				setTrip(trips);
+			})
+			.catch((err) => {
+				if (err.response.status === 401) {
+					navigate('/admin');
+				} else {
 					alert(err.response.data.message);
-				});
-		} else {
-			navigate('/admin');
-		}
+				}
+			});
 	};
 
 	const changeTicket = async (id) => {
 		const token = sessionStorage.getItem('token');
 		if (token) {
-			let seat = prompt('Vui lòng nhập số ghế');
+			let seat = prompt('Please enter seat number');
 			if (seat == null || seat === '') {
-				alert('Đổi vé thất bại, vui lòng kiểm tra lại thông tin');
+				alert('Ticket exchange failed, please check the information again');
 			} else {
 				seat = parseInt(seat);
 				if (seat) {
 					let data = {
-						chuyen_xe_id: id,
+						trip_id: id,
 						seat,
 					};
 
 					await axios
-						.put(API_URL + `employee/doi-ve/${ticket.id}`, data, { headers: { Authorization: `Bearer ${token}` } })
+						.put(API_URL + `employee/chance-ticket/${ticket.id}`, data, { headers: { Authorization: `Bearer ${token}` } })
 						.then((res) => {
 							alert(res.data.message);
-							fetchChuyenXe();
+							getTrip();
 							getTicketById();
 						})
 						.catch((err) => {
-							alert(err.response.data.message);
+							if (err.response.status === 401) {
+								navigate('/admin');
+							} else {
+								alert(err.response.data.message);
+							}
 						});
 				} else {
-					alert('Đổi vé thất bại, vui lòng kiểm tra lại thông tin');
+					alert('Ticket exchange failed, please check the information again');
 				}
 			}
 		} else {
@@ -127,13 +134,17 @@ const TicketManagement = () => {
 			const token = sessionStorage.getItem('token');
 			if (token) {
 				await axios
-					.delete(API_URL + `employee/huy-ve/${ticket.id}`, { headers: { Authorization: `Bearer ${token}` } })
+					.delete(API_URL + `employee/cancel-ticket/${ticket.id}`, { headers: { Authorization: `Bearer ${token}` } })
 					.then((res) => {
 						alert(res.data.message);
 						refesh();
 					})
 					.catch((err) => {
-						alert(err.response.data.message);
+						if (err.response.status === 401) {
+							navigate('/admin');
+						} else {
+							alert(err.response.data.message);
+						}
 					});
 			} else {
 				navigate('/admin');
@@ -157,8 +168,8 @@ const TicketManagement = () => {
 					</div>
 					<div className="basis-full my-2">
 						<input
-							onChange={(e) => setVeId(e.target.value)}
-							value={ve_id}
+							onChange={(e) => setTicketId(e.target.value)}
+							value={ticket_id}
 							type="text"
 							className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
 							placeholder="Mã vé"
@@ -179,7 +190,7 @@ const TicketManagement = () => {
 								className=" text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center"
 								onClick={refesh}
 							>
-								Hoàn tác
+								Refresh
 							</button>
 						</div>
 					</div>
@@ -220,9 +231,9 @@ const TicketManagement = () => {
 												<button
 													className=" text-white bg-blue-500 hover:bg-blue-600 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center"
 													// className=" text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center"
-													onClick={fetchChuyenXe}
+													onClick={getTrip}
 												>
-													Xem chuyến xe
+													Trips
 												</button>
 											</div>
 											<div className="basis-1/2 p-1">
@@ -230,7 +241,7 @@ const TicketManagement = () => {
 													className=" text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center"
 													onClick={deleteTicket}
 												>
-													Hủy vé
+													Cancel
 												</button>
 											</div>
 										</div>
@@ -240,7 +251,7 @@ const TicketManagement = () => {
 										<div className="p-5">
 											<div className="flex flex-row mb-3">
 												<div className="text-gray-500 font-medium basis-1/2">Mã đặt vé:</div>
-												<div className="basis-1/2 text-end text-green-700 font-semibold">{ticket.ve_id}</div>
+												<div className="basis-1/2 text-end text-green-700 font-semibold">{ticket.ticket_id}</div>
 											</div>
 											<div className="flex flex-row mb-3">
 												<div className="text-gray-500 font-medium basis-1/2">Tuyến xe:</div>
@@ -324,8 +335,8 @@ const TicketManagement = () => {
 					)}
 				</div>
 			</div>
-			{chuyenXe.length > 0 && (
-				<table className="w-full text-sm text-left  text-gray-500 ">
+			{trip.length > 0 && (
+				<table className="mx-2 w-full text-sm text-left  text-gray-500 ">
 					<thead className="text-xs text-gray-700 uppercase bg-gray-50">
 						<tr>
 							<th
@@ -379,8 +390,8 @@ const TicketManagement = () => {
 						</tr>
 					</thead>
 					<tbody>
-						{chuyenXe.length !== 0 &&
-							chuyenXe.map((v, i) => (
+						{trip.length !== 0 &&
+							trip.map((v, i) => (
 								<tr
 									key={i}
 									className="odd:bg-white even:bg-gray-50 border-b "
@@ -389,20 +400,20 @@ const TicketManagement = () => {
 										scope="row"
 										className="px-2 py-4 font-medium text-gray-900 whitespace-nowrap"
 									>
-										{v.tuyen_xe.name}
+										{v.route.name}
 									</th>
 									<td className="px-2 py-4">{v.seat}</td>
 									<td className="px-2 py-4">{v.start_time + '-' + v.end_time}</td>
 									<td className="px-2 py-4">{v.date}</td>
-									<td className="px-2 py-4">{v.tuyen_xe.start_address.name + ' - ' + v.tuyen_xe.end_address.name}</td>
+									<td className="px-2 py-4">{v.route.start_address.name + ' - ' + v.route.end_address.name}</td>
 									<td className="px-2 py-4">{v.price}</td>
-									<td className="px-2 py-4">{v.xe.license}</td>
+									<td className="px-2 py-4">{v.bus.license}</td>
 									<td className="px-2 py-4">
 										<button
 											onClick={() => changeTicket(v.id)}
 											className="font-medium text-blue-500 hover:underline"
 										>
-											Đổi
+											Chance
 										</button>
 									</td>
 								</tr>

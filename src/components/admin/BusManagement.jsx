@@ -12,12 +12,15 @@ const BusManagerment = () => {
 	const [license, setLicense] = useState('');
 
 	useEffect(() => {
-		fetchBusAll();
+		getBusAll();
 	}, []);
 
-	const fetchBusAll = async () => {
+	const getBusAll = async () => {
 		await axios
-			.get(API_URL + 'bus')
+			.get(
+				API_URL + 'employee/bus'
+				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
+			)
 			.then((res) => {
 				setBusAll(res.data.data);
 			})
@@ -34,11 +37,13 @@ const BusManagerment = () => {
 		};
 
 		await axios
-			.post(API_URL + 'bus', data)
+			.post(API_URL + 'employee/bus', data, {
+				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
+			})
 			.then((res) => {
 				alert(res.data.message);
 				resetInput();
-				fetchBusAll();
+				getBusAll();
 			})
 			.catch((err) => {
 				alert(err.response.data.message);
@@ -51,12 +56,14 @@ const BusManagerment = () => {
 		};
 
 		await axios
-			.put(API_URL + `bus/${idBus}`, data)
+			.put(API_URL + `employee/bus/${idBus}`, data, {
+				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
+			})
 			.then((res) => {
 				if (res.status === 200) {
 					alert(res.data.message);
 					resetInput();
-					fetchBusAll();
+					getBusAll();
 					resetInput();
 					setIdBus('');
 					setIsCreate(true);
@@ -69,7 +76,10 @@ const BusManagerment = () => {
 
 	const editBtn = async (id) => {
 		await axios
-			.get(API_URL + `bus/${id}`)
+			.get(
+				API_URL + `employee/bus/${id}`
+				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
+			)
 			.then((res) => {
 				setLicense(res.data.data.license);
 				setIsCreate(false);
@@ -83,15 +93,23 @@ const BusManagerment = () => {
 	const deleteBtn = async (id) => {
 		if (window.confirm('Bạn có chắc chắn muốn xóa xe này ?')) {
 			await axios
-				.delete(API_URL + `bus/${id}`)
+				.delete(API_URL + `employee/bus/${id}`, {
+					headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
+				})
 				.then((res) => {
 					alert(res.data.message);
-					fetchBusAll();
+					getBusAll();
 				})
 				.catch((err) => {
 					alert(err.response.data.message);
 				});
 		}
+	};
+
+	const refeshBtn = () => {
+		resetInput();
+		setIsCreate(true);
+		getBusAll();
 	};
 
 	return (
@@ -115,7 +133,7 @@ const BusManagerment = () => {
 							className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 							onClick={sendRequestCreateBus}
 						>
-							Thêm
+							Add
 						</button>
 					) : (
 						<button
@@ -125,6 +143,12 @@ const BusManagerment = () => {
 							Chỉnh sửa
 						</button>
 					)}
+					<button
+						className="ml-2 text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+						onClick={refeshBtn}
+					>
+						Refresh
+					</button>
 				</div>
 				<div className="flex gap-4 max-w-screen-xl mx-auto -my-2 mt-8">
 					<div className="basis-1/2 relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -158,13 +182,13 @@ const BusManagerment = () => {
 													onClick={() => editBtn(v.id)}
 													className="mr-2 font-medium text-blue-500 hover:underline"
 												>
-													Sửa
+													Edit
 												</button>
 												<button
 													onClick={() => deleteBtn(v.id)}
 													className="font-medium text-red-500 hover:underline"
 												>
-													Xóa
+													Delete
 												</button>
 											</td>
 										</tr>
@@ -208,13 +232,13 @@ const BusManagerment = () => {
 															onClick={() => editBtn(v.id)}
 															className="mr-2 font-medium text-blue-500 hover:underline"
 														>
-															Sửa
+															Edit
 														</button>
 														<button
 															onClick={() => deleteBtn(v.id)}
 															className="font-medium text-red-500 hover:underline"
 														>
-															Xóa
+															Delete
 														</button>
 													</td>
 												</tr>

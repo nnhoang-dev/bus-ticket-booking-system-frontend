@@ -1,7 +1,7 @@
 /** @format */
 
 import './App.css';
-import { Outlet, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import LookUpPage from './pages/LookUpPage';
 import Footer from './components/Footer';
@@ -20,145 +20,153 @@ import TicketManagement from './components/admin/TicketManagement';
 import BusManagerment from './components/admin/BusManagement';
 import BusStationManagement from './components/admin/BusStationManagement';
 import RouteManagement from './components/admin/RouteManagement';
+import EmployeeManagement from './components/admin/EmployeeManagement';
+import ProtectRoute from './components/admin/ProtectRoute';
+import CustomerManagement from './components/admin/CustomerManagement';
 
 function App() {
 	return (
 		<>
-			<Routes>
-				<Route
-					path="/"
-					element={
-						<>
-							<Navbar />
-							<Outlet />
-							<Footer />
-						</>
-					}
-				>
+			<BrowserRouter>
+				<Routes>
 					<Route
 						path="/"
-						element={<HomePage />}
-					/>
+						element={
+							<>
+								<Navbar />
+								<Outlet />
+								<Footer />
+							</>
+						}
+					>
+						<Route
+							path="/"
+							element={<HomePage />}
+						/>
 
-					<Route
-						path="/dang-nhap"
-						element={<LoginPage />}
-					/>
+						<Route
+							path="/login"
+							element={<LoginPage />}
+						/>
 
-					<Route
-						path="/dang-ky"
-						element={<SignupPage />}
-					/>
+						<Route
+							path="/dang-ky"
+							element={<SignupPage />}
+						/>
 
-					<Route
-						path="/xac-thuc-email"
-						element={<EmailVerificationPage />}
-					/>
+						<Route
+							path="/xac-thuc-email"
+							element={<EmailVerificationPage />}
+						/>
 
-					<Route
-						path="/tra-cuu-ve"
-						element={<LookUpPage />}
-					/>
+						<Route
+							path="/tra-cuu-ve"
+							element={<LookUpPage />}
+						/>
 
-					<Route
-						path="/lich-trinh"
-						element={<TravelSchedulePage />}
-					/>
+						<Route
+							path="/lich-trinh"
+							element={<TravelSchedulePage />}
+						/>
 
-					<Route
-						path="/dat-ve"
-						element={<BookingTicketPage />}
-					/>
+						<Route
+							path="/dat-ve"
+							element={<BookingTicketPage />}
+						/>
 
-					<Route
-						path="/ket-qua-dat-ve"
-						element={<ResultBookingPage />}
-					/>
+						<Route
+							path="/ket-qua-dat-ve"
+							element={<ResultBookingPage />}
+						/>
 
+						<Route
+							path="/tai-khoan"
+							element={<ProfileManagementPage />}
+						/>
+					</Route>
 					<Route
-						path="/tai-khoan"
-						element={<ProfileManagementPage />}
-					/>
-				</Route>
-				<Route
-					path="/admin"
-					element={<LoginPageAdmin />}
-				/>
-				<Route
-					path="/admin"
-					element={
-						<div className="flex">
-							<NavBarAdmin />
-							<Outlet />
-						</div>
-					}
-				>
-					<Route
-						path="home"
-						element={<></>}
+						path="/admin"
+						element={<LoginPageAdmin />}
 					/>
 					<Route
-						path="trip"
-						element={<TripManagement />}
-					/>
-					<Route
-						path="ve-xe"
-						element={<TicketManagement />}
-					/>
-					<Route
-						path="bus"
-						element={<BusManagerment />}
-					/>
-					<Route
-						path="bus-station"
-						element={<BusStationManagement />}
-					/>
-					<Route
-						path="route"
-						element={<RouteManagement />}
-					/>
-					{/* 
-					<Route
-						path="quan-ly"
-						element={<ManagerPage />}
-					/>
-
-					<Route
-						path="cham-soc-khach-hang"
+						path="/admin"
 						element={
 							<div className="flex">
-								<NavBarCustomerService />
+								<NavBarAdmin />
 								<Outlet />
 							</div>
 						}
 					>
 						<Route
-							path="ve-xe"
-							element={<BusesManagement />}
+							path="home"
+							element={<></>}
+						/>
+						<Route
+							path="trip"
+							element={
+								<ProtectRoute
+									children={<TripManagement />}
+									allowedRoles={['manager', 'operator']}
+								/>
+							}
+						/>
+						<Route
+							path="ticket"
+							element={
+								<ProtectRoute
+									children={<TicketManagement />}
+									allowedRoles={['manager', 'customer_service']}
+								/>
+							}
+						/>
+						<Route
+							path="bus"
+							element={
+								<ProtectRoute
+									children={<BusManagerment />}
+									allowedRoles={['manager', 'operator']}
+								/>
+							}
+						/>
+						<Route
+							path="bus-station"
+							element={
+								<ProtectRoute
+									children={<BusStationManagement />}
+									allowedRoles={['manager', 'operator']}
+								/>
+							}
+						/>
+						<Route
+							path="route"
+							element={
+								<ProtectRoute
+									children={<RouteManagement />}
+									allowedRoles={['manager', 'operator']}
+								/>
+							}
+						/>
+						<Route
+							path="employee"
+							element={
+								<ProtectRoute
+									children={<EmployeeManagement />}
+									allowedRoles={['manager']}
+								/>
+							}
+						/>
+						<Route
+							path="customer"
+							element={
+								<ProtectRoute
+									children={<CustomerManagement />}
+									allowedRoles={['manager', 'customer_service']}
+								/>
+							}
 						/>
 					</Route>
-
-					<Route
-						path="van-hanh"
-						element={
-							<div className="flex">
-								<NavBarOperator />
-								<Outlet />
-							</div>
-						}
-					></Route> */}
-
-					{/* <Route
-						path="tai-xe"
-						element={<ManagerPage />}
-					/>
-
-					<Route
-						path="ke-toan"
-						element={<ManagerPage />}
-					/> */}
-				</Route>
-			</Routes>
+				</Routes>
+			</BrowserRouter>
 		</>
 	);
 }

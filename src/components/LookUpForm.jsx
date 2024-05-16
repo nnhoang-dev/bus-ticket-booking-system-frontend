@@ -7,16 +7,16 @@ import { API_URL } from '../configs/env';
 
 function LookUpForm(props) {
 	const [phone_number, setPhoneNumber] = useState('');
-	const [ve_id, setVeId] = useState('');
+	const [ticket_id, setTicketId] = useState('');
 	const [ticket, setTicket] = useState({});
 
 	const getTicket = async () => {
 		let params = {
 			phone_number,
-			ve_id,
+			ticket_id,
 		};
 		await axios
-			.get(API_URL + 'customer/tra-cuu-ve', { params })
+			.get(API_URL + 'customer/lookup-ticket', { params })
 			.then((res) => {
 				setTicket(res.data);
 			})
@@ -38,8 +38,8 @@ function LookUpForm(props) {
 						placeholder="Vui lòng nhập số điện thoại"
 					/>
 					<input
-						onChange={(e) => setVeId(e.target.value)}
-						value={ve_id}
+						onChange={(e) => setTicketId(e.target.value)}
+						value={ticket_id}
 						type="text"
 						className="border border-slate-400 rounded-xl"
 						placeholder="Vui lòng nhập mã vé"

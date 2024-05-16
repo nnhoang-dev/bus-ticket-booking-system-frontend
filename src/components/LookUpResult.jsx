@@ -57,14 +57,14 @@ function LookUpResult({ ticket }) {
 							<QRCode
 								size={256}
 								style={{ height: 'auto', maxWidth: '100%', width: '180px' }}
-								value={ticket.ve_id}
+								value={ticket.ticket_id}
 								viewBox={`0 0 256 256`}
 							/>
 						</div>
 						<div className="p-5">
 							<div className="flex flex-row mb-3">
 								<div className="text-gray-500 font-medium basis-1/2">Mã đặt vé:</div>
-								<div className="basis-1/2 text-end text-green-700 font-semibold">{ticket.ve_id}</div>
+								<div className="basis-1/2 text-end text-green-700 font-semibold">{ticket.ticket_id}</div>
 							</div>
 							<div className="flex flex-row mb-3">
 								<div className="text-gray-500 font-medium basis-1/2">Tuyến xe:</div>
