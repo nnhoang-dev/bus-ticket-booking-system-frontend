@@ -1,17 +1,13 @@
 /** @format */
 
 import React, { useEffect } from 'react';
-import { Avatar, Buses, Logout } from '../../../svg/svg';
+import { Avatar, BusStation, Buses, Customer, Employee, Logout, Route, Ticket, Trip } from '../../../svg/svg';
 import axios from 'axios';
 import { API_URL } from '../../../configs/env';
 import { useNavigate } from 'react-router-dom';
 
 const NavBarManager = () => {
 	const navigate = useNavigate();
-
-	// useEffect(() => {
-	// 	authEmployee();
-	// }, []);
 
 	const logout = async () => {
 		const token = sessionStorage.getItem('token');
@@ -30,22 +26,6 @@ const NavBarManager = () => {
 		}
 	};
 
-	// const authEmployee = async () => {
-	// 	// get customer
-	// 	const token = sessionStorage.getItem('token');
-	// 	if (token) {
-	// 		axios
-	// 			.get(API_URL + 'employee/me', { headers: { Authorization: `Bearer ${token}` } })
-	// 			.then((res) => {
-	// 			})
-	// 			.catch((err) => {
-	// 				navigate('/admin');
-	// 			});
-	// 	} else {
-	// 		navigate('/admin');
-	// 	}
-	// };
-
 	return (
 		<div>
 			<div className="w-60"></div>
@@ -59,7 +39,7 @@ const NavBarManager = () => {
                             hover:bg-blue-400 transition-all duration-100 ease-linear"
 								onClick={() => navigate('trip')}
 							>
-								<Buses
+								<Trip
 									className="ml-4"
 									style={{ width: '14px', height: '14px' }}
 								/>
@@ -70,7 +50,7 @@ const NavBarManager = () => {
                             hover:bg-blue-400 transition-all duration-100 ease-linear"
 								onClick={() => navigate('route')}
 							>
-								<Buses
+								<Route
 									className="ml-4"
 									style={{ width: '14px', height: '14px' }}
 								/>
@@ -81,7 +61,7 @@ const NavBarManager = () => {
                             hover:bg-blue-400 transition-all duration-100 ease-linear"
 								onClick={() => navigate('bus-station')}
 							>
-								<Buses
+								<BusStation
 									className="ml-4"
 									style={{ width: '14px', height: '14px' }}
 								/>
@@ -103,7 +83,7 @@ const NavBarManager = () => {
                             hover:bg-blue-400 transition-all duration-100 ease-linear"
 								onClick={() => navigate('ticket')}
 							>
-								<Buses
+								<Ticket
 									className="ml-4"
 									style={{ width: '14px', height: '14px' }}
 								/>
@@ -114,9 +94,9 @@ const NavBarManager = () => {
                             hover:bg-blue-400 transition-all duration-100 ease-linear"
 								onClick={() => navigate('employee')}
 							>
-								<Buses
+								<Employee
 									className="ml-4"
-									style={{ width: '14px', height: '14px' }}
+									style={{ width: '16', height: '16' }}
 								/>
 								<div className="text-white  text-sm  m-2">Employee Management</div>
 							</div>
@@ -125,7 +105,7 @@ const NavBarManager = () => {
                             hover:bg-blue-400 transition-all duration-100 ease-linear"
 								onClick={() => navigate('customer')}
 							>
-								<Buses
+								<Customer
 									className="ml-4"
 									style={{ width: '14px', height: '14px' }}
 								/>
@@ -136,6 +116,7 @@ const NavBarManager = () => {
 							<div
 								className="w-full flex items-center cursor-pointer py-2 
                             hover:bg-blue-400 transition-all duration-100 ease-linear"
+								onClick={() => navigate('account')}
 							>
 								<Avatar
 									className="ml-4"

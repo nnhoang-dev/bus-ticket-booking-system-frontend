@@ -162,7 +162,7 @@ const TicketManagement = () => {
 							value={phone_number}
 							type="text"
 							className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-							placeholder="Số điện thoại"
+							placeholder="Phone"
 							required
 						/>
 					</div>
@@ -172,7 +172,7 @@ const TicketManagement = () => {
 							value={ticket_id}
 							type="text"
 							className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-							placeholder="Mã vé"
+							placeholder="Ticket ID"
 							required
 						/>
 					</div>
@@ -182,7 +182,7 @@ const TicketManagement = () => {
 								className=" text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center"
 								onClick={getTicket}
 							>
-								Xem
+								View
 							</button>
 						</div>
 						<div className="basis-1/2 p-1">
@@ -199,18 +199,18 @@ const TicketManagement = () => {
 					{ticket.id && (
 						<>
 							<div className="text-sm w-full flex-col  justify-center items-center mx-auto">
-								<div className="bg-gray-100 w-full text-center p-3  text-lg font-semibold">Thông tin mua vé</div>
+								<div className="bg-gray-100 w-full text-center p-3  text-lg font-semibold">Ticket Information</div>
 								<div className="flex flex-col md:flex-row  border border-slate-300">
 									<div className="basis-5/12 flex flex-col justify-between flex-grow">
 										<div className="p-5 ">
 											<div className="flex flex-row mb-3">
-												<div className="text-gray-500 font-medium basis-1/2">Họ tên:</div>
+												<div className="text-gray-500 font-medium basis-1/2">Name:</div>
 												<div className="basis-1/2 text-end text-green-700 font-semibold">
 													{ticket.last_name + ' ' + ticket.first_name}
 												</div>
 											</div>
 											<div className="flex flex-row mb-3">
-												<div className="text-gray-500 font-medium basis-1/2">Số điện thoại:</div>
+												<div className="text-gray-500 font-medium basis-1/2">Phone:</div>
 												<div className="basis-1/2 text-end text-green-700 font-semibold">{ticket.phone_number}</div>
 											</div>
 											<div className="flex flex-row mb-3">
@@ -218,7 +218,7 @@ const TicketManagement = () => {
 												<div className="basis-1/2 text-end text-green-700 font-semibold">{ticket.email}</div>
 											</div>
 											<div className="flex flex-row mb-3">
-												<div className="text-gray-500 font-medium basis-1/2">Số tiền:</div>
+												<div className="text-gray-500 font-medium basis-1/2">Price:</div>
 												<div className="basis-1/2 text-end text-green-700 font-semibold">{ticket.price}</div>
 											</div>
 											<div className="flex flex-row mb-3">
@@ -343,43 +343,43 @@ const TicketManagement = () => {
 								scope="col"
 								className="px-2 py-3"
 							>
-								Tuyến xe
+								Route
 							</th>
 							<th
 								scope="col"
 								className="px-2 py-3"
 							>
-								Ghế
+								Seat
 							</th>
 							<th
 								scope="col"
 								className="px-2 py-3"
 							>
-								Thời gian
+								Time
 							</th>
 							<th
 								scope="col"
 								className="px-2 py-3"
 							>
-								Ngày
+								Date
 							</th>
 							<th
 								scope="col"
 								className="px-2 py-3"
 							>
-								Hành trình
+								Journey
 							</th>
 							<th
 								scope="col"
 								className="px-2 py-3"
 							>
-								Giá
+								Price
 							</th>
 							<th
 								scope="col"
 								className="px-2 py-3"
 							>
-								Xe
+								Bus
 							</th>
 							<th
 								scope="col"
@@ -413,7 +413,7 @@ const TicketManagement = () => {
 											onClick={() => changeTicket(v.id)}
 											className="font-medium text-blue-500 hover:underline"
 										>
-											Chance
+											Change
 										</button>
 									</td>
 								</tr>

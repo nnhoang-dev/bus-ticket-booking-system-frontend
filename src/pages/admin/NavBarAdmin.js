@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import NavBarCustomerService from '../../components/admin/nav/NavBarCustomerService';
 import NavBarOperator from '../../components/admin/nav/NavBarOperator';
 import NavBarManager from '../../components/admin/nav/NavBarManager';
+import NavBarDriver from '../../components/admin/nav/NavBarDriver';
 
 const NavBarAdmin = () => {
 	const navigate = useNavigate();
@@ -45,8 +46,7 @@ const NavBarAdmin = () => {
 			case 'customer_service':
 				return <NavBarCustomerService />;
 			case 'driver':
-				// navigate('/admin/tai-xe');
-				break;
+				return <NavBarDriver />;
 			case 'operator':
 				return <NavBarOperator />;
 			default:

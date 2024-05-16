@@ -23,6 +23,8 @@ import RouteManagement from './components/admin/RouteManagement';
 import EmployeeManagement from './components/admin/EmployeeManagement';
 import ProtectRoute from './components/admin/ProtectRoute';
 import CustomerManagement from './components/admin/CustomerManagement';
+import AccountManagement from './components/admin/AccountManagement';
+import TripDriver from './components/admin/TripDriver';
 
 function App() {
 	return (
@@ -110,6 +112,7 @@ function App() {
 								/>
 							}
 						/>
+
 						<Route
 							path="ticket"
 							element={
@@ -163,6 +166,19 @@ function App() {
 									allowedRoles={['manager', 'customer_service']}
 								/>
 							}
+						/>
+						<Route
+							path="my-trip"
+							element={
+								<ProtectRoute
+									children={<TripDriver />}
+									allowedRoles={['driver']}
+								/>
+							}
+						/>
+						<Route
+							path="account"
+							element={<AccountManagement />}
 						/>
 					</Route>
 				</Routes>

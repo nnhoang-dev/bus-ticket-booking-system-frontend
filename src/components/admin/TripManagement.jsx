@@ -65,7 +65,9 @@ const BusesManagerment = () => {
 				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
 			)
 			.then((res) => {
-				setTripAll(res.data);
+				let trips = res.data;
+				trips = trips.filter((v) => new Date() < new Date(v.date + 'T' + v.start_time));
+				setTripAll(trips);
 			})
 			.catch((err) => {});
 	};

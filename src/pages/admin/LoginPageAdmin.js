@@ -38,7 +38,7 @@ function LoginPageAdmin(props) {
 				}
 			})
 			.catch((err) => {
-				alert('Mật khẩu hoặc tài khoản không chính xác');
+				alert('Incorrect password or username');
 			});
 	};
 
@@ -46,8 +46,8 @@ function LoginPageAdmin(props) {
 		<div className="text-white h-[100vh] flex flex-row justify-center items-center bg-center bg-cover bg-[url('https://images.unsplash.com/photo-1557223563-8db8e5e7d90b?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')]">
 			<div className="basis-10/12 sm:basis-8/12 md:basis-6/12 lg:basis-5/12 xl:basis-4/12 2xl:basis-3/12 mb-40">
 				<div className="bg-slate-800 border border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative">
-					<h1 className="text-4xl text-white font-bold text-center mb-2">Đăng nhập</h1>
-					<h2 className="text-xl text-white  text-center mb-4">Nhân viên</h2>
+					<h1 className="text-4xl text-white font-bold text-center mb-2">LOGIN</h1>
+					<h2 className="text-md text-white text-center mb-4">EMPLOYEE</h2>
 
 					<div>
 						<div className="relative mb-8">
@@ -62,7 +62,7 @@ function LoginPageAdmin(props) {
 								htmlFor=""
 								className="absolute text-md text-white duration-300 tranform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
 							>
-								Nhập số điện thoại
+								Number Phone
 							</label>
 							<span className="absolute top-1 right-1 ">
 								<svg
@@ -97,7 +97,7 @@ function LoginPageAdmin(props) {
 								htmlFor=""
 								className="absolute text-md text-white duration-300 tranform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
 							>
-								Nhập mật khẩu
+								Password
 							</label>
 							<span className="absolute top-1 right-1 ">
 								<svg
@@ -123,7 +123,7 @@ function LoginPageAdmin(props) {
 									name=""
 									id=""
 								/>
-								<label htmlFor="">Ghi nhớ tài khoản</label>
+								<label htmlFor="">Remember me</label>
 							</div>
 							<span className="text-cyan-300">
 								<NavLink href="/quen-mat-khau">Quên mật khẩu</NavLink>
@@ -134,7 +134,7 @@ function LoginPageAdmin(props) {
 							className="transition-colors duration-300 w-full mb-4 text-[18px] mt-6 rounded-full bg-white text-black hover:bg-cyan-500 hover:text-white py-2"
 							onClick={submitLogin}
 						>
-							Đăng nhập
+							Login
 						</button>
 					</div>
 				</div>

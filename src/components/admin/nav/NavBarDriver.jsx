@@ -1,12 +1,12 @@
 /** @format */
 
 import React from 'react';
-import { Avatar, Customer, Logout, Ticket } from '../../../svg/svg';
+import { Avatar, Customer, Logout, Ticket, Trip } from '../../../svg/svg';
 import axios from 'axios';
 import { API_URL } from '../../../configs/env';
 import { useNavigate } from 'react-router-dom';
 
-const NavBarCustomerService = () => {
+const NavBarDriver = () => {
 	const navigate = useNavigate();
 
 	const logout = async () => {
@@ -31,30 +31,19 @@ const NavBarCustomerService = () => {
 			<div className="w-60"></div>
 			<div className="fixed">
 				<div className="bg-blue-500 w-60 h-screen flex flex-col">
-					<h1 className="w-full text-white font-bold text-2xl mt-2 text-center">Customer Service</h1>
+					<h1 className="w-full text-white font-bold text-2xl mt-2 text-center">Driver</h1>
 					<div className="flex flex-col flex-grow justify-between my-4">
 						<div>
 							<div
 								className="w-full flex items-center cursor-pointer py-2
                             hover:bg-blue-400 transition-all duration-100 ease-linear"
-								onClick={() => navigate('ticket')}
+								onClick={() => navigate('my-trip')}
 							>
-								<Ticket
+								<Trip
 									className="ml-4"
 									style={{ width: '14px', height: '14px' }}
 								/>
-								<div className="text-white  text-sm  m-2">Ticket Management</div>
-							</div>
-							<div
-								className="w-full flex items-center cursor-pointer py-2
-                            hover:bg-blue-400 transition-all duration-100 ease-linear"
-								onClick={() => navigate('customer')}
-							>
-								<Customer
-									className="ml-4"
-									style={{ width: '14px', height: '14px' }}
-								/>
-								<div className="text-white  text-sm  m-2">Customer Management</div>
+								<div className="text-white  text-sm  m-2">My Trip</div>
 							</div>
 						</div>
 						<div>
@@ -88,4 +77,4 @@ const NavBarCustomerService = () => {
 	);
 };
 
-export default NavBarCustomerService;
+export default NavBarDriver;
