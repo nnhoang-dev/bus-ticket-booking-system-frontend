@@ -123,7 +123,7 @@ function LoginForm(props) {
 							<label htmlFor="">Ghi nhớ tài khoản</label>
 						</div>
 						<span className="text-cyan-300">
-							<NavLink href="/quen-mat-khau">Quên mật khẩu</NavLink>
+							<NavLink to="/forgot-password">Quên mật khẩu</NavLink>
 						</span>
 					</div>
 					<button

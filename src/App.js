@@ -25,6 +25,8 @@ import ProtectRoute from './components/admin/ProtectRoute';
 import CustomerManagement from './components/admin/CustomerManagement';
 import AccountManagement from './components/admin/AccountManagement';
 import TripDriver from './components/admin/TripDriver';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import VerifyForgotPasswordPage from './pages/VerifyForgotPassword';
 
 function App() {
 	return (
@@ -49,6 +51,16 @@ function App() {
 						<Route
 							path="/login"
 							element={<LoginPage />}
+						/>
+
+						<Route
+							path="/forgot-password"
+							element={<ForgotPasswordPage />}
+						/>
+
+						<Route
+							path="/forgot-password/verify"
+							element={<VerifyForgotPasswordPage />}
 						/>
 
 						<Route
