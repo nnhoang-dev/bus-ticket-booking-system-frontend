@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { API_URL } from '../../configs/env';
 import { useNavigate } from 'react-router-dom';
 
-const ChangePassword = ({ setModalChangePassword }) => {
+const ChangePassword = ({ closeModal, refesh, setMessage, openFailureModal, openSuccessModal }) => {
 	const navigate = useNavigate();
 	const [currentPassword, setCurrentPassword] = useState('');
 	const [newPassword, setNewPassword] = useState('');
@@ -23,15 +23,18 @@ const ChangePassword = ({ setModalChangePassword }) => {
 			axios
 				.put(API_URL + 'employee/change-password', data, { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
-					alert(res.data.message);
+					setMessage(res.data.message);
+					openSuccessModal();
+					closeModal();
+
 					resetInput();
-					setModalChangePassword(false);
 				})
 				.catch((err) => {
 					if (err.response.status === 401) {
 						navigate('/admin');
 					}
-					alert(err.response.data.message);
+					setMessage(err.response.data.message);
+					openFailureModal();
 				});
 		} else {
 			navigate('/admin');
@@ -56,7 +59,7 @@ const ChangePassword = ({ setModalChangePassword }) => {
 						<div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
 							<h3 className="text-xl font-semibold text-gray-900">Change password</h3>
 							<button
-								onClick={() => setModalChangePassword(false)}
+								onClick={() => closeModal()}
 								type="button"
 								className="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center "
 							>

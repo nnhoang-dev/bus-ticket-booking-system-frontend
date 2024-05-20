@@ -3,8 +3,20 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../configs/env';
+import { useNavigate } from 'react-router-dom';
+import WarningNotification from '../Noti/WarningNotification';
+import SuccessNotification from '../Noti/SuccessNotification';
+import FailureNotification from '../Noti/FailureNotification';
 
 const BusesManagerment = () => {
+	const navigate = useNavigate();
+	// Modal
+	const [deleteModal, setDeleteModal] = useState(false);
+	const [successModal, setSuccessModal] = useState(false);
+	const [failureModal, setFailureModal] = useState(false);
+	const [message, setMessage] = useState('');
+	const [tempId, setTempId] = useState('');
+
 	const [isCreate, setIsCreate] = useState(true);
 	const [idTrip, setIdTrip] = useState('');
 
@@ -92,7 +104,8 @@ const BusesManagerment = () => {
 	const sendRequestCreateTrip = async () => {
 		// Validate Start Date
 		if (new Date() > new Date(date + 'T' + time)) {
-			alert('Invalid departure time');
+			setMessage('Invalid departure time');
+			openFailureModal();
 			return;
 		}
 
@@ -109,18 +122,26 @@ const BusesManagerment = () => {
 				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
 			})
 			.then((res) => {
-				alert(res.data.message);
+				setMessage(res.data.message);
+				openSuccessModal();
+
 				getTripAll();
 				resetInput();
 			})
 			.catch((err) => {
-				alert(err.response.data.message);
+				if (err.response.status === 401) {
+					navigate('/admin');
+				} else {
+					setMessage(err.response.data.message);
+					openFailureModal();
+				}
 			});
 	};
 
 	const sendRequestUpdateTrip = async () => {
 		if (new Date() > new Date(date + 'T' + time)) {
-			alert('Invalid departure time');
+			setMessage('Invalid departure time');
+			openFailureModal();
 			return;
 		}
 
@@ -129,24 +150,25 @@ const BusesManagerment = () => {
 			bus_id: bus,
 			driver_id: driver,
 			date: date,
-			start_time: time,
+			start_time: time + ':00',
 		};
-
 		await axios
 			.put(API_URL + `employee/trip/${idTrip}`, data, {
 				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
 			})
 			.then((res) => {
 				if (res.status === 200) {
-					alert(res.data.message);
-					resetInput();
-					getTripAll();
-					setIdTrip('');
-					setIsCreate(true);
+					setMessage(res.data.message);
+					openSuccessModal();
 				}
 			})
 			.catch((err) => {
-				alert(err.response.data.message);
+				if (err.response.status === 401) {
+					navigate('/admin');
+				} else {
+					setMessage(err.response.data.message);
+					openFailureModal();
+				}
 			});
 	};
 
@@ -160,34 +182,44 @@ const BusesManagerment = () => {
 				setInput(res.data.trip);
 			})
 			.catch((err) => {
-				alert(err.response.data.message);
+				setMessage(err.response.data.message);
+				openFailureModal();
 			});
 		setIsCreate(false);
 		setIdTrip(id);
 	};
 
 	const deleteBtn = async (id) => {
-		if (window.confirm('Bạn có chắc chắn muốn xóa chuyến bus này ?')) {
-			await axios
-				.delete(API_URL + `employee/trip/${id}`, {
-					headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
-				})
-				.then((res) => {
-					if (res.status === 200) {
-						alert(res.data.message);
-					}
-				})
-				.catch((err) => {
-					alert(err.response.data.message);
-				});
-			getTripAll();
-		}
+		setTempId(id);
+		setDeleteModal(true);
 	};
 
-	const refeshBtn = () => {
+	const refesh = () => {
 		resetInput();
-		setIsCreate(true);
 		getTripAll();
+		setIdTrip('');
+		setIsCreate(true);
+	};
+
+	const closeDeleteModal = () => {
+		setDeleteModal(false);
+		setTempId('');
+	};
+
+	const closeSuccessModal = () => {
+		setSuccessModal(false);
+	};
+
+	const closeFailureModal = () => {
+		setFailureModal(false);
+	};
+
+	const openSuccessModal = () => {
+		setSuccessModal(true);
+	};
+
+	const openFailureModal = () => {
+		setFailureModal(true);
 	};
 
 	return (
@@ -293,12 +325,12 @@ const BusesManagerment = () => {
 							className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 							onClick={sendRequestUpdateTrip}
 						>
-							Chỉnh sửa
+							Update
 						</button>
 					)}
 					<button
 						className="ml-2 text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-						onClick={refeshBtn}
+						onClick={refesh}
 					>
 						Refresh
 					</button>
@@ -398,6 +430,26 @@ const BusesManagerment = () => {
 					</div>
 				</div>
 			</div>
+			{deleteModal && (
+				<WarningNotification
+					id={tempId}
+					func={{ refesh: refesh, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
+					type={'trip'}
+					action={'trip'}
+				/>
+			)}
+			{successModal && (
+				<SuccessNotification
+					func={{ closeModal: closeSuccessModal }}
+					message={message}
+				/>
+			)}
+			{failureModal && (
+				<FailureNotification
+					func={{ closeModal: closeFailureModal }}
+					message={message}
+				/>
+			)}
 		</div>
 	);
 };

@@ -81,19 +81,7 @@ const TripDriver = () => {
 								scope="col"
 								className="px-6 py-3"
 							>
-								Price
-							</th>
-							<th
-								scope="col"
-								className="px-6 py-3"
-							>
 								Bus
-							</th>
-							<th
-								scope="col"
-								className="px-6 py-3"
-							>
-								Action
 							</th>
 						</tr>
 					</thead>
@@ -114,7 +102,6 @@ const TripDriver = () => {
 									<td className="px-6 py-4">{v.start_time + '-' + v.end_time}</td>
 									<td className="px-6 py-4">{v.date}</td>
 									<td className="px-6 py-4">{v.route.start_address.name + ' - ' + v.route.end_address.name}</td>
-									<td className="px-6 py-4">{v.price / 1000 + '.000'}</td>
 									<td className="px-6 py-4">{v.bus.license}</td>
 								</tr>
 							))}

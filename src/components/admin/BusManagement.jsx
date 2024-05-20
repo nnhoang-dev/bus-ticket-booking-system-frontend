@@ -3,11 +3,22 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../configs/env';
+import WarningNotification from '../Noti/WarningNotification';
+import SuccessNotification from '../Noti/SuccessNotification';
+import FailureNotification from '../Noti/FailureNotification';
+import { useNavigate } from 'react-router-dom';
 
 const BusManagerment = () => {
+	const navigate = useNavigate();
+	// Modal
+	const [deleteModal, setDeleteModal] = useState(false);
+	const [successModal, setSuccessModal] = useState(false);
+	const [failureModal, setFailureModal] = useState(false);
+	const [message, setMessage] = useState('');
+	const [tempId, setTempId] = useState('');
+
 	const [isCreate, setIsCreate] = useState(true);
 	const [idBus, setIdBus] = useState('');
-
 	const [busAll, setBusAll] = useState([]);
 	const [license, setLicense] = useState('');
 
@@ -24,7 +35,11 @@ const BusManagerment = () => {
 			.then((res) => {
 				setBusAll(res.data.data);
 			})
-			.catch((err) => {});
+			.catch((err) => {
+				if (err.response.status === 401) {
+					navigate('/admin');
+				}
+			});
 	};
 
 	const resetInput = () => {
@@ -41,12 +56,18 @@ const BusManagerment = () => {
 				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
 			})
 			.then((res) => {
-				alert(res.data.message);
+				setMessage(res.data.message);
+				openSuccessModal();
 				resetInput();
 				getBusAll();
 			})
 			.catch((err) => {
-				alert(err.response.data.message);
+				if (err.response.status === 401) {
+					navigate('/admin');
+				} else {
+					setMessage(err.response.data.message);
+					openFailureModal();
+				}
 			});
 	};
 
@@ -60,17 +81,22 @@ const BusManagerment = () => {
 				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
 			})
 			.then((res) => {
-				if (res.status === 200) {
-					alert(res.data.message);
-					resetInput();
-					getBusAll();
-					resetInput();
-					setIdBus('');
-					setIsCreate(true);
-				}
+				setMessage(res.data.message);
+				openSuccessModal();
+
+				resetInput();
+				getBusAll();
+				resetInput();
+				setIdBus('');
+				setIsCreate(true);
 			})
 			.catch((err) => {
-				alert(err.response.data.message);
+				if (err.response.status === 401) {
+					navigate('/admin');
+				} else {
+					setMessage(err.response.data.message);
+					openFailureModal();
+				}
 			});
 	};
 
@@ -86,24 +112,14 @@ const BusManagerment = () => {
 				setIdBus(id);
 			})
 			.catch((err) => {
-				alert(err.response.data.message);
+				setMessage(err.response.data.message);
+				openFailureModal();
 			});
 	};
 
 	const deleteBtn = async (id) => {
-		if (window.confirm('Bạn có chắc chắn muốn xóa xe này ?')) {
-			await axios
-				.delete(API_URL + `employee/bus/${id}`, {
-					headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
-				})
-				.then((res) => {
-					alert(res.data.message);
-					getBusAll();
-				})
-				.catch((err) => {
-					alert(err.response.data.message);
-				});
-		}
+		setTempId(id);
+		setDeleteModal(true);
 	};
 
 	const refeshBtn = () => {
@@ -112,6 +128,26 @@ const BusManagerment = () => {
 		getBusAll();
 	};
 
+	const closeDeleteModal = () => {
+		setDeleteModal(false);
+		setTempId('');
+	};
+
+	const closeSuccessModal = () => {
+		setSuccessModal(false);
+	};
+
+	const closeFailureModal = () => {
+		setFailureModal(false);
+	};
+
+	const openSuccessModal = () => {
+		setSuccessModal(true);
+	};
+
+	const openFailureModal = () => {
+		setFailureModal(true);
+	};
 	return (
 		<div className="w-full p-2">
 			<div className="my-8">
@@ -140,7 +176,7 @@ const BusManagerment = () => {
 							className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 							onClick={sendRequestUpdateBus}
 						>
-							Chỉnh sửa
+							Update
 						</button>
 					)}
 					<button
@@ -252,6 +288,26 @@ const BusManagerment = () => {
 					</div>
 				</div>
 			</div>
+			{deleteModal && (
+				<WarningNotification
+					id={tempId}
+					func={{ refesh: refeshBtn, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
+					type={'bus'}
+					action={'bus'}
+				/>
+			)}
+			{successModal && (
+				<SuccessNotification
+					func={{ closeModal: closeSuccessModal }}
+					message={message}
+				/>
+			)}
+			{failureModal && (
+				<FailureNotification
+					func={{ closeModal: closeFailureModal }}
+					message={message}
+				/>
+			)}
 		</div>
 	);
 };

@@ -6,17 +6,22 @@ import { API_URL } from '../../configs/env';
 import { useNavigate } from 'react-router-dom';
 import ChangePassword from './ChangePassword';
 import UpdateAccount from './UpdateAccount';
+import SuccessNotification from '../Noti/SuccessNotification';
+import FailureNotification from '../Noti/FailureNotification';
 
 const AccountManagement = () => {
-	const [account, setAccount] = useState({});
-	const [modalChangePassword, setModalChangePassword] = useState(false);
-	const [modelUpdate, setModelUpdate] = useState(false);
-
 	const navigate = useNavigate();
+	// Modal
+	const [successModal, setSuccessModal] = useState(false);
+	const [failureModal, setFailureModal] = useState(false);
+	const [message, setMessage] = useState('');
+
+	const [account, setAccount] = useState({});
+	const [changePasswordModal, setChangePasswordModal] = useState(false);
+	const [modelUpdate, setUpdateModal] = useState(false);
 
 	useEffect(() => {
 		getEmployee();
-		console.log(typeof account.gender);
 	}, []);
 
 	const getEmployee = async () => {
@@ -35,6 +40,29 @@ const AccountManagement = () => {
 		}
 	};
 
+	const closeUpdateModal = () => {
+		setUpdateModal(false);
+	};
+
+	const closeChangePasswordModal = () => {
+		setChangePasswordModal(false);
+	};
+
+	const closeSuccessModal = () => {
+		setSuccessModal(false);
+	};
+
+	const closeFailureModal = () => {
+		setFailureModal(false);
+	};
+
+	const openSuccessModal = () => {
+		setSuccessModal(true);
+	};
+
+	const openFailureModal = () => {
+		setFailureModal(true);
+	};
 	return (
 		<>
 			<div className="max-w-screen-lg mx-auto w-full px-4">
@@ -85,13 +113,13 @@ const AccountManagement = () => {
 						<div className="flex -mx-2">
 							<div
 								className="mx-2 bg-blue-500 px-8 py-2 rounded-full text-white mt-3 hover:bg-blue-600 transition-colors cursor-pointer"
-								onClick={() => setModelUpdate(true)}
+								onClick={() => setUpdateModal(true)}
 							>
 								Update
 							</div>
 							<div
 								className="mx-2 bg-blue-500 px-8 py-2 rounded-full text-white mt-3 hover:bg-blue-600 transition-colors cursor-pointer"
-								onClick={() => setModalChangePassword(true)}
+								onClick={() => setChangePasswordModal(true)}
 							>
 								Change password
 							</div>
@@ -100,12 +128,35 @@ const AccountManagement = () => {
 				</div>
 			</div>
 
-			{/* <!-- Main modalChangePassword --> */}
-			{modalChangePassword && <ChangePassword setModalChangePassword={setModalChangePassword} />}
+			{/* <!-- Main changePasswordModal --> */}
+			{changePasswordModal && (
+				<ChangePassword
+					closeModal={closeChangePasswordModal}
+					refesh={getEmployee}
+					setMessage={setMessage}
+					openFailureModal={openFailureModal}
+					openSuccessModal={openSuccessModal}
+				/>
+			)}
 			{modelUpdate && (
 				<UpdateAccount
-					setModelUpdate={setModelUpdate}
-					getEmployee={getEmployee}
+					closeModal={closeUpdateModal}
+					refesh={getEmployee}
+					setMessage={setMessage}
+					openFailureModal={openFailureModal}
+					openSuccessModal={openSuccessModal}
+				/>
+			)}
+			{successModal && (
+				<SuccessNotification
+					func={{ closeModal: closeSuccessModal }}
+					message={message}
+				/>
+			)}
+			{failureModal && (
+				<FailureNotification
+					func={{ closeModal: closeFailureModal }}
+					message={message}
 				/>
 			)}
 		</>

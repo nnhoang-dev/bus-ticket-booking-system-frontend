@@ -3,8 +3,20 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../configs/env';
+import { useNavigate } from 'react-router-dom';
+import WarningNotification from '../Noti/WarningNotification';
+import SuccessNotification from '../Noti/SuccessNotification';
+import FailureNotification from '../Noti/FailureNotification';
 
 const RouteManagement = () => {
+	const navigate = useNavigate();
+	// Modal
+	const [deleteModal, setDeleteModal] = useState(false);
+	const [successModal, setSuccessModal] = useState(false);
+	const [failureModal, setFailureModal] = useState(false);
+	const [message, setMessage] = useState('');
+	const [tempId, setTempId] = useState('');
+
 	const [isCreate, setIsCreate] = useState(true);
 	const [idRoute, setIdRoute] = useState('');
 
@@ -71,12 +83,19 @@ const RouteManagement = () => {
 				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
 			})
 			.then((res) => {
-				alert(res.data.message);
+				setMessage(res.data.message);
+				openSuccessModal();
+
 				resetInput();
 				getRouteAll();
 			})
 			.catch((err) => {
-				alert(err.response.data.message);
+				if (err.response.status === 401) {
+					navigate('/admin');
+				} else {
+					setMessage(err.response.data.message);
+					openFailureModal();
+				}
 			});
 	};
 
@@ -92,14 +111,21 @@ const RouteManagement = () => {
 				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
 			})
 			.then((res) => {
-				alert(res.data.message);
+				setMessage(res.data.message);
+				openSuccessModal();
+
 				resetInput();
 				getRouteAll();
 				setIdRoute('');
 				setIsCreate(true);
 			})
 			.catch((err) => {
-				alert(err.response.data.message);
+				if (err.response.status === 401) {
+					navigate('/admin');
+				} else {
+					setMessage(err.response.data.message);
+					openFailureModal();
+				}
 			});
 	};
 
@@ -115,30 +141,44 @@ const RouteManagement = () => {
 				setIdRoute(id);
 			})
 			.catch((err) => {
-				alert(err.response.data.message);
+				if (err.response.status === 401) {
+					navigate('/admin');
+				}
+				setMessage(err.response.data.message);
+				openFailureModal();
 			});
 	};
 
 	const deleteBtn = async (id) => {
-		if (window.confirm('Bạn có chắc chắn muốn xóa chuyến xe này ?')) {
-			await axios
-				.delete(API_URL + `employee/route/${id}`, {
-					headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
-				})
-				.then((res) => {
-					alert(res.data.message);
-					getRouteAll();
-				})
-				.catch((err) => {
-					alert(err.response.data.message);
-				});
-		}
+		setTempId(id);
+		setDeleteModal(true);
 	};
 
 	const refeshBtn = () => {
 		resetInput();
 		setIsCreate(true);
 		getRouteAll();
+	};
+
+	const closeDeleteModal = () => {
+		setDeleteModal(false);
+		setTempId('');
+	};
+
+	const closeSuccessModal = () => {
+		setSuccessModal(false);
+	};
+
+	const closeFailureModal = () => {
+		setFailureModal(false);
+	};
+
+	const openSuccessModal = () => {
+		setSuccessModal(true);
+	};
+
+	const openFailureModal = () => {
+		setFailureModal(true);
 	};
 
 	return (
@@ -222,7 +262,7 @@ const RouteManagement = () => {
 							className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
 							onClick={sendRequestUpdateRoute}
 						>
-							Chỉnh sửa
+							Update
 						</button>
 					)}
 					<button
@@ -313,6 +353,26 @@ const RouteManagement = () => {
 					</div>
 				</div>
 			</div>
+			{deleteModal && (
+				<WarningNotification
+					id={tempId}
+					func={{ refesh: refeshBtn, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
+					type={'route'}
+					action={'route'}
+				/>
+			)}
+			{successModal && (
+				<SuccessNotification
+					func={{ closeModal: closeSuccessModal }}
+					message={message}
+				/>
+			)}
+			{failureModal && (
+				<FailureNotification
+					func={{ closeModal: closeFailureModal }}
+					message={message}
+				/>
+			)}
 		</div>
 	);
 };

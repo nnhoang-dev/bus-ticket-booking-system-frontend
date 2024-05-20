@@ -116,19 +116,6 @@ function LoginPageAdmin(props) {
 								</svg>
 							</span>
 						</div>
-						<div className="flex justify-between items-center">
-							<div className="flex gap-2 items-center">
-								<input
-									type="checkbox"
-									name=""
-									id=""
-								/>
-								<label htmlFor="">Remember me</label>
-							</div>
-							<span className="text-cyan-300">
-								<NavLink href="/quen-mat-khau">Quên mật khẩu</NavLink>
-							</span>
-						</div>
 						<button
 							type="submit"
 							className="transition-colors duration-300 w-full mb-4 text-[18px] mt-6 rounded-full bg-white text-black hover:bg-cyan-500 hover:text-white py-2"

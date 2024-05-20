@@ -43,7 +43,7 @@ function TravelScheduleInfo(props) {
 		}
 	}, []);
 	return (
-		<div className="lookupform mt-10 mb-32 mx-auto flex-1 w-full md:w-[75%] lg:w-[60%]">
+		<div className="lookupform mt-10 mb-32 mx-auto flex-1 max-w-screen-lg">
 			<h1 className="text-green-700 text-2xl text-center font-bold mb-5">LỊCH TRÌNH HIỆN CÓ</h1>
 			<hr className="w-4/5 mx-auto h-0.5 bg-gray-200 md:w-2/5" />
 			<div className="title border border-gray-300 flex flex-row items-center mt-10 mb-5 rounded-xl p-3 text-blue-700">

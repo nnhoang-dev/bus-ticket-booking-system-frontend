@@ -4,9 +4,18 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../configs/env';
 import { useNavigate } from 'react-router-dom';
+import WarningNotification from '../Noti/WarningNotification';
+import SuccessNotification from '../Noti/SuccessNotification';
+import FailureNotification from '../Noti/FailureNotification';
 
 const CustomerManagement = () => {
 	const navigate = useNavigate();
+	// Modal
+	const [deleteModal, setDeleteModal] = useState(false);
+	const [successModal, setSuccessModal] = useState(false);
+	const [failureModal, setFailureModal] = useState(false);
+	const [message, setMessage] = useState('');
+	const [tempId, setTempId] = useState('');
 
 	const [isCreate, setIsCreate] = useState(true);
 	const [idCustomer, setIdCustomer] = useState('');
@@ -82,15 +91,17 @@ const CustomerManagement = () => {
 				},
 			})
 			.then((res) => {
-				alert(res.data.message);
-				resetInput();
-				getCustomerAll();
+				setMessage(res.data.message);
+				openSuccessModal();
+
+				refesh();
 			})
 			.catch((err) => {
 				if (err.response.status === 401) {
 					navigate('/admin');
 				} else {
-					alert(err.response.data.message);
+					setMessage(err.response.data.message);
+					openFailureModal();
 				}
 			});
 	};
@@ -110,14 +121,18 @@ const CustomerManagement = () => {
 				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
 			})
 			.then((res) => {
-				alert(res.data.message);
-				resetInput();
-				setIdCustomer('');
-				setIsCreate(true);
-				getCustomerAll();
+				setMessage(res.data.message);
+				openSuccessModal();
+
+				refesh();
 			})
 			.catch((err) => {
-				alert(err.response.data.message);
+				if (err.response.status === 401) {
+					navigate('/admin');
+				} else {
+					setMessage(err.response.data.message);
+					openFailureModal();
+				}
 			});
 	};
 
@@ -139,27 +154,36 @@ const CustomerManagement = () => {
 	};
 
 	const deleteBtn = async (id) => {
-		if (window.confirm('Bạn có chắc chắn muốn xóa nhân viên này ?')) {
-			await axios
-				.delete(API_URL + `employee/customer/${id}`, {
-					headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
-				})
-				.then((res) => {
-					if (res.status === 200) {
-						alert(res.data.message);
-						getCustomerAll();
-					}
-				})
-				.catch((err) => {
-					alert(err.response.data.message);
-				});
-		}
+		setTempId(id);
+		setDeleteModal(true);
 	};
 
-	const refeshBtn = () => {
+	const refesh = () => {
 		resetInput();
 		setIsCreate(true);
 		getCustomerAll();
+		setIdCustomer('');
+	};
+
+	const closeDeleteModal = () => {
+		setDeleteModal(false);
+		setTempId('');
+	};
+
+	const closeSuccessModal = () => {
+		setSuccessModal(false);
+	};
+
+	const closeFailureModal = () => {
+		setFailureModal(false);
+	};
+
+	const openSuccessModal = () => {
+		setSuccessModal(true);
+	};
+
+	const openFailureModal = () => {
+		setFailureModal(true);
 	};
 
 	return (
@@ -264,12 +288,12 @@ const CustomerManagement = () => {
 								className="mx-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
 								onClick={sendRequestUpdateCustomer}
 							>
-								Chỉnh sửa
+								Update
 							</button>
 						)}
 						<button
 							className="mx-2 text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-							onClick={refeshBtn}
+							onClick={refesh}
 						>
 							Refresh
 						</button>
@@ -367,6 +391,26 @@ const CustomerManagement = () => {
 					</div>
 				</div>
 			</div>
+			{deleteModal && (
+				<WarningNotification
+					id={tempId}
+					func={{ refesh: refesh, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
+					type={'customer'}
+					action={'customer'}
+				/>
+			)}
+			{successModal && (
+				<SuccessNotification
+					func={{ closeModal: closeSuccessModal }}
+					message={message}
+				/>
+			)}
+			{failureModal && (
+				<FailureNotification
+					func={{ closeModal: closeFailureModal }}
+					message={message}
+				/>
+			)}
 		</div>
 	);
 };

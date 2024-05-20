@@ -3,8 +3,20 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../configs/env';
+import { useNavigate } from 'react-router-dom';
+import WarningNotification from '../Noti/WarningNotification';
+import SuccessNotification from '../Noti/SuccessNotification';
+import FailureNotification from '../Noti/FailureNotification';
 
 const BusStationManagement = () => {
+	const navigate = useNavigate();
+	// Modal
+	const [deleteModal, setDeleteModal] = useState(false);
+	const [successModal, setSuccessModal] = useState(false);
+	const [failureModal, setFailureModal] = useState(false);
+	const [message, setMessage] = useState('');
+	const [tempId, setTempId] = useState('');
+
 	const [isCreate, setIsCreate] = useState(true);
 	const [idBusStation, setIdBusStation] = useState('');
 
@@ -57,14 +69,19 @@ const BusStationManagement = () => {
 				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
 			})
 			.then((res) => {
-				if (res.status === 201) {
-					alert(res.data.message);
-					resetInput();
-					getBusStationAll();
-				}
+				setMessage(res.data.message);
+				openSuccessModal();
+
+				resetInput();
+				getBusStationAll();
 			})
 			.catch((err) => {
-				alert(err.response.data.message);
+				if (err.response.status === 401) {
+					navigate('/admin');
+				} else {
+					setMessage(err.response.data.message);
+					openFailureModal();
+				}
 			});
 	};
 
@@ -76,14 +93,21 @@ const BusStationManagement = () => {
 				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
 			})
 			.then((res) => {
-				alert(res.data.message);
+				setMessage(res.data.message);
+				openSuccessModal();
+
 				resetInput();
 				getBusStationAll();
 				setIdBusStation('');
 				setIsCreate(true);
 			})
 			.catch((err) => {
-				alert(err.response.data.message);
+				if (err.response.status === 401) {
+					navigate('/admin');
+				} else {
+					setMessage(err.response.data.message);
+					openFailureModal();
+				}
 			});
 	};
 
@@ -100,32 +124,44 @@ const BusStationManagement = () => {
 				setIdBusStation(id);
 			})
 			.catch((err) => {
-				alert(err.response.data.message);
+				if (err.response.status === 401) {
+					navigate('/admin');
+				}
+				setMessage(err.response.data.message);
+				openFailureModal();
 			});
 	};
 
 	const deleteBtn = async (id) => {
-		if (window.confirm('Bạn có chắc chắn muốn xóa chuyến xe này ?')) {
-			await axios
-				.delete(API_URL + `employee/bus-station/${id}`, {
-					headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
-				})
-				.then((res) => {
-					if (res.status === 200) {
-						alert(res.data.message);
-					}
-				})
-				.catch((err) => {
-					alert(err.response.data.message);
-				});
-			getBusStationAll();
-		}
+		setTempId(id);
+		setDeleteModal(true);
 	};
 
 	const refeshBtn = () => {
 		resetInput();
 		setIsCreate(true);
 		getBusStationAll();
+	};
+
+	const closeDeleteModal = () => {
+		setDeleteModal(false);
+		setTempId('');
+	};
+
+	const closeSuccessModal = () => {
+		setSuccessModal(false);
+	};
+
+	const closeFailureModal = () => {
+		setFailureModal(false);
+	};
+
+	const openSuccessModal = () => {
+		setSuccessModal(true);
+	};
+
+	const openFailureModal = () => {
+		setFailureModal(true);
 	};
 
 	return (
@@ -193,7 +229,7 @@ const BusStationManagement = () => {
 							className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
 							onClick={sendRequestUpdateBusStation}
 						>
-							Chỉnh sửa
+							Update
 						</button>
 					)}
 					<button
@@ -277,6 +313,26 @@ const BusStationManagement = () => {
 					</div>
 				</div>
 			</div>
+			{deleteModal && (
+				<WarningNotification
+					id={tempId}
+					func={{ refesh: refeshBtn, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
+					type={'bus station'}
+					action={'bus-station'}
+				/>
+			)}
+			{successModal && (
+				<SuccessNotification
+					func={{ closeModal: closeSuccessModal }}
+					message={message}
+				/>
+			)}
+			{failureModal && (
+				<FailureNotification
+					func={{ closeModal: closeFailureModal }}
+					message={message}
+				/>
+			)}
 		</div>
 	);
 };

@@ -4,9 +4,22 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { API_URL } from '../../configs/env';
 import { useNavigate } from 'react-router-dom';
+import WarningNotification from '../Noti/WarningNotification';
+import SuccessNotification from '../Noti/SuccessNotification';
+import FailureNotification from '../Noti/FailureNotification';
+import ChangeTicketNotification from '../Noti/ChangeTicketNotification';
 
 const TicketManagement = () => {
 	const navigate = useNavigate();
+	// Modal
+	const [deleteModal, setDeleteModal] = useState(false);
+	const [successModal, setSuccessModal] = useState(false);
+	const [failureModal, setFailureModal] = useState(false);
+	const [changeTicketModal, setChangeTicketModal] = useState(false);
+	const [message, setMessage] = useState('');
+	const [tempId, setTempId] = useState('');
+	const [changeTicketId, setChangeTicketId] = useState('');
+
 	const [ticket, setTicket] = useState({});
 	const [phone_number, setPhoneNumber] = useState('');
 	const [ticket_id, setTicketId] = useState('');
@@ -26,7 +39,8 @@ const TicketManagement = () => {
 				if (err.response.status === 401) {
 					navigate('/admin');
 				} else {
-					alert(err.response.data.message);
+					setMessage(err.response.data.message);
+					openFailureModal();
 				}
 			});
 	};
@@ -92,12 +106,13 @@ const TicketManagement = () => {
 			});
 	};
 
-	const changeTicket = async (id) => {
+	const handleChangeTicket = async (id, seat) => {
 		const token = sessionStorage.getItem('token');
 		if (token) {
-			let seat = prompt('Please enter seat number');
 			if (seat == null || seat === '') {
-				alert('Ticket exchange failed, please check the information again');
+				setMessage('Ticket exchange failed, please check the information again');
+				openFailureModal();
+				closeChangeTicketModal();
 			} else {
 				seat = parseInt(seat);
 				if (seat) {
@@ -109,7 +124,10 @@ const TicketManagement = () => {
 					await axios
 						.put(API_URL + `employee/chance-ticket/${ticket.id}`, data, { headers: { Authorization: `Bearer ${token}` } })
 						.then((res) => {
-							alert(res.data.message);
+							setMessage(res.data.message);
+							openSuccessModal();
+							closeChangeTicketModal();
+
 							getTrip();
 							getTicketById();
 						})
@@ -117,39 +135,57 @@ const TicketManagement = () => {
 							if (err.response.status === 401) {
 								navigate('/admin');
 							} else {
-								alert(err.response.data.message);
+								setMessage(err.response.data.message);
+								openFailureModal();
 							}
 						});
 				} else {
-					alert('Ticket exchange failed, please check the information again');
+					setMessage('Ticket exchange failed, please check the information again');
+					openFailureModal();
+					closeChangeTicketModal();
 				}
 			}
+			console.log(tempId);
 		} else {
 			navigate('/admin');
 		}
 	};
 
-	const deleteTicket = async () => {
-		if (window.confirm('Bạn có chắc chắn muốn xóa chuyến xe này ?')) {
-			const token = sessionStorage.getItem('token');
-			if (token) {
-				await axios
-					.delete(API_URL + `employee/cancel-ticket/${ticket.id}`, { headers: { Authorization: `Bearer ${token}` } })
-					.then((res) => {
-						alert(res.data.message);
-						refesh();
-					})
-					.catch((err) => {
-						if (err.response.status === 401) {
-							navigate('/admin');
-						} else {
-							alert(err.response.data.message);
-						}
-					});
-			} else {
-				navigate('/admin');
-			}
-		}
+	const changeBtn = (id) => {
+		setChangeTicketId(id);
+		setChangeTicketModal(true);
+		console.log(tempId);
+	};
+
+	const deleteTicket = () => {
+		console.log(ticket.id);
+		setTempId(ticket.id);
+		setDeleteModal(true);
+	};
+
+	const closeDeleteModal = () => {
+		setDeleteModal(false);
+		setTempId('');
+	};
+
+	const closeSuccessModal = () => {
+		setSuccessModal(false);
+	};
+
+	const closeFailureModal = () => {
+		setFailureModal(false);
+	};
+
+	const closeChangeTicketModal = () => {
+		setChangeTicketModal(false);
+	};
+
+	const openSuccessModal = () => {
+		setSuccessModal(true);
+	};
+
+	const openFailureModal = () => {
+		setFailureModal(true);
 	};
 
 	return (
@@ -410,7 +446,7 @@ const TicketManagement = () => {
 									<td className="px-2 py-4">{v.bus.license}</td>
 									<td className="px-2 py-4">
 										<button
-											onClick={() => changeTicket(v.id)}
+											onClick={() => changeBtn(v.id)}
 											className="font-medium text-blue-500 hover:underline"
 										>
 											Change
@@ -420,6 +456,32 @@ const TicketManagement = () => {
 							))}
 					</tbody>
 				</table>
+			)}
+			{deleteModal && (
+				<WarningNotification
+					id={tempId}
+					func={{ refesh: refesh, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
+					action={'cancel-ticket'}
+					type={'ticket'}
+				/>
+			)}
+			{successModal && (
+				<SuccessNotification
+					func={{ closeModal: closeSuccessModal }}
+					message={message}
+				/>
+			)}
+			{failureModal && (
+				<FailureNotification
+					func={{ closeModal: closeFailureModal }}
+					message={message}
+				/>
+			)}
+			{changeTicketModal && (
+				<ChangeTicketNotification
+					id={changeTicketId}
+					func={{ closeModal: closeChangeTicketModal, handleChangeTicket }}
+				/>
 			)}
 		</div>
 	);
