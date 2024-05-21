@@ -14,11 +14,11 @@ const AccountManagement = () => {
 	// Modal
 	const [successModal, setSuccessModal] = useState(false);
 	const [failureModal, setFailureModal] = useState(false);
+	const [changePasswordModal, setChangePasswordModal] = useState(false);
+	const [modelUpdate, setUpdateModal] = useState(false);
 	const [message, setMessage] = useState('');
 
 	const [account, setAccount] = useState({});
-	const [changePasswordModal, setChangePasswordModal] = useState(false);
-	const [modelUpdate, setUpdateModal] = useState(false);
 
 	useEffect(() => {
 		getEmployee();

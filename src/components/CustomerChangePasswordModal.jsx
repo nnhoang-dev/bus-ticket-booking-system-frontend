@@ -2,10 +2,10 @@
 
 import axios from 'axios';
 import React, { useState } from 'react';
-import { API_URL } from '../../configs/env';
+import { API_URL } from '../configs/env';
 import { useNavigate } from 'react-router-dom';
 
-const ChangePassword = ({ closeModal, refesh, setMessage, openFailureModal, openSuccessModal }) => {
+const CustomerChangePasswordModal = ({ closeModal, setMessage, openFailureModal, openSuccessModal }) => {
 	const navigate = useNavigate();
 	const [currentPassword, setCurrentPassword] = useState('');
 	const [newPassword, setNewPassword] = useState('');
@@ -21,8 +21,9 @@ const ChangePassword = ({ closeModal, refesh, setMessage, openFailureModal, open
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
-				.put(API_URL + 'employee/change-password', data, { headers: { Authorization: `Bearer ${token}` } })
+				.put(API_URL + 'customer/change-password', data, { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
+					console.log(res.data);
 					setMessage(res.data.message);
 					openSuccessModal();
 					closeModal();
@@ -31,13 +32,13 @@ const ChangePassword = ({ closeModal, refesh, setMessage, openFailureModal, open
 				})
 				.catch((err) => {
 					if (err.response.status === 401) {
-						navigate('/admin');
+						navigate('/login');
 					}
 					setMessage(err.response.data.message);
 					openFailureModal();
 				});
 		} else {
-			navigate('/admin');
+			navigate('/login');
 		}
 	};
 
@@ -49,7 +50,7 @@ const ChangePassword = ({ closeModal, refesh, setMessage, openFailureModal, open
 	return (
 		<div className="fixed z-50 top-0 left-0 bg-black/20 w-full h-full">
 			<div
-				id="authentication-modalChangePassword"
+				id="authentication-modalCustomerChangePasswordModal"
 				className=" overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
 			>
 				<div className="relative p-4 w-full max-w-md max-h-full mx-auto">
@@ -78,7 +79,7 @@ const ChangePassword = ({ closeModal, refesh, setMessage, openFailureModal, open
 										d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
 									/>
 								</svg>
-								<span className="sr-only">Close modalChangePassword</span>
+								<span className="sr-only">Close modalCustomerChangePasswordModal</span>
 							</button>
 						</div>
 						{/* <!-- Modal body --> */}
@@ -89,13 +90,13 @@ const ChangePassword = ({ closeModal, refesh, setMessage, openFailureModal, open
 										htmlFor="password_current"
 										className="block mb-2 text-sm font-medium text-gray-900"
 									>
-										Current password
+										Mật khẩu hiện tại
 									</label>
 									<input
 										type="password"
 										name="password_current"
 										id="password_current"
-										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 "
 										placeholder="••••••••"
 										value={currentPassword}
 										onChange={(e) => setCurrentPassword(e.target.value)}
@@ -107,14 +108,14 @@ const ChangePassword = ({ closeModal, refesh, setMessage, openFailureModal, open
 										htmlFor="password"
 										className="block mb-2 text-sm font-medium text-gray-900"
 									>
-										New password
+										Mật khẩu mới
 									</label>
 									<input
 										type="password"
 										name="password"
 										id="password"
 										placeholder="••••••••"
-										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 "
 										value={newPassword}
 										onChange={(e) => setNewPassword(e.target.value)}
 										required
@@ -125,14 +126,14 @@ const ChangePassword = ({ closeModal, refesh, setMessage, openFailureModal, open
 										htmlFor="password_confirmation"
 										className="block mb-2 text-sm font-medium text-gray-900"
 									>
-										Confirm password
+										Nhập lại mật khẩu
 									</label>
 									<input
 										type="password"
 										name="password_confirmation"
 										id="password_confirmation"
 										placeholder="••••••••"
-										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-2.5 "
 										value={newPasswordConfirmation}
 										onChange={(e) => setPasswordConfirmation(e.target.value)}
 										required
@@ -140,10 +141,10 @@ const ChangePassword = ({ closeModal, refesh, setMessage, openFailureModal, open
 								</div>
 								<button
 									type="submit"
-									className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+									className="w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
 									onClick={changePassword}
 								>
-									Change password
+									Đổi mật khẩu
 								</button>
 							</div>
 						</div>
@@ -154,4 +155,4 @@ const ChangePassword = ({ closeModal, refesh, setMessage, openFailureModal, open
 	);
 };
 
-export default ChangePassword;
+export default CustomerChangePasswordModal;

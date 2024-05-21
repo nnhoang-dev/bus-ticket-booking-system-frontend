@@ -4,8 +4,13 @@ import React, { useState } from 'react';
 import LookUpResult from './LookUpResult';
 import axios from 'axios';
 import { API_URL } from '../configs/env';
+import FailureNotification from './Noti/FailureNotification';
 
 function LookUpForm(props) {
+	// Modal
+	const [failureModal, setFailureModal] = useState(false);
+	const [message, setMessage] = useState('');
+
 	const [phone_number, setPhoneNumber] = useState('');
 	const [ticket_id, setTicketId] = useState('');
 	const [ticket, setTicket] = useState({});
@@ -21,8 +26,17 @@ function LookUpForm(props) {
 				setTicket(res.data);
 			})
 			.catch((err) => {
-				alert(err.response.data.message);
+				setMessage(err.response.data.message);
+				openFailureModal();
 			});
+	};
+
+	const closeFailureModal = () => {
+		setFailureModal(false);
+	};
+
+	const openFailureModal = () => {
+		setFailureModal(true);
 	};
 	return (
 		<>
@@ -63,6 +77,12 @@ function LookUpForm(props) {
 				</div>
 			) : (
 				<div className="h-40"></div>
+			)}
+			{failureModal && (
+				<FailureNotification
+					func={{ closeModal: closeFailureModal }}
+					message={message}
+				/>
 			)}
 		</>
 	);

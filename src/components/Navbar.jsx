@@ -37,7 +37,7 @@ function Navbar(props) {
 					{!customer.id ? (
 						<NavLink
 							to="login"
-							className=" md:hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
+							className=" md:hidden text-white bg-red-500 hover:bg-red-600 font-medium rounded-lg text-sm px-4 py-2 text-center"
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +55,7 @@ function Navbar(props) {
 					) : (
 						<span
 							type="button"
-							className=" md:hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
+							className=" md:hidden text-white bg-red-500 hover:bg-red-600 font-medium rounded-lg text-sm px-4 py-2 text-center"
 						>
 							<div>
 								{customer.first_name} {customer.last_name}
@@ -65,14 +65,14 @@ function Navbar(props) {
 					{!customer.id ? (
 						<NavLink
 							to="login"
-							className="cursor-pointer hidden md:flex text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
+							className="cursor-pointer hidden md:flex text-white bg-red-500 hover:bg-red-600 font-medium rounded-lg text-sm px-4 py-2 text-center"
 						>
 							Đăng nhập/Đăng ký
 						</NavLink>
 					) : (
 						<NavLink
 							to="/tai-khoan"
-							className="cursor-pointer hidden md:flex text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
+							className="cursor-pointer hidden md:flex text-white bg-red-500 hover:bg-red-600 font-medium rounded-lg text-sm px-4 py-2 text-center"
 						>
 							{customer.first_name} {customer.last_name}
 						</NavLink>
@@ -80,7 +80,7 @@ function Navbar(props) {
 					<button
 						data-collapse-toggle="navbar-sticky"
 						type="button"
-						className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
+						className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100"
 						aria-controls="navbar-sticky"
 						aria-expanded="false"
 					>
@@ -111,7 +111,7 @@ function Navbar(props) {
 							<NavLink
 								to=""
 								href="/"
-								className="block py-2 px-3 text-gray-900 bg-blue-700 rounded md:bg-transparent md:hover:text-blue-700 md:p-0"
+								className="block py-2 px-3 text-gray-900 rounded md:bg-transparent md:p-0"
 								aria-current="page"
 							>
 								Trang chủ
@@ -121,7 +121,7 @@ function Navbar(props) {
 							<NavLink
 								to=""
 								href="/"
-								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
+								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-500 md:p-0"
 							>
 								Tin tức
 							</NavLink>
@@ -129,7 +129,7 @@ function Navbar(props) {
 						<li>
 							<NavLink
 								to="lich-trinh"
-								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
+								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-500 md:p-0"
 							>
 								Lịch trình
 							</NavLink>
@@ -137,7 +137,7 @@ function Navbar(props) {
 						<li>
 							<NavLink
 								to="tra-cuu-ve"
-								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
+								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-500 md:p-0"
 							>
 								Tra cứu vé
 							</NavLink>
@@ -145,7 +145,7 @@ function Navbar(props) {
 						<li>
 							<NavLink
 								to=""
-								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
+								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-500 md:p-0"
 							>
 								Liên hệ
 							</NavLink>

@@ -2,12 +2,12 @@
 
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { API_URL } from '../../configs/env';
+import { API_URL } from '../configs/env';
 import { useNavigate } from 'react-router-dom';
 
-const UpdateAccount = ({ closeModal, refesh, setMessage, openFailureModal, openSuccessModal }) => {
+const CustomerAccountUpdateModal = ({ closeModal, refesh, setMessage, openFailureModal, openSuccessModal }) => {
 	const navigate = useNavigate();
-	const [updateModal, setUpdateModal] = useState(false);
+	// const [updateModal, setUpdateModal] = useState(false);
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [dateOfBirth, setDateOfBirth] = useState('');
@@ -18,19 +18,20 @@ const UpdateAccount = ({ closeModal, refesh, setMessage, openFailureModal, openS
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
-				.get(API_URL + 'employee/me', { headers: { Authorization: `Bearer ${token}` } })
+				.get(API_URL + 'customer/me', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
-					setInput(res.data.employee);
+					setInput(res.data.customer);
 				})
 				.catch((err) => {
+					console.log(err);
 					if (err.response.status === 401) {
-						navigate('/admin');
+						navigate('/login');
 					}
 					setMessage(err.response.data.message);
 					openFailureModal();
 				});
 		} else {
-			navigate('/admin');
+			navigate('/login');
 		}
 	}, []);
 
@@ -46,7 +47,7 @@ const UpdateAccount = ({ closeModal, refesh, setMessage, openFailureModal, openS
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
-				.put(API_URL + 'employee/update-my-account', data, { headers: { Authorization: `Bearer ${token}` } })
+				.put(API_URL + 'customer/update-my-account', data, { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
 					setMessage(res.data.message);
 					openSuccessModal();
@@ -54,7 +55,7 @@ const UpdateAccount = ({ closeModal, refesh, setMessage, openFailureModal, openS
 
 					refesh();
 					resetInput();
-					setUpdateModal(false);
+					// setUpdateModal(false);
 				})
 				.catch((err) => {
 					if (err.response.status === 401) {
@@ -84,7 +85,7 @@ const UpdateAccount = ({ closeModal, refesh, setMessage, openFailureModal, openS
 		setAddress(data.address);
 	};
 	return (
-		<div className="fixed bg-black/20 w-full h-full">
+		<div className="fixed z-50 top-0 left-0 bg-black/20 w-full h-full">
 			<div
 				id="authentication-modalChangePassword"
 				className=" overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -94,7 +95,7 @@ const UpdateAccount = ({ closeModal, refesh, setMessage, openFailureModal, openS
 					<div className="relative bg-white rounded-lg shadow ">
 						{/* <!-- Modal header --> */}
 						<div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
-							<h3 className="text-xl font-semibold text-gray-900">Update Account</h3>
+							<h3 className="text-xl font-semibold text-gray-900">Cập nhật tài khoản</h3>
 							<button
 								onClick={closeModal}
 								type="button"
@@ -127,7 +128,7 @@ const UpdateAccount = ({ closeModal, refesh, setMessage, openFailureModal, openS
 											htmlFor="firstName"
 											className="block mb-2 text-sm font-medium text-gray-900"
 										>
-											First Name
+											Tên
 										</label>
 										<input
 											type="text"
@@ -143,7 +144,7 @@ const UpdateAccount = ({ closeModal, refesh, setMessage, openFailureModal, openS
 											htmlFor="lastName"
 											className="block mb-2 text-sm font-medium text-gray-900"
 										>
-											Last Name
+											Họ
 										</label>
 										<input
 											type="text"
@@ -161,7 +162,7 @@ const UpdateAccount = ({ closeModal, refesh, setMessage, openFailureModal, openS
 											htmlFor="dateOfBirth"
 											className="block mb-2 text-sm font-medium text-gray-900"
 										>
-											Date of Birth
+											Ngày sinh
 										</label>
 										<input
 											type="date"
@@ -177,7 +178,7 @@ const UpdateAccount = ({ closeModal, refesh, setMessage, openFailureModal, openS
 											htmlFor="gender"
 											className="block mb-2 text-sm font-medium text-gray-900"
 										>
-											Gender
+											Giới tính
 										</label>
 										<select
 											onChange={(e) => setGender(e.target.value)}
@@ -186,8 +187,8 @@ const UpdateAccount = ({ closeModal, refesh, setMessage, openFailureModal, openS
 											className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
 										>
 											<option selected>Gender</option>
-											<option value={'1'}>Male</option>
-											<option value={'0'}>Female</option>
+											<option value={'1'}>Nam</option>
+											<option value={'0'}>Nữ</option>
 										</select>
 									</div>
 								</div>
@@ -197,12 +198,12 @@ const UpdateAccount = ({ closeModal, refesh, setMessage, openFailureModal, openS
 											htmlFor="address"
 											className="block mb-2 text-sm font-medium text-gray-900"
 										>
-											Address
+											Địa chỉ
 										</label>
 										<input
 											type="text"
 											id="address"
-											className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+											className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 "
 											value={address}
 											onChange={(e) => setAddress(e.target.value)}
 											required
@@ -212,10 +213,10 @@ const UpdateAccount = ({ closeModal, refesh, setMessage, openFailureModal, openS
 
 								<button
 									type="button"
-									className="mt-8 w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4  font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+									className="mt-8 w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4  font-medium rounded-lg text-sm px-5 py-2.5 text-center"
 									onClick={updateAccount}
 								>
-									Update
+									Cập nhập
 								</button>
 							</div>
 						</div>
@@ -226,4 +227,4 @@ const UpdateAccount = ({ closeModal, refesh, setMessage, openFailureModal, openS
 	);
 };
 
-export default UpdateAccount;
+export default CustomerAccountUpdateModal;

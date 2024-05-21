@@ -5,7 +5,7 @@ import axios from 'axios';
 import { API_URL } from '../configs/env';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-function SearchResult(props) {
+function SearchResult() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [travelInfo, setTravelInfo] = useState([]);
 	const navigate = useNavigate();

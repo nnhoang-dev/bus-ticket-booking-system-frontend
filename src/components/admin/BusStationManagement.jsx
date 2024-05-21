@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import WarningNotification from '../Noti/WarningNotification';
 import SuccessNotification from '../Noti/SuccessNotification';
 import FailureNotification from '../Noti/FailureNotification';
+import { Arrow } from '../../svg/svg';
 
 const BusStationManagement = () => {
 	const navigate = useNavigate();
@@ -16,6 +17,8 @@ const BusStationManagement = () => {
 	const [failureModal, setFailureModal] = useState(false);
 	const [message, setMessage] = useState('');
 	const [tempId, setTempId] = useState('');
+	const [citySearchModal, setCitySearchModal] = useState(false);
+	const [citySearch, setCitySearch] = useState('');
 
 	const [isCreate, setIsCreate] = useState(true);
 	const [idBusStation, setIdBusStation] = useState('');
@@ -25,10 +28,26 @@ const BusStationManagement = () => {
 	const [city, setCity] = useState('');
 	const [address, setAddress] = useState('');
 	const [phoneNumber, setPhoneNumber] = useState('');
+	const [provinces, setProvinces] = useState([]);
 
 	useEffect(() => {
 		getBusStationAll();
+		getProvinces();
 	}, []);
+
+	const getProvinces = () => {
+		axios.get('https://vapi.vnappmob.com/api/province/').then((res) => {
+			setProvinces(
+				res.data.results.reduce((previousValue, currentValue) => {
+					currentValue.province_name = currentValue.province_name.replace('Tỉnh', '');
+					currentValue.province_name = currentValue.province_name.replace('Thành phố', '');
+					currentValue.province_name = currentValue.province_name.trim();
+					previousValue.push(currentValue.province_name);
+					return previousValue;
+				}, [])
+			);
+		});
+	};
 
 	const getBusStationAll = async () => {
 		await axios
@@ -181,7 +200,63 @@ const BusStationManagement = () => {
 							/>
 						</div>
 						<div className="basis-1/2 mx-2">
-							<input
+							<div className="input-search flex flex-col w-full sm:basis-1/4  mb-3">
+								<div className="text-sm rounded-lg relative h-10 border border-slate-300 bg-gray-50 text-gray-900 cursor-pointer">
+									<div
+										className="w-full h-full flex items-center justify-between"
+										onClick={() => {
+											setCitySearchModal(true);
+											console.log(provinces);
+										}}
+									>
+										<span className="ml-2">{city}</span>
+										<Arrow className="h-4 w-4 fill-gray-500 rotate-180 mr-2" />
+									</div>
+									{citySearchModal && (
+										<div className="absolute z-40 top-0 left-0 w-full bg-white rounded-xl shadow-lg ">
+											<input
+												list="start_address"
+												value={citySearch}
+												className="h-10 w-full rounded-lg border-slate-300 cursor-pointer"
+												type="text"
+												onChange={(e) => setCitySearch(e.target.value)}
+											/>
+											<ul className="w-full overflow-y-scroll max-h-32">
+												{citySearch === ''
+													? provinces.map((v, i) => {
+															return (
+																<li
+																	key={i}
+																	className="ml-10 my-2"
+																	onClick={() => {
+																		setCity(v);
+																		setCitySearchModal(false);
+																	}}
+																>
+																	{v}
+																</li>
+															);
+													  })
+													: provinces
+															.filter((item) => item.toLowerCase().includes(citySearch.toLowerCase()))
+															.map((item, i) => (
+																<li
+																	key={i}
+																	className="ml-10 my-2"
+																	onClick={() => {
+																		setCity(item);
+																		setCitySearchModal(false);
+																	}}
+																>
+																	{item}
+																</li>
+															))}
+											</ul>
+										</div>
+									)}
+								</div>
+							</div>
+							{/* <input
 								onChange={(e) => setCity(e.target.value)}
 								value={city}
 								type="text"
@@ -189,7 +264,7 @@ const BusStationManagement = () => {
 								className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
 								placeholder="City"
 								required
-							/>
+							/> */}
 						</div>
 					</div>
 					<div className="flex -mx-2 my-2">
@@ -254,7 +329,7 @@ const BusStationManagement = () => {
 										scope="col"
 										className="px-6 py-3"
 									>
-										City
+										City/Province
 									</th>
 									<th
 										scope="col"

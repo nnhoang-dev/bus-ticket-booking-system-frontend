@@ -81,7 +81,8 @@ const TicketManagement = () => {
 				if (err.response.status === 401) {
 					navigate('/admin');
 				} else {
-					alert(err.response.data.message);
+					setMessage(err.response.data.message);
+					openFailureModal();
 				}
 			});
 
@@ -92,7 +93,8 @@ const TicketManagement = () => {
 			.get(API_URL + 'employee/get-trip-same-route', { params })
 			.then((res) => {
 				if (res.data.trip.length === 0) {
-					alert('No buses found on the same route');
+					setMessage('No buses found on the same route');
+					openFailureModal();
 				}
 				let trips = res.data.trip.filter((v) => new Date() < new Date(v.date + 'T' + v.start_time));
 				setTrip(trips);
@@ -101,7 +103,8 @@ const TicketManagement = () => {
 				if (err.response.status === 401) {
 					navigate('/admin');
 				} else {
-					alert(err.response.data.message);
+					setMessage(err.response.data.message);
+					openFailureModal();
 				}
 			});
 	};
@@ -172,16 +175,16 @@ const TicketManagement = () => {
 		setSuccessModal(false);
 	};
 
-	const closeFailureModal = () => {
-		setFailureModal(false);
-	};
-
 	const closeChangeTicketModal = () => {
 		setChangeTicketModal(false);
 	};
 
 	const openSuccessModal = () => {
 		setSuccessModal(true);
+	};
+
+	const closeFailureModal = () => {
+		setFailureModal(false);
 	};
 
 	const openFailureModal = () => {

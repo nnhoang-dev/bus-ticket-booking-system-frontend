@@ -4,8 +4,13 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { API_URL } from '../configs/env';
+import FailureNotification from './Noti/FailureNotification';
 
 function BookingTicketForm() {
+	// Modal
+	const [failureModal, setFailureModal] = useState(false);
+	const [message, setMessage] = useState('');
+
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [seat1, setSeat1] = useState([]);
 	const [seat2, setSeat2] = useState([]);
@@ -29,7 +34,8 @@ function BookingTicketForm() {
 
 	const payment = async () => {
 		if (!numberOfSeats) {
-			alert('Bạn chưa chọn ghế');
+			setMessage('Bạn chưa chọn ghế');
+			openFailureModal();
 			return;
 		}
 		let body = {
@@ -43,7 +49,6 @@ function BookingTicketForm() {
 			language: 'vn',
 			bankCode: '',
 		};
-		console.log(body);
 		authCustomer();
 
 		const token = sessionStorage.getItem('token');
@@ -54,15 +59,17 @@ function BookingTicketForm() {
 					window.location.href = res.data;
 				}
 			})
-			.catch((error) => {
-				alert(error.response.data.message);
+			.catch((err) => {
+				setMessage(err.response.data.message);
+				openFailureModal();
 			});
 	};
 
 	const getTrip = async () => {
 		await axios.get(API_URL + `employee/trip/${id}`).then((res) => {
 			setPrice(res.data.trip.price);
-			setStartTime(res.data.trip.start_time.substring(0, res.data.trip.start_time.length - 3) + ' ' + res.data.date);
+			console.log(res.data.trip.date);
+			setStartTime(res.data.trip.start_time.substring(0, res.data.trip.start_time.length - 3) + ' ' + res.data.trip.date);
 			setRoute(res.data.trip.route.name);
 
 			let newSeat1 = new Array(18).fill('0');
@@ -101,6 +108,7 @@ function BookingTicketForm() {
 	};
 
 	const chooseSeat = (seat) => {
+		console.log(start_time);
 		let newSeat = [];
 		if (seat > 18) {
 			newSeat = [...seat2];
@@ -138,6 +146,14 @@ function BookingTicketForm() {
 			}
 		});
 		return res.substring(0, res.length - 1);
+	};
+
+	const closeFailureModal = () => {
+		setFailureModal(false);
+	};
+
+	const openFailureModal = () => {
+		setFailureModal(true);
 	};
 
 	return (
@@ -236,7 +252,7 @@ function BookingTicketForm() {
 									<div>
 										<div className="mb-5">
 											<p className="text-sm mb-1">
-												Họ và tên <span className="text-orange-600">*</span>
+												Họ và tên <span className="text-red-500">*</span>
 											</p>
 											<input
 												type="text"
@@ -248,7 +264,7 @@ function BookingTicketForm() {
 										</div>
 										<div className="mb-5">
 											<p className="text-sm mb-1">
-												Số điện thoại <span className="text-orange-600">*</span>
+												Số điện thoại <span className="text-red-500">*</span>
 											</p>
 											<input
 												disabled
@@ -260,7 +276,7 @@ function BookingTicketForm() {
 										</div>
 										<div>
 											<p className="text-sm mb-1">
-												Email <span className="text-orange-600">*</span>
+												Email <span className="text-red-500">*</span>
 											</p>
 											<input
 												disabled
@@ -274,24 +290,24 @@ function BookingTicketForm() {
 								</form>
 							</div>
 							<div className="basis-1/2 w-full">
-								<h3 className="text-orange-500 text-center mb-5 font-semibold">ĐIỀU KHOẢN & LƯU Ý</h3>
+								<h3 className="text-red-500 text-center mb-5 font-semibold">ĐIỀU KHOẢN & LƯU Ý</h3>
 								<p className="text-[15px] text-justify mb-3 font-[500] leading-6">
 									(*) Quý khách vui lòng có mặt tại bến xuất phát của xe trước ít nhất 30 phút giờ xe khởi hành, mang theo thông báo đã thanh
 									toán vé thành công có chứa mã vé được gửi từ hệ thống FUTA BUS LINE. Vui lòng liên hệ Trung tâm tổng đài{' '}
-									<span className="text-orange-600">1900 6067</span> để được hỗ trợ.
+									<span className="text-red-500">1900 6067</span> để được hỗ trợ.
 								</p>
 								<p className="text-[15px] text-justify font-[500] leading-6">
 									(*) Nếu quý khách có nhu cầu trung chuyển, vui lòng liên hệ Tổng đài trung chuyển{' '}
-									<span className="text-orange-600">1900 6918</span> trước khi đặt vé. Chúng tôi không đón/trung chuyển tại những điểm xe
-									trung chuyển không thể tới được.
+									<span className="text-red-500">1900 6918</span> trước khi đặt vé. Chúng tôi không đón/trung chuyển tại những điểm xe trung
+									chuyển không thể tới được.
 								</p>
 							</div>
 						</div>
 						<div className="mt-5 text-sm font-[400]">
 							<input type="checkbox"></input>
 							<span>
-								<span className="cursor-pointer text-orange-500 underline ml-3">Chấp nhận điều khoản</span> đặt vé &amp; chính sách bảo mật
-								thông tin của FUTABusline
+								<span className="cursor-pointer text-red-500 underline ml-3">Chấp nhận điều khoản</span> đặt vé &amp; chính sách bảo mật thông
+								tin của FUTABusline
 							</span>
 						</div>
 					</div>
@@ -304,7 +320,7 @@ function BookingTicketForm() {
 								viewBox="0 0 24 24"
 								strokeWidth="1.5"
 								stroke="currentColor"
-								className="w-7 h-7 text-orange-500"
+								className="w-7 h-7 text-red-500"
 							>
 								<path
 									strokeLinecap="round"
@@ -325,7 +341,7 @@ function BookingTicketForm() {
 											type="radio"
 											value=""
 											name="disabled-radio1"
-											className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+											className="w-4 h-4 text-blue-500 bg-gray-100 border-gray-300 focus:ring-blue-500"
 										></input>
 										<label
 											htmlFor="disabled-radio-1"
@@ -342,7 +358,7 @@ function BookingTicketForm() {
 											type="radio"
 											value=""
 											name="disabled-radio2"
-											className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+											className="w-4 h-4 text-blue-500 bg-gray-100 border-gray-300 focus:ring-blue-500"
 										></input>
 										<label
 											htmlFor="disabled-radio-2"
@@ -358,7 +374,7 @@ function BookingTicketForm() {
 											viewBox="0 0 24 24"
 											strokeWidth="1.5"
 											stroke="currentColor"
-											className="w-7 h-7 text-orange-500"
+											className="w-7 h-7 text-red-500"
 										>
 											<path
 												strokeLinecap="round"
@@ -379,7 +395,7 @@ function BookingTicketForm() {
 								<div className="flex flex-wrap gap-1 text-justify font-[420] text-[15px] leading-6">
 									<span>
 										Quý khách vui lòng có mặt tại Bến xe/Văn Phòng <span className="font-bold">BX Miền Tây</span>
-										<span className="font-bold text-orange-500"> Trước 19:15 04/05/2024</span> để được trung chuyển hoặc kiểm tra thông tin
+										<span className="font-bold text-red-500"> Trước 19:15 04/05/2024</span> để được trung chuyển hoặc kiểm tra thông tin
 										trước khi lên xe.
 									</span>
 								</div>
@@ -395,7 +411,7 @@ function BookingTicketForm() {
 											type="radio"
 											value=""
 											name="disabled-radio-3"
-											className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+											className="w-4 h-4 text-blue-500 bg-gray-100 border-gray-300 focus:ring-blue-500"
 										></input>
 										<label
 											htmlFor="disabled-radio-3"
@@ -412,7 +428,7 @@ function BookingTicketForm() {
 											type="radio"
 											value=""
 											name="disabled-radio-4"
-											className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+											className="w-4 h-4 text-blue-500 bg-gray-100 border-gray-300 focus:ring-blue-500"
 										></input>
 										<label
 											htmlFor="disabled-radio-4"
@@ -428,7 +444,7 @@ function BookingTicketForm() {
 											viewBox="0 0 24 24"
 											strokeWidth="1.5"
 											stroke="currentColor"
-											className="w-7 h-7 text-orange-500"
+											className="w-7 h-7 text-red-500"
 										>
 											<path
 												strokeLinecap="round"
@@ -452,19 +468,19 @@ function BookingTicketForm() {
 					</div> */}
 					<div className="payment-section bg-white border border-slate-200 p-5 rounded-b-xl flex items-center">
 						<div className="flex flex-col">
-							<span className="w-16 rounded-xl bg-[#00613D] py-1 text-center text-xs text-white">FUTAPAY</span>
+							{/* <span className="w-16 rounded-xl bg-blue-600 py-1 text-center text-xs text-white">VNPAY</span> */}
 							<span className="mt-2 text-2xl font-medium text-black">{(price * numberOfSeats) / 1000 + '.000'} đ</span>
 						</div>
 						<div className="flex flex-auto items-center justify-end">
 							{/* <button
 								type="button"
-								className="px-10 py-2 border border-slate-200 text-blue-600 rounded-full mr-6 hover:bg-blue-600 hover:text-white transition-all"
+								className="px-10 py-2 border border-slate-200 text-blue-500 rounded-full mr-6 hover:bg-blue-500 hover:text-white transition-all"
 							>
 								<span className="text-sm font-medium">Hủy</span>
 							</button> */}
 							<button
 								type="button"
-								className="px-5 py-2 text-white rounded-full mr-6 bg-orange-500 hover:bg-orange-600 transition-all"
+								className="px-5 py-2 text-white rounded-full mr-6 bg-red-500 hover:bg-red-500 transition-all"
 								onClick={payment}
 							>
 								<span className="text-sm font-medium">Thanh toán</span>
@@ -481,7 +497,7 @@ function BookingTicketForm() {
 						</div>
 						<div className="mt-1 flex items-center justify-between">
 							<span className="text-slate-500">Thời gian xuất bến</span>
-							<span className="text-green-600 font-medium">{start_time}</span>
+							<span className="text-green-500 font-medium">{start_time}</span>
 						</div>
 						<div className="mt-1 flex items-center justify-between">
 							<span className="text-slate-500">Số lượng ghế</span>
@@ -489,11 +505,11 @@ function BookingTicketForm() {
 						</div>
 						<div className="mt-1 flex items-center justify-between">
 							<span className="text-slate-500">Số ghế</span>
-							<span className="text-green-600 font-medium">{idSeat()}</span>
+							<span className="text-green-500 font-medium">{idSeat()}</span>
 						</div>
 						<div className="mt-1 flex items-center justify-between">
 							<span className="text-slate-500">Tổng tiền lượt đi</span>
-							<span className="text-green-600 font-medium">{(price * numberOfSeats) / 1000 + '.000'} đ</span>
+							<span className="text-green-500 font-medium">{(price * numberOfSeats) / 1000 + '.000'} đ</span>
 						</div>
 					</div>
 					<div className="bg-white border border-slate-200 p-5 rounded-xl">
@@ -506,7 +522,7 @@ function BookingTicketForm() {
 								viewBox="0 0 24 24"
 								strokeWidth="1.5"
 								stroke="currentColor"
-								className="w-7 h-7 text-orange-500"
+								className="w-7 h-7 text-red-500"
 							>
 								<path
 									strokeLinecap="round"
@@ -517,7 +533,7 @@ function BookingTicketForm() {
 						</div>
 						<div className="mt-4 flex items-center justify-between">
 							<span className="text-slate-500">Giá vé lượt đi</span>
-							<span className="text-orange-600 font-medium">{(price * numberOfSeats) / 1000 + '.000'} đ</span>
+							<span className="text-red-500 font-medium">{(price * numberOfSeats) / 1000 + '.000'} đ</span>
 						</div>
 						<div className="mt-1 flex items-center justify-between">
 							<span className="text-slate-500">Phí thanh toán</span>
@@ -526,11 +542,17 @@ function BookingTicketForm() {
 						<hr className="my-3" />
 						<div className="flex items-center justify-between">
 							<span className="text-slate-500">Tổng tiền</span>
-							<span className="text-orange-600 font-medium">{(price * numberOfSeats) / 1000 + '.000'} đ</span>
+							<span className="text-red-500 font-medium">{(price * numberOfSeats) / 1000 + '.000'} đ</span>
 						</div>
 					</div>
 				</div>
 			</div>
+			{failureModal && (
+				<FailureNotification
+					func={{ closeModal: closeFailureModal }}
+					message={message}
+				/>
+			)}
 		</div>
 	);
 }

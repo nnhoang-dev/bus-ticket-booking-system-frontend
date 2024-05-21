@@ -7,6 +7,7 @@ import { API_URL } from '../../configs/env';
 
 function LoginPageAdmin(props) {
 	const navigate = useNavigate();
+	const [message, setMessage] = useState('');
 	const [phone_number, setPhoneNumber] = useState('');
 	const [password, setPassword] = useState('');
 
@@ -38,7 +39,7 @@ function LoginPageAdmin(props) {
 				}
 			})
 			.catch((err) => {
-				alert('Incorrect password or username');
+				setMessage('Incorrect password or username');
 			});
 	};
 
@@ -53,7 +54,7 @@ function LoginPageAdmin(props) {
 						<div className="relative mb-8">
 							<input
 								type="text"
-								className="block w-full py-2 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:text-white focus:border-blue-600 peer"
+								className="block w-full py-2 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
 								placeholder=""
 								autoComplete="off"
 								onChange={(e) => setPhoneNumber(e.target.value)}
@@ -81,10 +82,10 @@ function LoginPageAdmin(props) {
 								</svg>
 							</span>
 						</div>
-						<div className="relative mb-8">
+						<div className="relative mb-2">
 							<input
 								type="password"
-								className="block w-full py-2 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:text-white focus:border-blue-600 peer"
+								className="block w-full py-2 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none peer focus:outline-none focus:ring-0"
 								placeholder=""
 								onChange={(e) => setPassword(e.target.value)}
 								onKeyDown={(event) => {
@@ -116,6 +117,8 @@ function LoginPageAdmin(props) {
 								</svg>
 							</span>
 						</div>
+						{message && <div className="text-red-700 mt-2 text-sm font-medium">{message}</div>}
+
 						<button
 							type="submit"
 							className="transition-colors duration-300 w-full mb-4 text-[18px] mt-6 rounded-full bg-white text-black hover:bg-cyan-500 hover:text-white py-2"
