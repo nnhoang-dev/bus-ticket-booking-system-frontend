@@ -122,7 +122,7 @@ const NavBarManager = () => {
 									className="ml-4"
 									style={{ width: '16px', height: '16px' }}
 								/>
-								<div className="text-white  text-sm  m-2">Account Management</div>
+								<div className="text-white  text-sm  m-2">My Account</div>
 							</div>
 							<div
 								className="w-full flex items-center cursor-pointer py-2 

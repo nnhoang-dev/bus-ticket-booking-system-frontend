@@ -185,6 +185,7 @@ const BusStationManagement = () => {
 
 	return (
 		<div className="w-full p-2">
+			<h1 className="font-bold text-2xl text-gray-700">Bus Station Management</h1>
 			<div className="my-8">
 				<div className="max-w-screen-md mx-auto -my-2">
 					<div className="flex -mx-2 my-2">

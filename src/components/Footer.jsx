@@ -116,7 +116,7 @@ function Footer(props) {
 			</div>
 
 			{/* <!--Copyright section--> */}
-			<div className="p-4 text-center bg-black bg-opacity-20">© 2024 Copyright: Nhóm 18 PTTKYC</div>
+			<div className="p-4 text-center bg-black bg-opacity-20">© 2024 Copyright: 52200079, 52200226, 52200036</div>
 		</footer>
 	);
 }

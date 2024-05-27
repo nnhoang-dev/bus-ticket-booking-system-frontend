@@ -192,7 +192,8 @@ const TicketManagement = () => {
 	};
 
 	return (
-		<div className="w-full">
+		<div className="w-full p-2">
+			<h1 className="font-bold text-2xl text-gray-700">Ticket Management</h1>
 			<div className="w-full p-2 flex -mx-1">
 				<div className="basis-4/12 -my-2 mx-1">
 					<div className="basis-full my-2">

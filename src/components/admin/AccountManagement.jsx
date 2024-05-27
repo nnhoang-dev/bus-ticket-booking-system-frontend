@@ -66,7 +66,7 @@ const AccountManagement = () => {
 	return (
 		<>
 			<div className="max-w-screen-lg mx-auto w-full px-4">
-				<h3 className="text-2xl font-semibold my-2">Account Management</h3>
+				<h3 className="text-2xl font-semibold my-2">My Account</h3>
 				<div className="w-full border border-slate-300 rounded-xl p-3 flex flex-col md:flex-row">
 					<div className="basis-1/3 flex flex-col p-2">
 						<div className="flex justify-center mx-auto md:mx-0">

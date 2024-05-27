@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useEffect } from 'react';
-import { Avatar, Buses, Logout } from '../../../svg/svg';
+import { Avatar, BusStation, Buses, Logout, Route, Trip } from '../../../svg/svg';
 import axios from 'axios';
 import { API_URL } from '../../../configs/env';
 import { useNavigate } from 'react-router-dom';
@@ -84,7 +84,7 @@ const NavBarOperator = () => {
                             hover:bg-blue-400 transition-all duration-100 ease-linear"
 								onClick={() => navigate('trip')}
 							>
-								<Buses
+								<Trip
 									className="ml-4"
 									style={{ width: '14px', height: '14px' }}
 								/>
@@ -95,7 +95,7 @@ const NavBarOperator = () => {
                             hover:bg-blue-400 transition-all duration-100 ease-linear"
 								onClick={() => navigate('route')}
 							>
-								<Buses
+								<Route
 									className="ml-4"
 									style={{ width: '14px', height: '14px' }}
 								/>
@@ -106,7 +106,7 @@ const NavBarOperator = () => {
                             hover:bg-blue-400 transition-all duration-100 ease-linear"
 								onClick={() => navigate('bus-station')}
 							>
-								<Buses
+								<BusStation
 									className="ml-4"
 									style={{ width: '14px', height: '14px' }}
 								/>
@@ -128,12 +128,13 @@ const NavBarOperator = () => {
 							<div
 								className="w-full flex items-center cursor-pointer py-2 
                             hover:bg-blue-400 transition-all duration-100 ease-linear"
+								onClick={() => navigate('account')}
 							>
 								<Avatar
 									className="ml-4"
 									style={{ width: '16px', height: '16px' }}
 								/>
-								<div className="text-white  text-sm  m-2">Account Management</div>
+								<div className="text-white  text-sm  m-2">My Account</div>
 							</div>
 							<div
 								className="w-full flex items-center cursor-pointer py-2 

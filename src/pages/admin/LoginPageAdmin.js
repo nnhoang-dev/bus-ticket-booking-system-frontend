@@ -57,7 +57,10 @@ function LoginPageAdmin(props) {
 								className="block w-full py-2 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 peer"
 								placeholder=""
 								autoComplete="off"
-								onChange={(e) => setPhoneNumber(e.target.value)}
+								onChange={(e) => {
+									setPhoneNumber(e.target.value);
+									setMessage('');
+								}}
 							/>
 							<label
 								htmlFor=""
@@ -87,7 +90,10 @@ function LoginPageAdmin(props) {
 								type="password"
 								className="block w-full py-2 px-0 text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none peer focus:outline-none focus:ring-0"
 								placeholder=""
-								onChange={(e) => setPassword(e.target.value)}
+								onChange={(e) => {
+									setPassword(e.target.value);
+									setMessage('');
+								}}
 								onKeyDown={(event) => {
 									if (event.key === 'Enter') {
 										submitLogin();

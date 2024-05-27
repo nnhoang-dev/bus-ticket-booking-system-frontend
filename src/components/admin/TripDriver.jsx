@@ -42,7 +42,8 @@ const TripDriver = () => {
 		}
 	};
 	return (
-		<div className="w-full mx-2 mt-8">
+		<div className="w-full p-2">
+			<h1 className="font-bold text-2xl text-gray-700">My Trip</h1>
 			<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
 				<table className="w-full text-sm text-left  text-gray-500 ">
 					<thead className="text-xs text-gray-700 uppercase bg-gray-50">
