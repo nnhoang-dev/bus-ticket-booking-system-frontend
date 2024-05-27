@@ -3,9 +3,7 @@
 import React, { useState } from 'react';
 import { API_URL, REACT_URL } from '../configs/env';
 import axios from 'axios';
-import SuccessNotification from './Noti/SuccessNotification';
 import HomePromotion from './HomePromotion';
-import { logDOM } from '@testing-library/react';
 
 function SignupForm(props) {
 	const [message, setMessage] = useState('');
@@ -29,12 +27,14 @@ function SignupForm(props) {
 		await axios
 			.post(API_URL + 'customer/register', data)
 			.then((res) => {
+				console.log(res.data);
 				if (res.status === 201) {
 					setMessage(res.data.message);
 					window.location.href = REACT_URL + 'xac-thuc-email?id=' + res.data.id;
 				}
 			})
 			.catch((err) => {
+				console.log(err.response.data);
 				handleMessage(err.response.data.message);
 			});
 	};

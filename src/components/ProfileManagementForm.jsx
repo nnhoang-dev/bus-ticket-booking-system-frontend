@@ -4,11 +4,14 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../configs/env';
 import { useNavigate } from 'react-router-dom';
-import UpdateAccount from './admin/UpdateAccount';
 import CustomerAccountUpdateModal from './CustomerAccountUpdateModal';
 import SuccessNotification from './Noti/SuccessNotification';
 import FailureNotification from './Noti/FailureNotification';
 import CustomerChangePasswordModal from './CustomerChangePasswordModal';
+
+import { imageDB } from '../configs/firebase';
+import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { v4 } from 'uuid';
 
 function ProfileManagementForm() {
 	const navigate = useNavigate();
@@ -20,6 +23,9 @@ function ProfileManagementForm() {
 	const [message, setMessage] = useState('');
 
 	const [customer, setCustomer] = useState({});
+	const [avatar, setAvatar] = useState(
+		'https://images.unsplash.com/photo-1618500299034-abce7ed0e8df?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+	);
 
 	useEffect(() => {
 		refesh();
@@ -30,12 +36,19 @@ function ProfileManagementForm() {
 		if (token) {
 			axios
 				.get(API_URL + 'customer/me', { headers: { Authorization: `Bearer ${token}` } })
-				.then((res) => {
+				.then(async (res) => {
+					await renderAvatar(res.data.customer);
 					setCustomer(res.data.customer);
 				})
 				.catch((error) => {
 					navigate('/login');
 				});
+		}
+	};
+
+	const renderAvatar = async (employee) => {
+		if (employee.avatar) {
+			setAvatar(await getDownloadURL(ref(imageDB, employee.avatar)));
 		}
 	};
 
@@ -82,10 +95,45 @@ function ProfileManagementForm() {
 
 	const openUpdateModal = () => {
 		setUpdateModal(true);
+		console.log(customer.avatar);
 	};
 
 	const openChangePasswordModal = () => {
 		setChangePasswordModal(true);
+	};
+
+	const handleChangeImage = async (file) => {
+		const url = `avatars/${v4()}`;
+		const imageRef = ref(imageDB, url);
+		await uploadBytes(imageRef, file);
+		// await getDownloadURL(ref(imageDB, url))
+		let data = {
+			avatar: url,
+		};
+
+		const token = sessionStorage.getItem('token');
+		if (token) {
+			axios
+				.put(API_URL + 'customer/change-avatar', data, { headers: { Authorization: `Bearer ${token}` } })
+				.then(async (res) => {
+					setMessage(res.data.message);
+					openSuccessModal();
+					if (customer.avatar) {
+						const imageRef = ref(imageDB, customer.avatar);
+						await deleteObject(imageRef);
+					}
+					refesh();
+				})
+				.catch((err) => {
+					if (err.response.status === 401) {
+						navigate('/login');
+					}
+					setMessage(err.response.data.message);
+					openFailureModal();
+				});
+		} else {
+			navigate('/login');
+		}
 	};
 	return (
 		<div className="flex-1">
@@ -161,13 +209,25 @@ function ProfileManagementForm() {
 						<div className="basis-1/3 flex flex-col p-2">
 							<div className="flex justify-center mx-auto md:mx-0">
 								<img
-									src="https://images.unsplash.com/photo-1618500299034-abce7ed0e8df?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+									src={avatar}
 									alt="avatar"
 									className="aspect-square max-w-[200px] rounded-full object-cover"
 								/>
 							</div>
 							<div className="mb-5 mt-8 text-center">
-								<span className="cursor-pointer bg-slate-200 px-4 py-2 rounded-full hover:bg-slate-300">Chọn ảnh</span>
+								<label
+									htmlFor="image"
+									className="cursor-pointer bg-slate-200 px-4 py-2 rounded-full hover:bg-slate-300"
+								>
+									Chọn ảnh
+								</label>
+								<input
+									type="file"
+									accept=".jpg,.png"
+									id="image"
+									onChange={(e) => handleChangeImage(e.target.files[0])}
+									className="hidden"
+								/>
 							</div>
 							<div className="text-center text-slate-500">Dung lượng file tối đa 1 MB Định dạng:.JPEG, .PNG</div>
 						</div>
