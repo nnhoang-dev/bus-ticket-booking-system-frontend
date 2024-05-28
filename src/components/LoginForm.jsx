@@ -7,12 +7,16 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import HomePromotion from './HomePromotion';
 
 function LoginForm(props) {
+	const navigate = useNavigate();
+
+	// Notification
 	const [message, setMessage] = useState('');
 
-	const navigate = useNavigate();
+	// Input
 	const [phone_number, setPhoneNumber] = useState('');
 	const [password, setPassword] = useState('');
 
+	// Check logged in
 	useEffect(() => {
 		const token = sessionStorage.getItem('token');
 		if (token) {
@@ -27,6 +31,7 @@ function LoginForm(props) {
 		}
 	}, []);
 
+	// Login
 	const submitLogin = async () => {
 		const data = {
 			phone_number,

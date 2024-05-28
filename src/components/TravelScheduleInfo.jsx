@@ -2,13 +2,16 @@
 
 import axios from 'axios';
 import { API_URL } from '../configs/env';
-import { NavLink, useNavigate, useSearchParams } from 'react-router-dom';
+import { NavLink, useSearchParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
 function TravelScheduleInfo(props) {
 	const [searchParams, setSearchParams] = useSearchParams();
-	const [travelInfo, setTravelInfo] = useState([]);
-	const navigate = useNavigate();
+
+	// Data
+	const [trip, setTrip] = useState([]);
+
+	// Send GET request to retrieve the trip that the customer needs
 	useEffect(() => {
 		if (searchParams.get('start_address')) {
 			const getChuyenXe = () => {
@@ -23,8 +26,8 @@ function TravelScheduleInfo(props) {
 						end_city = v.route.end_address.city.toLowerCase().toString().trim();
 
 						if (start_city.includes(start_address) && end_city.includes(end_address) && date === v.date) {
-							setTravelInfo([
-								...travelInfo,
+							setTrip([
+								...trip,
 								{
 									id: v.id,
 									end_address: v.route.end_address.city,
@@ -42,6 +45,7 @@ function TravelScheduleInfo(props) {
 			getChuyenXe();
 		}
 	}, []);
+
 	return (
 		<div className="lookupform mt-10 mb-32 mx-auto flex-1 max-w-screen-lg">
 			<h1 className="text-green-700 text-2xl text-center font-bold mb-5">LỊCH TRÌNH HIỆN CÓ</h1>
@@ -55,7 +59,7 @@ function TravelScheduleInfo(props) {
 				<div className="basis-1/6 font-semibold text-center"></div>
 			</div>
 			<div className="travel-info border border-gray-300 flex flex-col rounded-xl px-3 pt-3">
-				{travelInfo.map((v, i) => (
+				{trip.map((v, i) => (
 					<div
 						key={i}
 						className="flex flex-row mb-3 justify-center items-center"

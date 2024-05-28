@@ -8,12 +8,14 @@ import { useNavigate } from 'react-router-dom';
 const TripDriver = () => {
 	const navigate = useNavigate();
 
+	// Data
 	const [tripAll, setTripAll] = useState([]);
-	const [idEmployee, setIdEmployee] = useState('');
 
 	useEffect(() => {
 		getTripAll();
 	}, []);
+
+	// Send GET request to retrieve trips information
 	const getTripAll = async () => {
 		const token = sessionStorage.getItem('token');
 		let idEmployee = '';
@@ -41,6 +43,7 @@ const TripDriver = () => {
 			navigate('/admin');
 		}
 	};
+
 	return (
 		<div className="w-full p-2">
 			<h1 className="font-bold text-2xl text-gray-700">My Trip</h1>

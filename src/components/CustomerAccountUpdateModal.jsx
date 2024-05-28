@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { API_URL } from '../configs/env';
 import { useNavigate } from 'react-router-dom';
 
-const CustomerAccountUpdateModal = ({ closeModal, refesh, setMessage, openFailureModal, openSuccessModal }) => {
+const CustomerAccountUpdateModal = ({ closeModal, refresh, setMessage, openFailureModal, openSuccessModal }) => {
 	const navigate = useNavigate();
 	// const [updateModal, setUpdateModal] = useState(false);
 	const [firstName, setFirstName] = useState('');
@@ -53,7 +53,7 @@ const CustomerAccountUpdateModal = ({ closeModal, refesh, setMessage, openFailur
 					openSuccessModal();
 					closeModal();
 
-					refesh();
+					refresh();
 					resetInput();
 					// setUpdateModal(false);
 				})
@@ -69,6 +69,7 @@ const CustomerAccountUpdateModal = ({ closeModal, refesh, setMessage, openFailur
 		}
 	};
 
+	// Reset input
 	const resetInput = () => {
 		setFirstName('');
 		setLastName('');
@@ -77,6 +78,7 @@ const CustomerAccountUpdateModal = ({ closeModal, refesh, setMessage, openFailur
 		setAddress('');
 	};
 
+	// Set input
 	const setInput = (data) => {
 		setFirstName(data.first_name);
 		setLastName(data.last_name);

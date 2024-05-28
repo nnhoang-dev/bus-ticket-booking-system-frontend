@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { API_URL } from '../../configs/env';
 import { useNavigate } from 'react-router-dom';
 
-const ChangePassword = ({ closeModal, refesh, setMessage, openFailureModal, openSuccessModal }) => {
+const ChangePassword = ({ closeModal, refresh, setMessage, openFailureModal, openSuccessModal }) => {
 	const navigate = useNavigate();
 	const [currentPassword, setCurrentPassword] = useState('');
 	const [newPassword, setNewPassword] = useState('');
@@ -41,6 +41,7 @@ const ChangePassword = ({ closeModal, refesh, setMessage, openFailureModal, open
 		}
 	};
 
+	// Reset input
 	const resetInput = () => {
 		setCurrentPassword('');
 		setNewPassword('');

@@ -8,19 +8,26 @@ import HomePromotion from '../components/HomePromotion';
 import FailureNotification from '../components/Noti/FailureNotification';
 
 function VerifyForgotPasswordPage(props) {
+	const [searchParams, setSearchParams] = useSearchParams();
+
 	// Modal
 	const [failureModal, setFailureModal] = useState(false);
 	const [message, setMessage] = useState('');
 
+	// Input
 	const [otp, setOtp] = useState('');
-	const [searchParams, setSearchParams] = useSearchParams();
-	const [second, setSecond] = useState(15);
 	const [password, setPassword] = useState('');
 	const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
+	// Param ID customer
 	let customer_id = searchParams.get('id');
 
+	// Time to resend OTP
+	const [second, setSecond] = useState(15);
 	useEffect(() => {
+		if (!customer_id) {
+			window.location.href = REACT_URL + 'dang-ky';
+		}
 		const interval = setInterval(() => {
 			if (second > 0) {
 				setSecond(second - 1);
@@ -34,10 +41,7 @@ function VerifyForgotPasswordPage(props) {
 		};
 	}, [second]);
 
-	if (!customer_id) {
-		window.location.href = REACT_URL + 'dang-ky';
-	}
-
+	// Send PUT request to change password
 	const changePassword = async () => {
 		const data = {
 			customer_id,
@@ -57,6 +61,7 @@ function VerifyForgotPasswordPage(props) {
 			});
 	};
 
+	// Send POST request to resend OTP
 	const resendOTP = async (e) => {
 		const data = {
 			customer_id,
@@ -66,10 +71,12 @@ function VerifyForgotPasswordPage(props) {
 		await axios.post(API_URL + 'customer/resend-confirm-email', data).then((res) => {});
 	};
 
+	// Close Failure Modal
 	const closeFailureModal = () => {
 		setFailureModal(false);
 	};
 
+	// Open Failure Modal
 	const openFailureModal = () => {
 		setFailureModal(true);
 	};

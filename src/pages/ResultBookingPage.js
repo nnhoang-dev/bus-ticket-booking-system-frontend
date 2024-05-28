@@ -8,6 +8,7 @@ function ResultBookingPage(props) {
 	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [status, setStatus] = useState();
+
 	useEffect(() => {
 		if (searchParams.get('status')) {
 			setStatus(searchParams.get('status'));

@@ -10,18 +10,20 @@ import FailureNotification from '../Noti/FailureNotification';
 
 const EmployeeManagement = () => {
 	const navigate = useNavigate();
+
+	// Data
+	const [employeeAll, setEmployeeAll] = useState([]);
+
 	// Modal
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [successModal, setSuccessModal] = useState(false);
 	const [failureModal, setFailureModal] = useState(false);
 	const [message, setMessage] = useState('');
 	const [tempId, setTempId] = useState('');
-
 	const [isCreate, setIsCreate] = useState(true);
 	const [idEmployee, setIdEmployee] = useState('');
 
-	const [employeeAll, setEmployeeAll] = useState([]);
-
+	// Input
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [phoneNumber, setPhoneNumber] = useState('');
@@ -52,6 +54,7 @@ const EmployeeManagement = () => {
 			});
 	};
 
+	// Reset input
 	const resetInput = () => {
 		setFirstName('');
 		setLastName('');
@@ -63,6 +66,7 @@ const EmployeeManagement = () => {
 		setRole('');
 	};
 
+	// Set input
 	const setInput = (data) => {
 		setFirstName(data.first_name);
 		setLastName(data.last_name);
@@ -74,6 +78,7 @@ const EmployeeManagement = () => {
 		setRole(data.role);
 	};
 
+	// Return role to UI
 	const renderRole = (role) => {
 		switch (role) {
 			case 'manager':
@@ -91,6 +96,7 @@ const EmployeeManagement = () => {
 		}
 	};
 
+	// Send POST request to create a new employee
 	const sendRequestCreateEmployee = async () => {
 		let data = {
 			first_name: firstName,
@@ -115,7 +121,7 @@ const EmployeeManagement = () => {
 				setMessage(res.data.message);
 				openSuccessModal();
 
-				refesh();
+				refresh();
 			})
 			.catch((err) => {
 				if (err.response.status === 401) {
@@ -127,6 +133,7 @@ const EmployeeManagement = () => {
 			});
 	};
 
+	// Send PUT request to update a employee
 	const sendRequestUpdateEmployee = async () => {
 		let data = {
 			first_name: firstName,
@@ -147,7 +154,7 @@ const EmployeeManagement = () => {
 				setMessage(res.data.message);
 				openSuccessModal();
 
-				refesh();
+				refresh();
 			})
 			.catch((err) => {
 				if (err.response.status === 401) {
@@ -159,6 +166,7 @@ const EmployeeManagement = () => {
 			});
 	};
 
+	// Send GET request to retrieve employee that needs updating
 	const editBtn = async (id) => {
 		await axios
 			.get(API_URL + `employee/employee/${id}`, {
@@ -176,35 +184,42 @@ const EmployeeManagement = () => {
 			});
 	};
 
+	// Open delete confirm modal
 	const deleteBtn = async (id) => {
 		setTempId(id);
 		setDeleteModal(true);
 	};
 
-	const refesh = () => {
+	// Refresh page
+	const refresh = () => {
 		resetInput();
 		setIsCreate(true);
 		getEmployeeAll();
 		setIdEmployee('');
 	};
 
+	// Close delete modal
 	const closeDeleteModal = () => {
 		setDeleteModal(false);
 		setTempId('');
 	};
 
+	// Close Success Modal
 	const closeSuccessModal = () => {
 		setSuccessModal(false);
 	};
 
+	// Close Failure Modal
 	const closeFailureModal = () => {
 		setFailureModal(false);
 	};
 
+	// Open Success Modal
 	const openSuccessModal = () => {
 		setSuccessModal(true);
 	};
 
+	// Open Failure Modal
 	const openFailureModal = () => {
 		setFailureModal(true);
 	};
@@ -332,7 +347,7 @@ const EmployeeManagement = () => {
 						)}
 						<button
 							className="mx-2 text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-							onClick={refesh}
+							onClick={refresh}
 						>
 							Refresh
 						</button>
@@ -440,7 +455,7 @@ const EmployeeManagement = () => {
 			{deleteModal && (
 				<WarningNotification
 					id={tempId}
-					func={{ refesh: refesh, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
+					func={{ refresh: refresh, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
 					type={'employee'}
 					action={'employee'}
 				/>

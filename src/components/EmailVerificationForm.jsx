@@ -9,18 +9,25 @@ import FailureNotification from './Noti/FailureNotification';
 import HomePromotion from './HomePromotion';
 
 function EmailVerificationForm(props) {
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	// ID customer
+	let customer_id = searchParams.get('id');
+
 	// Modal
 	const [successModal, setSuccessModal] = useState(false);
 	const [failureModal, setFailureModal] = useState(false);
 	const [message, setMessage] = useState('');
 
+	// Input
 	const [otp, setOtp] = useState('');
-	const [searchParams, setSearchParams] = useSearchParams();
+
+	// Time to resend OTP
 	const [second, setSecond] = useState(15);
-
-	let customer_id = searchParams.get('id');
-
 	useEffect(() => {
+		if (!customer_id) {
+			window.location.href = REACT_URL + 'dang-ky';
+		}
 		const interval = setInterval(() => {
 			if (second > 0) {
 				setSecond(second - 1);
@@ -34,10 +41,7 @@ function EmailVerificationForm(props) {
 		};
 	}, [second]);
 
-	if (!customer_id) {
-		window.location.href = REACT_URL + 'dang-ky';
-	}
-
+	// Sent POST request to confirm email
 	const confirmEmailBtn = async () => {
 		const data = {
 			customer_id,
@@ -59,6 +63,7 @@ function EmailVerificationForm(props) {
 			});
 	};
 
+	// Sent POST request to resend OTP
 	const resendOTP = async (e) => {
 		const data = {
 			customer_id,
@@ -68,25 +73,26 @@ function EmailVerificationForm(props) {
 		await axios.post(API_URL + 'customer/resend-confirm-email', data).then((res) => {});
 	};
 
+	// Close Success Modal
 	const closeSuccessModal = () => {
 		setSuccessModal(false);
 	};
 
+	// Open Success Modal
 	const openSuccessModal = () => {
 		setSuccessModal(true);
 	};
+	// Close Failure Modal
 	const closeFailureModal = () => {
 		setFailureModal(false);
 	};
 
+	// Open Failure Modal
 	const openFailureModal = () => {
 		setFailureModal(true);
 	};
 
 	return (
-		// <div className="basis-10/12 sm:basis-8/12 md:basis-6/12 lg:basis-5/12 xl:basis-4/12 2xl:basis-3/12 mb-40">
-
-		// </div>
 		<div className="max-w-screen-lg mx-auto mb-20">
 			<div className="w-full -mx-4 border-red-200 border-4 rounded-xl p-8 shadow-xl flex justify-center items-center">
 				<div className="basis-5/12 mx-4">

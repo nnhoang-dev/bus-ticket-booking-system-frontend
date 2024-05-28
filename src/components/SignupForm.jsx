@@ -6,8 +6,10 @@ import axios from 'axios';
 import HomePromotion from './HomePromotion';
 
 function SignupForm(props) {
+	// Notification
 	const [message, setMessage] = useState('');
 
+	// Input
 	const [last_name, setLastName] = useState('');
 	const [first_name, setFirstName] = useState('');
 	const [phone_number, setPhoneNumber] = useState('');
@@ -15,6 +17,7 @@ function SignupForm(props) {
 	const [password, setPassword] = useState('');
 	const [password_confirmation, setPasswordConfirmation] = useState('');
 
+	// Send POST request to Sign up
 	const signupBtn = async () => {
 		const data = {
 			last_name,
@@ -39,6 +42,7 @@ function SignupForm(props) {
 			});
 	};
 
+	// Convert response to message
 	const handleMessage = (message) => {
 		if (message.includes('email')) {
 			setMessage('Email đã tồn tại');

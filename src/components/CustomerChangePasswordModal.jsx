@@ -42,6 +42,7 @@ const CustomerChangePasswordModal = ({ closeModal, setMessage, openFailureModal,
 		}
 	};
 
+	// Reset input
 	const resetInput = () => {
 		setCurrentPassword('');
 		setNewPassword('');

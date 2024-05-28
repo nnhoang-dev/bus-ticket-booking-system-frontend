@@ -8,9 +8,14 @@ import HomePromotion from './HomePromotion';
 
 function ForgotPasswordForm(props) {
 	const navigate = useNavigate();
-	const [account, setAccount] = useState('');
+
+	// Notìication
 	const [message, setMessage] = useState('');
 
+	// Data
+	const [account, setAccount] = useState('');
+
+	// Send POST request to forgot password
 	const handleForgotPassword = () => {
 		axios
 			.post(`${API_URL}customer/forgot-password`, {

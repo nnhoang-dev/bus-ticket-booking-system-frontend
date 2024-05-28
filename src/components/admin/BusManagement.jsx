@@ -10,22 +10,26 @@ import { useNavigate } from 'react-router-dom';
 
 const BusManagerment = () => {
 	const navigate = useNavigate();
+	// Data
+	const [busAll, setBusAll] = useState([]);
+
 	// Modal
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [successModal, setSuccessModal] = useState(false);
 	const [failureModal, setFailureModal] = useState(false);
 	const [message, setMessage] = useState('');
 	const [tempId, setTempId] = useState('');
-
 	const [isCreate, setIsCreate] = useState(true);
 	const [idBus, setIdBus] = useState('');
-	const [busAll, setBusAll] = useState([]);
+
+	// Input
 	const [license, setLicense] = useState('');
 
 	useEffect(() => {
 		getBusAll();
 	}, []);
 
+	// Send GET request to retrieve buses information
 	const getBusAll = async () => {
 		await axios
 			.get(
@@ -42,10 +46,7 @@ const BusManagerment = () => {
 			});
 	};
 
-	const resetInput = () => {
-		setLicense('');
-	};
-
+	// Send POST request to create a new bus
 	const sendRequestCreateBus = async () => {
 		let data = {
 			license: license,
@@ -71,6 +72,7 @@ const BusManagerment = () => {
 			});
 	};
 
+	// Send PUT request to update a bus
 	const sendRequestUpdateBus = async () => {
 		let data = {
 			license: license,
@@ -100,6 +102,7 @@ const BusManagerment = () => {
 			});
 	};
 
+	// Send GET request to retrieve the bus information for updating
 	const editBtn = async (id) => {
 		await axios
 			.get(
@@ -117,34 +120,46 @@ const BusManagerment = () => {
 			});
 	};
 
+	// Open delete modal
 	const deleteBtn = async (id) => {
 		setTempId(id);
 		setDeleteModal(true);
 	};
 
-	const refeshBtn = () => {
+	// Refresh page
+	const refreshBtn = () => {
 		resetInput();
 		setIsCreate(true);
 		getBusAll();
 	};
 
+	// Reset input
+	const resetInput = () => {
+		setLicense('');
+	};
+
+	// Close delete modal
 	const closeDeleteModal = () => {
 		setDeleteModal(false);
 		setTempId('');
 	};
 
+	// Close Success Modal
 	const closeSuccessModal = () => {
 		setSuccessModal(false);
 	};
 
+	// Close Failure Modal
 	const closeFailureModal = () => {
 		setFailureModal(false);
 	};
 
+	// Open Success Modal
 	const openSuccessModal = () => {
 		setSuccessModal(true);
 	};
 
+	// Open Failure Modal
 	const openFailureModal = () => {
 		setFailureModal(true);
 	};
@@ -182,7 +197,7 @@ const BusManagerment = () => {
 					)}
 					<button
 						className="ml-2 text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-						onClick={refeshBtn}
+						onClick={refreshBtn}
 					>
 						Refresh
 					</button>
@@ -292,7 +307,7 @@ const BusManagerment = () => {
 			{deleteModal && (
 				<WarningNotification
 					id={tempId}
-					func={{ refesh: refeshBtn, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
+					func={{ refresh: refreshBtn, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
 					type={'bus'}
 					action={'bus'}
 				/>

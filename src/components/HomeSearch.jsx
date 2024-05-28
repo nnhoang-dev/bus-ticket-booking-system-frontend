@@ -6,22 +6,30 @@ import FailureNotification from './Noti/FailureNotification';
 import axios from 'axios';
 
 function HomeSearch(props) {
-	// Modal
-	const [failureModal, setFailureModal] = useState(false);
-	const [message, setMessage] = useState('');
-
-	const [startAddressSearchModal, setStartAddressSearchModal] = useState(false);
-	const [endAddressSearchModal, setEndAddressSearchModal] = useState(false);
-
 	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
+
+	// Data
+	const [provinces, setProvinces] = useState([]);
+
+	// Modal
+	const [failureModal, setFailureModal] = useState(false);
+	const [startAddressSearchModal, setStartAddressSearchModal] = useState(false);
+	const [endAddressSearchModal, setEndAddressSearchModal] = useState(false);
+	const [message, setMessage] = useState('');
+
+	// Input
 	const [start_address, setStartAddress] = useState('');
 	const [end_address, setEndAddress] = useState('');
 	const [endAddressSearch, setEndAddressSearch] = useState('');
 	const [startAddressSearch, setStartAddressSearch] = useState('');
-	const [provinces, setProvinces] = useState([]);
 	const [date, setDate] = useState('');
 
+	useEffect(() => {
+		getProvinces();
+	}, []);
+
+	// Search Trip
 	const handleSearch = () => {
 		if (start_address && end_address && date) {
 			navigate(`/lich-trinh?start_address=${start_address}
@@ -34,13 +42,7 @@ function HomeSearch(props) {
 		}
 	};
 
-	useEffect(() => {
-		setStartAddress(searchParams.get('start_address') ?? '');
-		setEndAddress(searchParams.get('end_address') ?? '');
-		setDate(searchParams.get('date') ?? '');
-		getProvinces();
-	}, []);
-
+	// Get Provinces API
 	const getProvinces = () => {
 		axios.get('https://vapi.vnappmob.com/api/province/').then((res) => {
 			setProvinces(
@@ -55,10 +57,11 @@ function HomeSearch(props) {
 		});
 	};
 
+	// Close Failure Modal
 	const closeFailureModal = () => {
 		setFailureModal(false);
 	};
-
+	// Open Failure Modal
 	const openFailureModal = () => {
 		setFailureModal(true);
 	};

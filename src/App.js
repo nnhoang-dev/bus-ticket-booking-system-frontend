@@ -33,6 +33,7 @@ function App() {
 		<>
 			<BrowserRouter>
 				<Routes>
+					{/* Route for customer */}
 					<Route
 						path="/"
 						element={
@@ -98,6 +99,7 @@ function App() {
 							element={<ProfileManagementPage />}
 						/>
 					</Route>
+					{/* Route for employee */}
 					<Route
 						path="/admin"
 						element={<LoginPageAdmin />}

@@ -19,11 +19,13 @@ const BusStationManagement = () => {
 	const [tempId, setTempId] = useState('');
 	const [citySearchModal, setCitySearchModal] = useState(false);
 	const [citySearch, setCitySearch] = useState('');
-
 	const [isCreate, setIsCreate] = useState(true);
 	const [idBusStation, setIdBusStation] = useState('');
 
+	// Data
 	const [busStationAll, setBusStationAll] = useState([]);
+
+	// Input
 	const [name, setName] = useState('');
 	const [city, setCity] = useState('');
 	const [address, setAddress] = useState('');
@@ -35,6 +37,7 @@ const BusStationManagement = () => {
 		getProvinces();
 	}, []);
 
+	// Send GET request to retrieve provinces information
 	const getProvinces = () => {
 		axios.get('https://vapi.vnappmob.com/api/province/').then((res) => {
 			setProvinces(
@@ -49,6 +52,7 @@ const BusStationManagement = () => {
 		});
 	};
 
+	// Send GET request to retrieve bus stations information
 	const getBusStationAll = async () => {
 		await axios
 			.get(
@@ -61,6 +65,7 @@ const BusStationManagement = () => {
 			.catch((err) => {});
 	};
 
+	// Reset input
 	const resetInput = () => {
 		setName('');
 		setCity('');
@@ -68,6 +73,7 @@ const BusStationManagement = () => {
 		setPhoneNumber('');
 	};
 
+	// Set input
 	const setInput = (data) => {
 		setName(data.name);
 		setAddress(data.address);
@@ -75,6 +81,7 @@ const BusStationManagement = () => {
 		setPhoneNumber(data.phone_number);
 	};
 
+	// Send POST request to create a new bus stations
 	const sendRequestCreateBusStation = async () => {
 		let data = {
 			name,
@@ -104,6 +111,7 @@ const BusStationManagement = () => {
 			});
 	};
 
+	// Send PUT request to update a bus stations
 	const sendRequestUpdateBusStation = async () => {
 		let data = { name, city, address, phone_number: phoneNumber };
 
@@ -130,6 +138,7 @@ const BusStationManagement = () => {
 			});
 	};
 
+	// Send GET request to retrieve a bus stations for updating
 	const editBtn = async (id) => {
 		await axios
 			.get(
@@ -151,34 +160,41 @@ const BusStationManagement = () => {
 			});
 	};
 
+	// Open delete modal
 	const deleteBtn = async (id) => {
 		setTempId(id);
 		setDeleteModal(true);
 	};
 
-	const refeshBtn = () => {
+	// Refresh page
+	const refreshBtn = () => {
 		resetInput();
 		setIsCreate(true);
 		getBusStationAll();
 	};
 
+	// Close delete modal
 	const closeDeleteModal = () => {
 		setDeleteModal(false);
 		setTempId('');
 	};
 
+	// Close Success Modal
 	const closeSuccessModal = () => {
 		setSuccessModal(false);
 	};
 
+	// Close Failure Modal
 	const closeFailureModal = () => {
 		setFailureModal(false);
 	};
 
+	// Open Success Modal
 	const openSuccessModal = () => {
 		setSuccessModal(true);
 	};
 
+	// Open Failure Modal
 	const openFailureModal = () => {
 		setFailureModal(true);
 	};
@@ -310,7 +326,7 @@ const BusStationManagement = () => {
 					)}
 					<button
 						className="ml-2 text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-						onClick={refeshBtn}
+						onClick={refreshBtn}
 					>
 						Refresh
 					</button>
@@ -392,7 +408,7 @@ const BusStationManagement = () => {
 			{deleteModal && (
 				<WarningNotification
 					id={tempId}
-					func={{ refesh: refeshBtn, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
+					func={{ refresh: refreshBtn, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
 					type={'bus station'}
 					action={'bus-station'}
 				/>

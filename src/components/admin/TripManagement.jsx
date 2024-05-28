@@ -10,6 +10,7 @@ import FailureNotification from '../Noti/FailureNotification';
 
 const BusesManagerment = () => {
 	const navigate = useNavigate();
+
 	// Modal
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [successModal, setSuccessModal] = useState(false);
@@ -17,9 +18,11 @@ const BusesManagerment = () => {
 	const [message, setMessage] = useState('');
 	const [tempId, setTempId] = useState('');
 
+	// Check state (create, update)
 	const [isCreate, setIsCreate] = useState(true);
 	const [idTrip, setIdTrip] = useState('');
 
+	// Input
 	const [routeAll, setRouteAll] = useState([]);
 	const [busAll, setBusAll] = useState([]);
 	const [driverAll, setDriverAll] = useState([]);
@@ -30,6 +33,7 @@ const BusesManagerment = () => {
 	const [date, setDate] = useState('');
 	const [time, setTime] = useState('');
 
+	// Get data for input
 	useEffect(() => {
 		getRouteAll();
 		getBusAll();
@@ -37,6 +41,7 @@ const BusesManagerment = () => {
 		getTripAll();
 	}, []);
 
+	// Send GET request to retrieve routes information
 	const getRouteAll = async () => {
 		await axios
 			.get(
@@ -48,6 +53,8 @@ const BusesManagerment = () => {
 			})
 			.catch((err) => {});
 	};
+
+	// Send GET request to retrieve buses information
 	const getBusAll = async () => {
 		await axios
 			.get(
@@ -59,6 +66,8 @@ const BusesManagerment = () => {
 			})
 			.catch((err) => {});
 	};
+
+	// Send GET request to retrieve drivers information
 	const getDriverAll = async () => {
 		await axios
 			.get(
@@ -70,6 +79,8 @@ const BusesManagerment = () => {
 			})
 			.catch((err) => {});
 	};
+
+	// Send GET request to retrieve trips information
 	const getTripAll = async () => {
 		await axios
 			.get(
@@ -84,6 +95,7 @@ const BusesManagerment = () => {
 			.catch((err) => {});
 	};
 
+	// Reset input
 	const resetInput = () => {
 		setTaiXe('');
 		setRoute('');
@@ -93,6 +105,7 @@ const BusesManagerment = () => {
 		setTime('');
 	};
 
+	// Set input
 	const setInput = (data) => {
 		setTaiXe(data.driver_id);
 		setRoute(data.route_id);
@@ -101,6 +114,7 @@ const BusesManagerment = () => {
 		setTime(data.start_time);
 	};
 
+	// Send POST request to create a new trip
 	const sendRequestCreateTrip = async () => {
 		// Validate Start Date
 		if (new Date() > new Date(date + 'T' + time)) {
@@ -138,6 +152,7 @@ const BusesManagerment = () => {
 			});
 	};
 
+	// Send PUT request to update a trip
 	const sendRequestUpdateTrip = async () => {
 		if (new Date() > new Date(date + 'T' + time)) {
 			setMessage('Invalid departure time');
@@ -172,6 +187,7 @@ const BusesManagerment = () => {
 			});
 	};
 
+	// Send GET request to retrieve trip that needs updating
 	const editBtn = async (id) => {
 		await axios
 			.get(
@@ -189,34 +205,41 @@ const BusesManagerment = () => {
 		setIdTrip(id);
 	};
 
+	// Open delete confirm modal
 	const deleteBtn = async (id) => {
 		setTempId(id);
 		setDeleteModal(true);
 	};
 
-	const refesh = () => {
+	// Refresh page
+	const refresh = () => {
 		resetInput();
 		getTripAll();
 		setIdTrip('');
 		setIsCreate(true);
 	};
 
+	// Close delete modal
 	const closeDeleteModal = () => {
 		setDeleteModal(false);
 		setTempId('');
 	};
 
+	// Close Success Modal
 	const closeSuccessModal = () => {
 		setSuccessModal(false);
 	};
 
+	// Open Success Modal
 	const openSuccessModal = () => {
 		setSuccessModal(true);
 	};
+	// Close Failure Modal
 	const closeFailureModal = () => {
 		setFailureModal(false);
 	};
 
+	// Open Failure Modal
 	const openFailureModal = () => {
 		setFailureModal(true);
 	};
@@ -330,7 +353,7 @@ const BusesManagerment = () => {
 					)}
 					<button
 						className="ml-2 text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-						onClick={refesh}
+						onClick={refresh}
 					>
 						Refresh
 					</button>
@@ -433,7 +456,7 @@ const BusesManagerment = () => {
 			{deleteModal && (
 				<WarningNotification
 					id={tempId}
-					func={{ refesh: refesh, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
+					func={{ refresh: refresh, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
 					type={'trip'}
 					action={'trip'}
 				/>

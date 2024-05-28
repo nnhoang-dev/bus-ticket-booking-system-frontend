@@ -2,15 +2,20 @@
 
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../../configs/env';
 
 function LoginPageAdmin(props) {
 	const navigate = useNavigate();
+
+	// Notification
 	const [message, setMessage] = useState('');
+
+	// Input
 	const [phone_number, setPhoneNumber] = useState('');
 	const [password, setPassword] = useState('');
 
+	// Check logged in
 	useEffect(() => {
 		const token = sessionStorage.getItem('token');
 		if (token) {
@@ -25,6 +30,7 @@ function LoginPageAdmin(props) {
 		}
 	}, []);
 
+	// Send POST request to login
 	const submitLogin = async () => {
 		const data = {
 			phone_number,

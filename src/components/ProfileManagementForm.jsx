@@ -15,6 +15,10 @@ import { v4 } from 'uuid';
 
 function ProfileManagementForm() {
 	const navigate = useNavigate();
+
+	// Data
+	const [customer, setCustomer] = useState({});
+
 	// Modal
 	const [successModal, setSuccessModal] = useState(false);
 	const [failureModal, setFailureModal] = useState(false);
@@ -22,16 +26,16 @@ function ProfileManagementForm() {
 	const [modelUpdate, setUpdateModal] = useState(false);
 	const [message, setMessage] = useState('');
 
-	const [customer, setCustomer] = useState({});
+	// Input
 	const [avatar, setAvatar] = useState(
 		'https://images.unsplash.com/photo-1618500299034-abce7ed0e8df?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
 	);
 
 	useEffect(() => {
-		refesh();
+		refresh();
 	}, []);
 
-	const refesh = () => {
+	const refresh = () => {
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
@@ -46,12 +50,14 @@ function ProfileManagementForm() {
 		}
 	};
 
+	// Render avatar to UI
 	const renderAvatar = async (employee) => {
 		if (employee.avatar) {
 			setAvatar(await getDownloadURL(ref(imageDB, employee.avatar)));
 		}
 	};
 
+	// Logout
 	const logout = async () => {
 		const token = sessionStorage.getItem('token');
 		if (token) {
@@ -69,44 +75,16 @@ function ProfileManagementForm() {
 		}
 	};
 
-	const closeUpdateModal = () => {
-		setUpdateModal(false);
-	};
-
-	const closeChangePasswordModal = () => {
-		setChangePasswordModal(false);
-	};
-
-	const closeSuccessModal = () => {
-		setSuccessModal(false);
-	};
-
-	const closeFailureModal = () => {
-		setFailureModal(false);
-	};
-
-	const openSuccessModal = () => {
-		setSuccessModal(true);
-	};
-
-	const openFailureModal = () => {
-		setFailureModal(true);
-	};
-
-	const openUpdateModal = () => {
-		setUpdateModal(true);
-		console.log(customer.avatar);
-	};
-
+	// Open Change Password Modal
 	const openChangePasswordModal = () => {
 		setChangePasswordModal(true);
 	};
 
-	const handleChangeImage = async (file) => {
+	// Send PUT request to change avatar
+	const handleChangeAvatar = async (file) => {
 		const url = `avatars/${v4()}`;
 		const imageRef = ref(imageDB, url);
 		await uploadBytes(imageRef, file);
-		// await getDownloadURL(ref(imageDB, url))
 		let data = {
 			avatar: url,
 		};
@@ -122,7 +100,7 @@ function ProfileManagementForm() {
 						const imageRef = ref(imageDB, customer.avatar);
 						await deleteObject(imageRef);
 					}
-					refesh();
+					refresh();
 				})
 				.catch((err) => {
 					if (err.response.status === 401) {
@@ -135,6 +113,43 @@ function ProfileManagementForm() {
 			navigate('/login');
 		}
 	};
+
+	// Close Update Modal
+	const closeUpdateModal = () => {
+		setUpdateModal(false);
+	};
+
+	// Close Change Password Modal
+	const closeChangePasswordModal = () => {
+		setChangePasswordModal(false);
+	};
+
+	// Close Success Modal
+	const closeSuccessModal = () => {
+		setSuccessModal(false);
+	};
+
+	// Close Failure Modal
+	const closeFailureModal = () => {
+		setFailureModal(false);
+	};
+
+	// Open Success Modal
+	const openSuccessModal = () => {
+		setSuccessModal(true);
+	};
+
+	// Open Failure Modal
+	const openFailureModal = () => {
+		setFailureModal(true);
+	};
+
+	// Open Update Modal
+	const openUpdateModal = () => {
+		setUpdateModal(true);
+		console.log(customer.avatar);
+	};
+
 	return (
 		<div className="flex-1">
 			<div className="flex flex-col md:flex-row w-full lg:w-[80%] 2xl:w-[60%] mx-auto p-5 gap-y-8 md:gap-x-8 my-8">
@@ -225,7 +240,7 @@ function ProfileManagementForm() {
 									type="file"
 									accept=".jpg,.png"
 									id="image"
-									onChange={(e) => handleChangeImage(e.target.files[0])}
+									onChange={(e) => handleChangeAvatar(e.target.files[0])}
 									className="hidden"
 								/>
 							</div>
@@ -295,7 +310,7 @@ function ProfileManagementForm() {
 			{modelUpdate && (
 				<CustomerAccountUpdateModal
 					closeModal={closeUpdateModal}
-					refesh={refesh}
+					refresh={refresh}
 					setMessage={setMessage}
 					openFailureModal={openFailureModal}
 					openSuccessModal={openSuccessModal}

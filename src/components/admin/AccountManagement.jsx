@@ -15,6 +15,13 @@ import { v4 } from 'uuid';
 
 const AccountManagement = () => {
 	const navigate = useNavigate();
+
+	// Data
+	const [account, setAccount] = useState({});
+	const [avatar, setAvatar] = useState(
+		'https://images.unsplash.com/photo-1618500299034-abce7ed0e8df?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+	);
+
 	// Modal
 	const [successModal, setSuccessModal] = useState(false);
 	const [failureModal, setFailureModal] = useState(false);
@@ -22,15 +29,11 @@ const AccountManagement = () => {
 	const [modelUpdate, setUpdateModal] = useState(false);
 	const [message, setMessage] = useState('');
 
-	const [account, setAccount] = useState({});
-	const [avatar, setAvatar] = useState(
-		'https://images.unsplash.com/photo-1618500299034-abce7ed0e8df?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-	);
-
 	useEffect(() => {
 		getEmployee();
 	}, []);
 
+	// Send GET request to retrieve personal account information
 	const getEmployee = async () => {
 		const token = sessionStorage.getItem('token');
 		if (token) {
@@ -52,35 +55,44 @@ const AccountManagement = () => {
 		// await renderAvatar();
 	};
 
+	// Render avatar to UI
 	const renderAvatar = async (employee) => {
 		if (employee.avatar) {
 			setAvatar(await getDownloadURL(ref(imageDB, employee.avatar)));
 		}
 	};
+
+	// Close Update Modal
 	const closeUpdateModal = () => {
 		setUpdateModal(false);
 	};
 
+	// Close Change Password Modal
 	const closeChangePasswordModal = () => {
 		setChangePasswordModal(false);
 	};
 
+	// Close Success Modal
 	const closeSuccessModal = () => {
 		setSuccessModal(false);
 	};
 
+	// Close Failure Modal
 	const closeFailureModal = () => {
 		setFailureModal(false);
 	};
 
+	// Open Success Modal
 	const openSuccessModal = () => {
 		setSuccessModal(true);
 	};
 
+	// Open Failure Modal
 	const openFailureModal = () => {
 		setFailureModal(true);
 	};
 
+	// Send PUT request to change avatar
 	const handleChangeImage = async (file) => {
 		const url = `avatars/${v4()}`;
 		const imageRef = ref(imageDB, url);
@@ -114,6 +126,7 @@ const AccountManagement = () => {
 			navigate('/admin');
 		}
 	};
+
 	return (
 		<>
 			<div className="max-w-screen-lg mx-auto w-full px-4">
@@ -195,7 +208,7 @@ const AccountManagement = () => {
 			{changePasswordModal && (
 				<ChangePassword
 					closeModal={closeChangePasswordModal}
-					refesh={getEmployee}
+					refresh={getEmployee}
 					setMessage={setMessage}
 					openFailureModal={openFailureModal}
 					openSuccessModal={openSuccessModal}
@@ -204,7 +217,7 @@ const AccountManagement = () => {
 			{modelUpdate && (
 				<UpdateAccount
 					closeModal={closeUpdateModal}
-					refesh={getEmployee}
+					refresh={getEmployee}
 					setMessage={setMessage}
 					openFailureModal={openFailureModal}
 					openSuccessModal={openSuccessModal}

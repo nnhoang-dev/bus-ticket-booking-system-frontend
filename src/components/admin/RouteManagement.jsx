@@ -10,19 +10,20 @@ import FailureNotification from '../Noti/FailureNotification';
 
 const RouteManagement = () => {
 	const navigate = useNavigate();
+	// Data
+	const [busStationAll, setBusStationAll] = useState([]);
+	const [routeAll, setRouteAll] = useState([]);
+
 	// Modal
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [successModal, setSuccessModal] = useState(false);
 	const [failureModal, setFailureModal] = useState(false);
 	const [message, setMessage] = useState('');
 	const [tempId, setTempId] = useState('');
-
 	const [isCreate, setIsCreate] = useState(true);
 	const [idRoute, setIdRoute] = useState('');
 
-	const [busStationAll, setBusStationAll] = useState([]);
-	const [routeAll, setRouteAll] = useState([]);
-
+	// Input
 	const [startAddress, setStartAddress] = useState('');
 	const [endAddress, setEndAddress] = useState('');
 	const [price, setPrice] = useState('');
@@ -33,6 +34,7 @@ const RouteManagement = () => {
 		getRouteAll();
 	}, []);
 
+	// Send GET request to retrieve bus stations information
 	const getBusStationAll = async () => {
 		await axios
 			.get(
@@ -45,6 +47,7 @@ const RouteManagement = () => {
 			.catch((err) => {});
 	};
 
+	// Send GET request to retrieve trip
 	const getRouteAll = async () => {
 		await axios
 			.get(
@@ -57,6 +60,7 @@ const RouteManagement = () => {
 			.catch((err) => {});
 	};
 
+	// Reset input
 	const resetInput = () => {
 		setStartAddress('');
 		setEndAddress('');
@@ -64,6 +68,7 @@ const RouteManagement = () => {
 		setTime('');
 	};
 
+	// Set input
 	const setInput = (data) => {
 		setStartAddress(data.start_address.id);
 		setEndAddress(data.end_address.id);
@@ -71,6 +76,7 @@ const RouteManagement = () => {
 		setTime(data.time.slice(0, 5));
 	};
 
+	// Send POST request to create a new route
 	const sendRequestCreateRoute = async () => {
 		let data = {
 			start_address: startAddress,
@@ -99,6 +105,7 @@ const RouteManagement = () => {
 			});
 	};
 
+	// Send PUT request to update a route
 	const sendRequestUpdateRoute = async () => {
 		let data = {
 			start_address: startAddress,
@@ -129,6 +136,7 @@ const RouteManagement = () => {
 			});
 	};
 
+	// Send GET request to retrieve route that needs updating
 	const editBtn = async (id) => {
 		await axios
 			.get(
@@ -149,34 +157,41 @@ const RouteManagement = () => {
 			});
 	};
 
+	// Open delete confirm modal
 	const deleteBtn = async (id) => {
 		setTempId(id);
 		setDeleteModal(true);
 	};
 
-	const refeshBtn = () => {
+	// Refresh page
+	const refreshBtn = () => {
 		resetInput();
 		setIsCreate(true);
 		getRouteAll();
 	};
 
+	// Close delete modal
 	const closeDeleteModal = () => {
 		setDeleteModal(false);
 		setTempId('');
 	};
 
+	// Close Success Modal
 	const closeSuccessModal = () => {
 		setSuccessModal(false);
 	};
 
+	// Close Failure Modal
 	const closeFailureModal = () => {
 		setFailureModal(false);
 	};
 
+	// Open Success Modal
 	const openSuccessModal = () => {
 		setSuccessModal(true);
 	};
 
+	// Open Failure Modal
 	const openFailureModal = () => {
 		setFailureModal(true);
 	};
@@ -268,7 +283,7 @@ const RouteManagement = () => {
 					)}
 					<button
 						className="ml-2 text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-						onClick={refeshBtn}
+						onClick={refreshBtn}
 					>
 						Refresh
 					</button>
@@ -357,7 +372,7 @@ const RouteManagement = () => {
 			{deleteModal && (
 				<WarningNotification
 					id={tempId}
-					func={{ refesh: refeshBtn, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
+					func={{ refresh: refreshBtn, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
 					type={'route'}
 					action={'route'}
 				/>

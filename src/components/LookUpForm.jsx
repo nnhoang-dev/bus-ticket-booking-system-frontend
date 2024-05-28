@@ -7,14 +7,18 @@ import { API_URL } from '../configs/env';
 import FailureNotification from './Noti/FailureNotification';
 
 function LookUpForm(props) {
+	// Data
+	const [ticket, setTicket] = useState({});
+
 	// Modal
 	const [failureModal, setFailureModal] = useState(false);
 	const [message, setMessage] = useState('');
 
+	// Input
 	const [phone_number, setPhoneNumber] = useState('');
 	const [ticket_id, setTicketId] = useState('');
-	const [ticket, setTicket] = useState({});
 
+	// Send GET request to lookup ticket
 	const getTicket = async () => {
 		let params = {
 			phone_number,
@@ -31,10 +35,12 @@ function LookUpForm(props) {
 			});
 	};
 
+	// Close Failure Modal
 	const closeFailureModal = () => {
 		setFailureModal(false);
 	};
 
+	// Open Failure Modal
 	const openFailureModal = () => {
 		setFailureModal(true);
 	};

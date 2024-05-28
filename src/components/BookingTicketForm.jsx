@@ -7,11 +7,17 @@ import { API_URL } from '../configs/env';
 import FailureNotification from './Noti/FailureNotification';
 
 function BookingTicketForm() {
+	const [searchParams, setSearchParams] = useSearchParams();
+	const navigate = useNavigate();
+
+	// Trip ID
+	let tripID = searchParams.get('id');
+
 	// Modal
 	const [failureModal, setFailureModal] = useState(false);
 	const [message, setMessage] = useState('');
 
-	const [searchParams, setSearchParams] = useSearchParams();
+	// Input
 	const [seat1, setSeat1] = useState([]);
 	const [seat2, setSeat2] = useState([]);
 	const [numberOfSeats, setNumberOfSeatsSelected] = useState(0);
@@ -19,12 +25,9 @@ function BookingTicketForm() {
 	const [start_time, setStartTime] = useState('');
 	const [route, setRoute] = useState('');
 	const [customer, setCustomer] = useState('');
-	const navigate = useNavigate();
-
-	let id = searchParams.get('id');
 
 	useEffect(() => {
-		if (id) {
+		if (tripID) {
 			getTrip();
 			authCustomer();
 		} else {
@@ -32,6 +35,7 @@ function BookingTicketForm() {
 		}
 	}, []);
 
+	// Send POST request to payment
 	const payment = async () => {
 		if (!numberOfSeats) {
 			setMessage('Bạn chưa chọn ghế');
@@ -39,9 +43,9 @@ function BookingTicketForm() {
 			return;
 		}
 		let body = {
-			trip_id: id,
+			trip_id: tripID,
 			customer_id: customer.id,
-			seat: idSeat(),
+			seat: seatID(),
 			discount: '',
 			price: price,
 			quantity: numberOfSeats,
@@ -65,8 +69,9 @@ function BookingTicketForm() {
 			});
 	};
 
+	// Send GET request to retrieve trip information by id
 	const getTrip = async () => {
-		await axios.get(API_URL + `employee/trip/${id}`).then((res) => {
+		await axios.get(API_URL + `employee/trip/${tripID}`).then((res) => {
 			setPrice(res.data.trip.price);
 			console.log(res.data.trip.date);
 			setStartTime(res.data.trip.start_time.substring(0, res.data.trip.start_time.length - 3) + ' ' + res.data.trip.date);
@@ -90,13 +95,13 @@ function BookingTicketForm() {
 		});
 	};
 
+	// User authentication
 	const authCustomer = async () => {
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
 				.get(API_URL + 'customer/me', { headers: { Authorization: `Bearer ${token}` } })
 				.then((res) => {
-					console.log(res.data.customer);
 					setCustomer(res.data.customer);
 				})
 				.catch((err) => {
@@ -107,6 +112,7 @@ function BookingTicketForm() {
 		}
 	};
 
+	// Choose seats
 	const chooseSeat = (seat) => {
 		console.log(start_time);
 		let newSeat = [];
@@ -133,7 +139,8 @@ function BookingTicketForm() {
 		}
 	};
 
-	const idSeat = () => {
+	// Return seat id to
+	const seatID = () => {
 		let res = '';
 		seat1.map((v, i) => {
 			if (v === '1') {
@@ -148,10 +155,12 @@ function BookingTicketForm() {
 		return res.substring(0, res.length - 1);
 	};
 
+	// Close Failure Modal
 	const closeFailureModal = () => {
 		setFailureModal(false);
 	};
 
+	// Open Failure Modal
 	const openFailureModal = () => {
 		setFailureModal(true);
 	};
@@ -505,7 +514,7 @@ function BookingTicketForm() {
 						</div>
 						<div className="mt-1 flex items-center justify-between">
 							<span className="text-slate-500">Số ghế</span>
-							<span className="text-green-500 font-medium">{idSeat()}</span>
+							<span className="text-green-500 font-medium">{seatID()}</span>
 						</div>
 						<div className="mt-1 flex items-center justify-between">
 							<span className="text-slate-500">Tổng tiền lượt đi</span>

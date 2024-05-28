@@ -11,6 +11,9 @@ import ChangeTicketNotification from '../Noti/ChangeTicketNotification';
 
 const TicketManagement = () => {
 	const navigate = useNavigate();
+	// Data
+	const [trip, setTrip] = useState([]);
+
 	// Modal
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [successModal, setSuccessModal] = useState(false);
@@ -20,11 +23,12 @@ const TicketManagement = () => {
 	const [tempId, setTempId] = useState('');
 	const [changeTicketId, setChangeTicketId] = useState('');
 
+	// Input
 	const [ticket, setTicket] = useState({});
 	const [phone_number, setPhoneNumber] = useState('');
 	const [ticket_id, setTicketId] = useState('');
-	const [trip, setTrip] = useState([]);
 
+	// Send GET request to look up ticket
 	const getTicket = async () => {
 		let params = {
 			phone_number,
@@ -45,6 +49,7 @@ const TicketManagement = () => {
 			});
 	};
 
+	// Send GET request to look up ticket by id
 	const getTicketById = async () => {
 		let params = {
 			phone_number: ticket.phone_number,
@@ -63,13 +68,16 @@ const TicketManagement = () => {
 				}
 			});
 	};
-	const refesh = () => {
+
+	// Refresh page
+	const refresh = () => {
 		setTicket({});
 		setPhoneNumber('');
 		setTicketId('');
 		setTrip([]);
 	};
 
+	// Send GET request to retrieve trips the same route
 	const getTrip = async () => {
 		let route_id = '';
 		await axios
@@ -109,6 +117,7 @@ const TicketManagement = () => {
 			});
 	};
 
+	// Send PUT request to change ticket
 	const handleChangeTicket = async (id, seat) => {
 		const token = sessionStorage.getItem('token');
 		if (token) {
@@ -148,45 +157,50 @@ const TicketManagement = () => {
 					closeChangeTicketModal();
 				}
 			}
-			console.log(tempId);
 		} else {
 			navigate('/admin');
 		}
 	};
 
+	// Open change ticket modal
 	const changeBtn = (id) => {
 		setChangeTicketId(id);
 		setChangeTicketModal(true);
-		console.log(tempId);
 	};
 
+	// Open delete ticket modal
 	const deleteTicket = () => {
-		console.log(ticket.id);
 		setTempId(ticket.id);
 		setDeleteModal(true);
 	};
 
+	// Close delete modal
 	const closeDeleteModal = () => {
 		setDeleteModal(false);
 		setTempId('');
 	};
 
+	// Close Success Modal
 	const closeSuccessModal = () => {
 		setSuccessModal(false);
 	};
 
+	// Close change ticket modal
 	const closeChangeTicketModal = () => {
 		setChangeTicketModal(false);
 	};
 
+	// Open Success Modal
 	const openSuccessModal = () => {
 		setSuccessModal(true);
 	};
 
+	// Close Failure Modal
 	const closeFailureModal = () => {
 		setFailureModal(false);
 	};
 
+	// Open Failure Modal
 	const openFailureModal = () => {
 		setFailureModal(true);
 	};
@@ -228,7 +242,7 @@ const TicketManagement = () => {
 						<div className="basis-1/2 p-1">
 							<button
 								className=" text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center"
-								onClick={refesh}
+								onClick={refresh}
 							>
 								Refresh
 							</button>
@@ -464,7 +478,7 @@ const TicketManagement = () => {
 			{deleteModal && (
 				<WarningNotification
 					id={tempId}
-					func={{ refesh: refesh, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
+					func={{ refresh: refresh, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
 					action={'cancel-ticket'}
 					type={'ticket'}
 				/>

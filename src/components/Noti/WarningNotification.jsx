@@ -15,7 +15,7 @@ const WarningNotification = ({ type, action, func, id }) => {
 				func.closeModal();
 				func.setMessage(res.data.message);
 				func.openSuccessModal();
-				func.refesh();
+				func.refresh();
 			})
 			.catch((err) => {
 				func.setMessage(err.response.data.message);
