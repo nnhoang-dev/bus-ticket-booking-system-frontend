@@ -175,6 +175,8 @@ const BusesManagerment = () => {
 				if (res.status === 200) {
 					setMessage(res.data.message);
 					openSuccessModal();
+
+					refresh();
 				}
 			})
 			.catch((err) => {

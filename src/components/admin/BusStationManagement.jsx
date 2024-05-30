@@ -123,10 +123,7 @@ const BusStationManagement = () => {
 				setMessage(res.data.message);
 				openSuccessModal();
 
-				resetInput();
-				getBusStationAll();
-				setIdBusStation('');
-				setIsCreate(true);
+				refreshBtn();
 			})
 			.catch((err) => {
 				if (err.response.status === 401) {
@@ -171,6 +168,7 @@ const BusStationManagement = () => {
 		resetInput();
 		setIsCreate(true);
 		getBusStationAll();
+		setIdBusStation('');
 	};
 
 	// Close delete modal

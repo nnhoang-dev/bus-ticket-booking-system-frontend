@@ -121,10 +121,7 @@ const RouteManagement = () => {
 				setMessage(res.data.message);
 				openSuccessModal();
 
-				resetInput();
-				getRouteAll();
-				setIdRoute('');
-				setIsCreate(true);
+				refreshBtn();
 			})
 			.catch((err) => {
 				if (err.response.status === 401) {
@@ -166,6 +163,7 @@ const RouteManagement = () => {
 	// Refresh page
 	const refreshBtn = () => {
 		resetInput();
+		setIdRoute('');
 		setIsCreate(true);
 		getRouteAll();
 	};

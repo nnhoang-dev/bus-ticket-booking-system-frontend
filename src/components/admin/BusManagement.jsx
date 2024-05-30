@@ -86,11 +86,7 @@ const BusManagerment = () => {
 				setMessage(res.data.message);
 				openSuccessModal();
 
-				resetInput();
-				getBusAll();
-				resetInput();
-				setIdBus('');
-				setIsCreate(true);
+				refreshBtn();
 			})
 			.catch((err) => {
 				if (err.response.status === 401) {
@@ -131,6 +127,7 @@ const BusManagerment = () => {
 		resetInput();
 		setIsCreate(true);
 		getBusAll();
+		setIdBus('');
 	};
 
 	// Reset input
