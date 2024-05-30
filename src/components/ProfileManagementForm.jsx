@@ -213,7 +213,7 @@ function ProfileManagementForm() {
 							className="basis-3/4 ml-3"
 							onClick={logout}
 						>
-							Logout
+							Đăng xuất
 						</div>
 					</div>
 				</div>
@@ -268,7 +268,7 @@ function ProfileManagementForm() {
 							<div className="flex flex-row mb-3 items-center">
 								<div className="basis-1/3 text-slate-500">Giới tính</div>
 								<div className="basis-2/3">
-									: <span className="ml-3">{customer.gender == '0' ? 'Nữ' : 'Nam'}</span>
+									: <span className="ml-3">{customer.gender === 0 ? 'Nữ' : 'Nam'}</span>
 								</div>
 							</div>
 							<div className="flex flex-row mb-3 items-center">
