@@ -10,9 +10,12 @@ function Navbar() {
 	useEffect(() => {
 		const token = sessionStorage.getItem('token');
 		if (token) {
-			axios.get(API_URL + 'customer/me', { headers: { Authorization: `Bearer ${token}` } }).then((res) => {
-				setCustomer(res.data?.customer);
-			});
+			axios
+				.get(API_URL + 'customer/me', { headers: { Authorization: `Bearer ${token}` } })
+				.then((res) => {
+					setCustomer(res.data?.customer);
+				})
+				.catch((err) => {});
 		}
 	}, []);
 
