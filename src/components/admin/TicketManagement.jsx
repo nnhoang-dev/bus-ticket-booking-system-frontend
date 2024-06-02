@@ -134,7 +134,9 @@ const TicketManagement = () => {
 					};
 
 					await axios
-						.put(API_URL + `employee/chance-ticket/${ticket.id}`, data, { headers: { Authorization: `Bearer ${token}` } })
+						.put(API_URL + `employee/chance-ticket/${ticket.id}`, data, {
+							headers: { Authorization: `Bearer ${token}` },
+						})
 						.then((res) => {
 							setMessage(res.data.message);
 							openSuccessModal();
@@ -207,9 +209,9 @@ const TicketManagement = () => {
 
 	return (
 		<div className="w-full p-2">
-			<h1 className="font-bold text-2xl text-gray-700">Ticket Management</h1>
-			<div className="w-full p-2 flex -mx-1">
-				<div className="basis-4/12 -my-2 mx-1">
+			<h1 className="ml-16 lg:ml-0 h-14 font-bold text-2xl text-gray-700">Ticket Management</h1>
+			<div className="w-full p-2 flex flex-col lg:flex-row -mx-1">
+				<div className="basis-full lg:basis-4/12 -my-2 mx-1">
 					<div className="basis-full my-2">
 						<input
 							onChange={(e) => setPhoneNumber(e.target.value)}
@@ -249,12 +251,14 @@ const TicketManagement = () => {
 						</div>
 					</div>
 				</div>
-				<div className="basis-8/12 mx-1">
+				<div className="basis-8/12 mx-1 mt-10 lg:mt-0">
 					{ticket.id && (
 						<>
-							<div className="text-sm w-full flex-col  justify-center items-center mx-auto">
-								<div className="bg-gray-100 w-full text-center p-3  text-lg font-semibold">Ticket Information</div>
-								<div className="flex flex-col md:flex-row  border border-slate-300">
+							<div className="text-sm w-full flex-col justify-center items-center mx-auto">
+								<div className="bg-gray-100 w-full text-center p-3  text-lg font-semibold">
+									Ticket Information
+								</div>
+								<div className="flex flex-col-reverse md:flex-row border border-slate-300">
 									<div className="basis-5/12 flex flex-col justify-between flex-grow">
 										<div className="p-5 ">
 											<div className="flex flex-row mb-3">
@@ -265,19 +269,27 @@ const TicketManagement = () => {
 											</div>
 											<div className="flex flex-row mb-3">
 												<div className="text-gray-500 font-medium basis-1/2">Phone:</div>
-												<div className="basis-1/2 text-end text-green-700 font-semibold">{ticket.phone_number}</div>
+												<div className="basis-1/2 text-end text-green-700 font-semibold">
+													{ticket.phone_number}
+												</div>
 											</div>
 											<div className="flex flex-row mb-3">
 												<div className="text-gray-500 font-medium basis-1/2">Email:</div>
-												<div className="basis-1/2 text-end text-green-700 font-semibold">{ticket.email}</div>
+												<div className="basis-1/2 text-end text-green-700 font-semibold">
+													{ticket.email}
+												</div>
 											</div>
 											<div className="flex flex-row mb-3">
 												<div className="text-gray-500 font-medium basis-1/2">Price:</div>
-												<div className="basis-1/2 text-end text-green-700 font-semibold">{ticket.price}</div>
+												<div className="basis-1/2 text-end text-green-700 font-semibold">
+													{ticket.price}
+												</div>
 											</div>
 											<div className="flex flex-row mb-3">
 												<div className="text-gray-500 font-medium basis-1/2">PTTT:</div>
-												<div className="basis-1/2 text-end text-green-700 font-semibold">VNPAY</div>
+												<div className="basis-1/2 text-end text-green-700 font-semibold">
+													VNPAY
+												</div>
 											</div>
 										</div>
 										<div className="flex">
@@ -301,15 +313,19 @@ const TicketManagement = () => {
 										</div>
 									</div>
 
-									<div className="basis-7/12 border-t md:border-t-0 md:border-l border-slate-300  mx-auto flex flex-col">
+									<div className="basis-7/12 w-full border-b md:border-t-0 md:border-l border-slate-300  mx-auto flex flex-col">
 										<div className="p-5">
 											<div className="flex flex-row mb-3">
 												<div className="text-gray-500 font-medium basis-1/2">Mã đặt vé:</div>
-												<div className="basis-1/2 text-end text-green-700 font-semibold">{ticket.ticket_id}</div>
+												<div className="basis-1/2 text-end text-green-700 font-semibold">
+													{ticket.ticket_id}
+												</div>
 											</div>
 											<div className="flex flex-row mb-3">
 												<div className="text-gray-500 font-medium basis-1/2">Tuyến xe:</div>
-												<div className="basis-1/2 text-end text-green-700 font-semibold">{ticket.route_name}</div>
+												<div className="basis-1/2 text-end text-green-700 font-semibold">
+													{ticket.route_name}
+												</div>
 											</div>
 											<div className="flex flex-row mb-3">
 												<div className="text-gray-500 font-medium basis-1/2">Thời gian đi:</div>
@@ -319,23 +335,35 @@ const TicketManagement = () => {
 											</div>
 											<div className="flex flex-row mb-3">
 												<div className="text-gray-500 font-medium basis-1/2">Số ghế:</div>
-												<div className="basis-1/2 text-end text-green-700 font-semibold">{ticket.seat}</div>
+												<div className="basis-1/2 text-end text-green-700 font-semibold">
+													{ticket.seat}
+												</div>
 											</div>
 											<div className="flex flex-row mb-3">
 												<div className="text-gray-500 font-medium basis-1/2">Điểm lên xe:</div>
-												<div className="basis-1/2 text-end text-green-700 font-semibold">{ticket.start_address}</div>
+												<div className="basis-1/2 text-end text-green-700 font-semibold">
+													{ticket.start_address}
+												</div>
 											</div>
 											<div className="flex flex-row mb-3">
-												<div className="text-gray-500 font-medium basis-1/2">Điểm xuống xe:</div>
-												<div className="basis-1/2 text-end text-green-700 font-semibold">{ticket.end_address}</div>
+												<div className="text-gray-500 font-medium basis-1/2">
+													Điểm xuống xe:
+												</div>
+												<div className="basis-1/2 text-end text-green-700 font-semibold">
+													{ticket.end_address}
+												</div>
 											</div>
 											<div className="flex flex-row mb-3">
 												<div className="text-gray-500 font-medium basis-1/2">Giá vé:</div>
-												<div className="basis-1/2 text-end text-green-700 font-semibold">{ticket.price}</div>
+												<div className="basis-1/2 text-end text-green-700 font-semibold">
+													{ticket.price}
+												</div>
 											</div>
 											<div className="flex flex-row mb-3">
 												<div className="text-gray-500 font-medium basis-1/2">Biển số xe:</div>
-												<div className="basis-1/2 text-end text-green-700 font-semibold">{ticket.license}</div>
+												<div className="basis-1/2 text-end text-green-700 font-semibold">
+													{ticket.license}
+												</div>
 											</div>
 										</div>
 									</div>
@@ -389,96 +417,106 @@ const TicketManagement = () => {
 					)}
 				</div>
 			</div>
-			{trip.length > 0 && (
-				<table className="mx-2 w-full text-sm text-left  text-gray-500 ">
-					<thead className="text-xs text-gray-700 uppercase bg-gray-50">
-						<tr>
-							<th
-								scope="col"
-								className="px-2 py-3"
-							>
-								Route
-							</th>
-							<th
-								scope="col"
-								className="px-2 py-3"
-							>
-								Seat
-							</th>
-							<th
-								scope="col"
-								className="px-2 py-3"
-							>
-								Time
-							</th>
-							<th
-								scope="col"
-								className="px-2 py-3"
-							>
-								Date
-							</th>
-							<th
-								scope="col"
-								className="px-2 py-3"
-							>
-								Journey
-							</th>
-							<th
-								scope="col"
-								className="px-2 py-3"
-							>
-								Price
-							</th>
-							<th
-								scope="col"
-								className="px-2 py-3"
-							>
-								Bus
-							</th>
-							<th
-								scope="col"
-								className="px-2 py-3"
-							>
-								Action
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						{trip.length !== 0 &&
-							trip.map((v, i) => (
-								<tr
-									key={i}
-									className="odd:bg-white even:bg-gray-50 border-b "
+			<div className="overflow-x-auto mx-2">
+				{trip.length > 0 && (
+					<table className="w-full text-sm text-left  text-gray-500 ">
+						<thead className="text-xs text-gray-700 uppercase bg-gray-50">
+							<tr>
+								<th
+									scope="col"
+									className="px-2 py-3"
 								>
-									<th
-										scope="row"
-										className="px-2 py-4 font-medium text-gray-900 whitespace-nowrap"
+									Route
+								</th>
+								<th
+									scope="col"
+									className="px-2 py-3"
+								>
+									Seat
+								</th>
+								<th
+									scope="col"
+									className="px-2 py-3"
+								>
+									Time
+								</th>
+								<th
+									scope="col"
+									className="px-2 py-3"
+								>
+									Date
+								</th>
+								<th
+									scope="col"
+									className="px-2 py-3"
+								>
+									Journey
+								</th>
+								<th
+									scope="col"
+									className="px-2 py-3"
+								>
+									Price
+								</th>
+								<th
+									scope="col"
+									className="px-2 py-3"
+								>
+									Bus
+								</th>
+								<th
+									scope="col"
+									className="px-2 py-3"
+								>
+									Action
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{trip.length !== 0 &&
+								trip.map((v, i) => (
+									<tr
+										key={i}
+										className="odd:bg-white even:bg-gray-50 border-b "
 									>
-										{v.route.name}
-									</th>
-									<td className="px-2 py-4">{v.seat}</td>
-									<td className="px-2 py-4">{v.start_time + '-' + v.end_time}</td>
-									<td className="px-2 py-4">{v.date}</td>
-									<td className="px-2 py-4">{v.route.start_address.name + ' - ' + v.route.end_address.name}</td>
-									<td className="px-2 py-4">{v.price}</td>
-									<td className="px-2 py-4">{v.bus.license}</td>
-									<td className="px-2 py-4">
-										<button
-											onClick={() => changeBtn(v.id)}
-											className="font-medium text-blue-500 hover:underline"
+										<th
+											scope="row"
+											className="px-2 py-4 font-medium text-gray-900 whitespace-nowrap"
 										>
-											Change
-										</button>
-									</td>
-								</tr>
-							))}
-					</tbody>
-				</table>
-			)}
+											{v.route.name}
+										</th>
+										<td className="px-2 py-4">{v.seat}</td>
+										<td className="px-2 py-4">{v.start_time + '-' + v.end_time}</td>
+										<td className="px-2 py-4">{v.date}</td>
+										<td className="px-2 py-4">
+											{v.route.start_address.name + ' - ' + v.route.end_address.name}
+										</td>
+										<td className="px-2 py-4">{v.price}</td>
+										<td className="px-2 py-4">{v.bus.license}</td>
+										<td className="px-2 py-4">
+											<button
+												onClick={() => changeBtn(v.id)}
+												className="font-medium text-blue-500 hover:underline"
+											>
+												Change
+											</button>
+										</td>
+									</tr>
+								))}
+						</tbody>
+					</table>
+				)}
+			</div>
 			{deleteModal && (
 				<WarningNotification
 					id={tempId}
-					func={{ refresh: refresh, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
+					func={{
+						refresh: refresh,
+						closeModal: closeDeleteModal,
+						openSuccessModal,
+						openFailureModal,
+						setMessage,
+					}}
 					action={'cancel-ticket'}
 					type={'ticket'}
 				/>

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CheckFailure } from '../svg/svg';
 
-function ResultBookingPage(props) {
+function ResultBookingPage() {
 	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
 	const [status, setStatus] = useState();
@@ -15,7 +15,7 @@ function ResultBookingPage(props) {
 		} else {
 			navigate('/');
 		}
-	});
+	}, []);
 
 	return (
 		<div className="my-44 max-w-screen-lg flex flex-col  justify-center items-center md:mx-auto gap-y-5 mx-auto">

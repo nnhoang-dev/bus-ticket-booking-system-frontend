@@ -6,7 +6,7 @@ import axios from 'axios';
 import { API_URL } from '../configs/env';
 import FailureNotification from './Noti/FailureNotification';
 
-function LookUpForm(props) {
+function LookUpForm() {
 	// Data
 	const [ticket, setTicket] = useState({});
 

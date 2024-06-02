@@ -8,7 +8,7 @@ import SuccessNotification from './Noti/SuccessNotification';
 import FailureNotification from './Noti/FailureNotification';
 import HomePromotion from './HomePromotion';
 
-function EmailVerificationForm(props) {
+function EmailVerificationForm() {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	// ID customer
@@ -98,7 +98,9 @@ function EmailVerificationForm(props) {
 				<div className="basis-5/12 mx-4">
 					<div className="mb-10">
 						<h1 className="text-4xl font-bold text-center mb-3">Xác thực email</h1>
-						<p className="text-center">Mã xác thực đã được gửi đến email. Bạn vui lòng kiểm tra và nhập mã vào ô dưới đây.</p>
+						<p className="text-center">
+							Mã xác thực đã được gửi đến email. Bạn vui lòng kiểm tra và nhập mã vào ô dưới đây.
+						</p>
 					</div>
 					<div>
 						<div className="relative mb-2">

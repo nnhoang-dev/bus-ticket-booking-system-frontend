@@ -41,8 +41,6 @@ const AccountManagement = () => {
 				.get(API_URL + 'employee/me', { headers: { Authorization: `Bearer ${token}` } })
 				.then(async (res) => {
 					await renderAvatar(res.data.employee);
-					// res.data.employee.avatar
-
 					setAccount(res.data.employee);
 				})
 				.catch((err) => {
@@ -51,8 +49,6 @@ const AccountManagement = () => {
 		} else {
 			navigate('/admin');
 		}
-
-		// await renderAvatar();
 	};
 
 	// Render avatar to UI
@@ -129,9 +125,11 @@ const AccountManagement = () => {
 
 	return (
 		<>
-			<div className="max-w-screen-lg mx-auto w-full px-4">
-				<h3 className="text-2xl font-semibold my-2">My Account</h3>
-				<div className="w-full border border-slate-300 rounded-xl p-3 flex flex-col md:flex-row">
+			<div className=" w-full px-4">
+				<h3 className="ml-12 lg:ml-0 h-14 text-2xl font-semibold flex items-center">
+					<div>My Account</div>
+				</h3>
+				<div className="w-full mt-2 border border-slate-300 rounded-xl p-3 flex flex-col md:flex-row">
 					<div className="basis-1/3 flex flex-col p-2">
 						<div className="flex justify-center mx-auto md:mx-0">
 							<img
@@ -155,7 +153,9 @@ const AccountManagement = () => {
 								className="hidden"
 							/>
 						</div>
-						<div className="text-center text-slate-500">The maximum file size is 1 MB, and the only accepted formats are JPEG and PNG</div>
+						<div className="text-center text-slate-500">
+							The maximum file size is 1 MB, and the only accepted formats are JPEG and PNG
+						</div>
 					</div>
 					<div className="basis-2/3 w-full flex flex-col p-3 md:p-5">
 						<div className="flex flex-row mb-3 items-center">
@@ -186,18 +186,18 @@ const AccountManagement = () => {
 							<div className="basis-1/3 text-slate-500">Address</div>
 							<div className="basis-2/3 line-clamp-1">: {account.address}</div>
 						</div>
-						<div className="flex -mx-2">
+						<div className="flex justify-center md:justify-start -mx-2">
 							<div
-								className="mx-2 bg-blue-500 px-8 py-2 rounded-full text-white mt-3 hover:bg-blue-600 transition-colors cursor-pointer"
+								className="flex justify-center items-center mx-2 bg-blue-500 px-8 py-2 rounded-full text-white mt-3 hover:bg-blue-600 transition-colors cursor-pointer"
 								onClick={() => setUpdateModal(true)}
 							>
-								Update
+								<button>Update</button>
 							</div>
 							<div
-								className="mx-2 bg-blue-500 px-8 py-2 rounded-full text-white mt-3 hover:bg-blue-600 transition-colors cursor-pointer"
+								className="flex justify-center items-center mx-2 bg-blue-500 px-8 py-2 rounded-full text-white mt-3 hover:bg-blue-600 transition-colors cursor-pointer"
 								onClick={() => setChangePasswordModal(true)}
 							>
-								Change password
+								<button>Change password</button>
 							</div>
 						</div>
 					</div>

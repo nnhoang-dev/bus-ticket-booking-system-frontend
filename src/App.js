@@ -107,7 +107,7 @@ function App() {
 					<Route
 						path="/admin"
 						element={
-							<div className="flex">
+							<div className="flex max-w-screen-2xl mx-auto">
 								<NavBarAdmin />
 								<Outlet />
 							</div>

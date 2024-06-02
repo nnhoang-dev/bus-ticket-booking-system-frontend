@@ -6,7 +6,7 @@ import ForgotPasswordForm from '../components/ForgotPasswordForm';
 
 ForgotPasswordPage.propTypes = {};
 
-function ForgotPasswordPage(props) {
+function ForgotPasswordPage() {
 	return (
 		<div>
 			<ForgotPasswordForm />

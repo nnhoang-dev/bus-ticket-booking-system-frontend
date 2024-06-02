@@ -3,7 +3,7 @@
 import React from 'react';
 import LoginForm from '../components/LoginForm';
 
-function LoginPage(props) {
+function LoginPage() {
 	return <LoginForm />;
 }
 

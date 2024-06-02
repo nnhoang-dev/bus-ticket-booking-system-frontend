@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 
 const UpdateAccount = ({ closeModal, refresh, setMessage, openFailureModal, openSuccessModal }) => {
 	const navigate = useNavigate();
-	const [updateModal, setUpdateModal] = useState(false);
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [dateOfBirth, setDateOfBirth] = useState('');
@@ -54,7 +53,6 @@ const UpdateAccount = ({ closeModal, refresh, setMessage, openFailureModal, open
 
 					refresh();
 					resetInput();
-					setUpdateModal(false);
 				})
 				.catch((err) => {
 					if (err.response.status === 401) {

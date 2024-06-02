@@ -6,7 +6,7 @@ import { API_URL } from '../configs/env';
 import { useNavigate } from 'react-router-dom';
 import HomePromotion from './HomePromotion';
 
-function ForgotPasswordForm(props) {
+function ForgotPasswordForm() {
 	const navigate = useNavigate();
 
 	// Notìication

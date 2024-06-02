@@ -3,7 +3,7 @@
 import React from 'react';
 import SignupForm from '../components/SignupForm';
 
-function SignupPage(props) {
+function SignupPage() {
 	return <SignupForm />;
 }
 

@@ -5,7 +5,7 @@ import { API_URL } from '../configs/env';
 import { NavLink, useSearchParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 
-function TravelScheduleInfo(props) {
+function TravelScheduleInfo() {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	// Data

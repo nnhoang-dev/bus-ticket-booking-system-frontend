@@ -6,7 +6,7 @@ import { API_URL, REACT_URL } from '../configs/env';
 import { NavLink, useNavigate } from 'react-router-dom';
 import HomePromotion from './HomePromotion';
 
-function LoginForm(props) {
+function LoginForm() {
 	const navigate = useNavigate();
 
 	// Notification

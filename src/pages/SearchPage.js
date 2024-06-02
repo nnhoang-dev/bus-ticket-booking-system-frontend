@@ -4,7 +4,7 @@ import Banner from '../components/Banner';
 import HomeSearch from '../components/HomeSearch';
 import SearchResult from '../components/SearchResult';
 
-function SearchPage(props) {
+function SearchPage() {
 	return (
 		<div>
 			<Banner />

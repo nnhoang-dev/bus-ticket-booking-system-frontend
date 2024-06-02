@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-function HomeBusLine(props) {
+function HomeBusLine() {
 	return (
 		<div className="py-20">
 			<h3 className="text-center text-2xl font-bold text-green-700 mb-3">TUYẾN PHỔ BIẾN</h3>

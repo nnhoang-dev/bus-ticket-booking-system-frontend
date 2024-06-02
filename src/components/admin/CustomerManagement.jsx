@@ -103,7 +103,7 @@ const CustomerManagement = () => {
 		<div className="w-full p-2">
 			<div className="mb-8">
 				<div className="flex justify-between">
-					<h1 className="font-bold text-2xl text-gray-700">Customer Management</h1>
+					<h1 className="ml-16 lg:ml-0 font-bold text-2xl text-gray-700">Customer Management</h1>
 					<button
 						className="mx-2 text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
 						onClick={openCustomerModal}

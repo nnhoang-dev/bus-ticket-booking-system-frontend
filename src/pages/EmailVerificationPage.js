@@ -4,7 +4,7 @@ import React from 'react';
 
 import EmailVerificationForm from '../components/EmailVerificationForm';
 
-function EmailVerificationPage(props) {
+function EmailVerificationPage() {
 	return <EmailVerificationForm />;
 }
 

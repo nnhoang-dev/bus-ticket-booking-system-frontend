@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import FailureNotification from './Noti/FailureNotification';
 import axios from 'axios';
 
-function HomeSearch(props) {
+function HomeSearch() {
 	const navigate = useNavigate();
 	const [searchParams, setSearchParams] = useSearchParams();
 

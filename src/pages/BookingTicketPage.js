@@ -4,7 +4,7 @@ import React from 'react';
 
 import BookingTicketForm from '../components/BookingTicketForm';
 
-function BookingTicketPage(props) {
+function BookingTicketPage() {
 	return (
 		<div>
 			<BookingTicketForm />

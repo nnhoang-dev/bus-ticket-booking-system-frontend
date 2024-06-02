@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-function ResetPasswordForm(props) {
+function ResetPasswordForm() {
 	return (
 		<div className="basis-10/12 sm:basis-8/12 md:basis-6/12 lg:basis-5/12 xl:basis-4/12 2xl:basis-3/12 mb-40">
 			<div className="bg-slate-800 border border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative">

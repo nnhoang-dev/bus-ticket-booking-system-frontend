@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_URL } from '../../configs/env';
 
-function LoginPageAdmin(props) {
+function LoginPageAdmin() {
 	const navigate = useNavigate();
 
 	// Notification

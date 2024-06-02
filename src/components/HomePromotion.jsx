@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-function HomePromotion(props) {
+function HomePromotion() {
 	return (
 		<div className="my-10">
 			<h3 className="text-center text-2xl font-bold text-green-700 mb-5">KHUYẾN MÃI NỔI BẬT</h3>

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-function Footer(props) {
+function Footer() {
 	return (
 		<footer className="bg-neutral-900 text-center text-white">
 			<div className="container px-6 pt-6 mx-auto">

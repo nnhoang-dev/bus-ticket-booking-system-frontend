@@ -4,18 +4,15 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '../configs/env';
 import { NavLink } from 'react-router-dom';
-function Navbar(props) {
+function Navbar() {
 	const [customer, setCustomer] = useState({});
 
 	useEffect(() => {
 		const token = sessionStorage.getItem('token');
 		if (token) {
-			axios
-				.get(API_URL + 'customer/me', { headers: { Authorization: `Bearer ${token}` } })
-				.then((res) => {
-					setCustomer(res.data?.customer);
-				})
-				.catch((error) => {});
+			axios.get(API_URL + 'customer/me', { headers: { Authorization: `Bearer ${token}` } }).then((res) => {
+				setCustomer(res.data?.customer);
+			});
 		}
 	}, []);
 

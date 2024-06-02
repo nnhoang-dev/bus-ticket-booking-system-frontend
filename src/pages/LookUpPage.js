@@ -3,7 +3,7 @@
 import React from 'react';
 
 import LookUpForm from '../components/LookUpForm';
-function LookUpPage(props) {
+function LookUpPage() {
 	return <LookUpForm />;
 }
 

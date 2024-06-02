@@ -31,7 +31,9 @@ const TripDriver = () => {
 						)
 						.then((res) => {
 							let trips = res.data;
-							trips = trips.filter((v) => new Date() < new Date(v.date + 'T' + v.start_time) && idEmployee === v.driver_id);
+							trips = trips.filter(
+								(v) => new Date() < new Date(v.date + 'T' + v.start_time) && idEmployee === v.driver_id
+							);
 							setTripAll(trips);
 						})
 						.catch((err) => {});
@@ -46,7 +48,7 @@ const TripDriver = () => {
 
 	return (
 		<div className="w-full p-2">
-			<h1 className="font-bold text-2xl text-gray-700">My Trip</h1>
+			<h1 className="ml-16 lg:ml-0 font-bold text-2xl text-gray-700">My Trip</h1>
 			<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
 				<table className="w-full text-sm text-left  text-gray-500 ">
 					<thead className="text-xs text-gray-700 uppercase bg-gray-50">
@@ -105,7 +107,9 @@ const TripDriver = () => {
 									<td className="px-6 py-4">{v.seat}</td>
 									<td className="px-6 py-4">{v.start_time + '-' + v.end_time}</td>
 									<td className="px-6 py-4">{v.date}</td>
-									<td className="px-6 py-4">{v.route.start_address.name + ' - ' + v.route.end_address.name}</td>
+									<td className="px-6 py-4">
+										{v.route.start_address.name + ' - ' + v.route.end_address.name}
+									</td>
 									<td className="px-6 py-4">{v.bus.license}</td>
 								</tr>
 							))}

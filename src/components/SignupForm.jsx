@@ -5,7 +5,7 @@ import { API_URL, REACT_URL } from '../configs/env';
 import axios from 'axios';
 import HomePromotion from './HomePromotion';
 
-function SignupForm(props) {
+function SignupForm() {
 	// Notification
 	const [message, setMessage] = useState('');
 
