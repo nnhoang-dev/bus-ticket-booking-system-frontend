@@ -109,7 +109,9 @@ function HomeSearch(props) {
 													);
 											  })
 											: provinces
-													.filter((item) => item.toLowerCase().includes(startAddressSearch.toLowerCase()))
+													.filter((item) =>
+														item.toLowerCase().includes(startAddressSearch.toLowerCase())
+													)
 													.map((item, i) => (
 														<li
 															key={i}
@@ -163,7 +165,9 @@ function HomeSearch(props) {
 													);
 											  })
 											: provinces
-													.filter((item) => item.toLowerCase().includes(endAddressSearch.toLowerCase()))
+													.filter((item) =>
+														item.toLowerCase().includes(endAddressSearch.toLowerCase())
+													)
 													.map((item, i) => (
 														<li
 															key={i}

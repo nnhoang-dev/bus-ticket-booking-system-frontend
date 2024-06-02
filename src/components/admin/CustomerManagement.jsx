@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import WarningNotification from '../Noti/WarningNotification';
 import SuccessNotification from '../Noti/SuccessNotification';
 import FailureNotification from '../Noti/FailureNotification';
+import CustomerForm from './modal/CustomerForm';
 
 const CustomerManagement = () => {
 	const navigate = useNavigate();
@@ -18,19 +19,9 @@ const CustomerManagement = () => {
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [successModal, setSuccessModal] = useState(false);
 	const [failureModal, setFailureModal] = useState(false);
+	const [customerModal, setCustomerModal] = useState(false);
 	const [message, setMessage] = useState('');
-	const [tempId, setTempId] = useState('');
-	const [isCreate, setIsCreate] = useState(true);
-	const [idCustomer, setIdCustomer] = useState('');
-
-	// Input
-	const [firstName, setFirstName] = useState('');
-	const [lastName, setLastName] = useState('');
-	const [phoneNumber, setPhoneNumber] = useState('');
-	const [email, setEmail] = useState('');
-	const [address, setAddress] = useState('');
-	const [gender, setGender] = useState('');
-	const [dateOfBirth, setDateOfBirth] = useState('');
+	const [customerId, setCustomerId] = useState('');
 
 	useEffect(() => {
 		getCustomerAll();
@@ -54,131 +45,28 @@ const CustomerManagement = () => {
 			});
 	};
 
-	// Reset input
-	const resetInput = () => {
-		setFirstName('');
-		setLastName('');
-		setPhoneNumber('');
-		setEmail('');
-		setAddress('');
-		setGender('');
-		setDateOfBirth('');
-	};
-
-	// Set input
-	const setInput = (data) => {
-		setFirstName(data.first_name);
-		setLastName(data.last_name);
-		setPhoneNumber(data.phone_number);
-		setEmail(data.email);
-		setAddress(data.address);
-		setGender(data.gender);
-		setDateOfBirth(data.date_of_birth);
-	};
-
-	// Send POST request to create a new customer
-	const sendRequestCreateCustomer = async () => {
-		let data = {
-			first_name: firstName,
-			last_name: lastName,
-			phone_number: phoneNumber,
-			email: email,
-			address: address,
-			gender: gender,
-			date_of_birth: dateOfBirth,
-		};
-
-		// Check date
-
-		await axios
-			.post(API_URL + 'employee/customer', data, {
-				headers: {
-					Authorization: 'Bearer' + sessionStorage.getItem('token'),
-				},
-			})
-			.then((res) => {
-				setMessage(res.data.message);
-				openSuccessModal();
-
-				refresh();
-			})
-			.catch((err) => {
-				if (err.response.status === 401) {
-					navigate('/admin');
-				} else {
-					setMessage(err.response.data.message);
-					openFailureModal();
-				}
-			});
-	};
-
-	// Send PUT request to update a customer
-	const sendRequestUpdateCustomer = async () => {
-		let data = {
-			first_name: firstName,
-			last_name: lastName,
-			phone_number: phoneNumber,
-			email: email,
-			address: address,
-			gender: gender,
-			date_of_birth: dateOfBirth,
-		};
-		await axios
-			.put(API_URL + `employee/customer/${idCustomer}`, data, {
-				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
-			})
-			.then((res) => {
-				setMessage(res.data.message);
-				openSuccessModal();
-
-				refresh();
-			})
-			.catch((err) => {
-				if (err.response.status === 401) {
-					navigate('/admin');
-				} else {
-					setMessage(err.response.data.message);
-					openFailureModal();
-				}
-			});
-	};
-
 	// Send GET request to retrieve employee that needs updating
 	const editBtn = async (id) => {
-		await axios
-			.get(API_URL + `employee/customer/${id}`, {
-				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
-			})
-			.then((res) => {
-				setInput(res.data.customer);
-				setIsCreate(false);
-				setIdCustomer(id);
-			})
-			.catch((err) => {
-				if (err.response.status === 401) {
-					navigate('/admin');
-				}
-			});
+		setCustomerId(id);
+		openCustomerModal();
 	};
 
 	// Open delete confirm modal
 	const deleteBtn = async (id) => {
-		setTempId(id);
+		setCustomerId(id);
 		setDeleteModal(true);
 	};
 
 	// Refresh page
 	const refresh = () => {
-		resetInput();
-		setIsCreate(true);
+		setCustomerId('');
 		getCustomerAll();
-		setIdCustomer('');
 	};
 
 	// Close delete modal
 	const closeDeleteModal = () => {
 		setDeleteModal(false);
-		setTempId('');
+		setCustomerId('');
 	};
 
 	// Close Success Modal
@@ -201,119 +89,27 @@ const CustomerManagement = () => {
 		setFailureModal(true);
 	};
 
+	// Open Customer Modal
+	const openCustomerModal = () => {
+		setCustomerModal(true);
+	};
+
+	// Close Customer Modal
+	const closeCustomerModal = () => {
+		setCustomerModal(false);
+	};
+
 	return (
 		<div className="w-full p-2">
-			<h1 className="font-bold text-2xl text-gray-700">Customer Management</h1>
-			<div className="my-8">
-				<div className="max-w-screen-md mx-auto -my-2">
-					<div className="flex -mx-2 my-2">
-						<div className="basis-1/2 mx-2">
-							<input
-								onChange={(e) => setFirstName(e.target.value)}
-								value={firstName}
-								type="text"
-								id="first_name"
-								className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-								placeholder="First Name"
-								required
-							/>
-						</div>
-						<div className="basis-1/2 mx-2">
-							<input
-								onChange={(e) => setLastName(e.target.value)}
-								value={lastName}
-								type="text"
-								id="first_name"
-								className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-								placeholder="Last Name"
-								required
-							/>
-						</div>
-					</div>
-					<div className="flex -mx-2 my-2">
-						<div className="basis-1/2 mx-2">
-							<input
-								onChange={(e) => setPhoneNumber(e.target.value)}
-								value={phoneNumber}
-								type="text"
-								id="first_name"
-								className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-								placeholder="Phone Number"
-								required
-							/>
-						</div>
-						<div className="basis-1/2 mx-2">
-							<input
-								onChange={(e) => setEmail(e.target.value)}
-								value={email}
-								type="text"
-								id="first_name"
-								className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-								placeholder="Email"
-								required
-							/>
-						</div>
-					</div>
-					<div className="flex -mx-2 my-2">
-						<div className="basis-1/2 mx-2">
-							<select
-								onChange={(e) => setGender(e.target.value)}
-								value={gender}
-								id="role"
-								className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-							>
-								<option selected>Gender</option>
-								<option value={'1'}>Male</option>
-								<option value={'0'}>Female</option>
-							</select>
-						</div>
-						<div className="basis-1/2 mx-2">
-							<input
-								onChange={(e) => setDateOfBirth(e.target.value)}
-								value={dateOfBirth}
-								type="date"
-								id="dateOfBirth"
-								className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-								required
-							/>
-						</div>
-					</div>
-					<div className="flex -mx-2 my-2">
-						<div className="basis-full mx-2">
-							<input
-								onChange={(e) => setAddress(e.target.value)}
-								value={address}
-								type="text"
-								id="first_name"
-								className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-								placeholder="Address"
-								required
-							/>
-						</div>
-					</div>
-					<div className="flex -mx-2">
-						{isCreate ? (
-							<button
-								className="mx-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-								onClick={sendRequestCreateCustomer}
-							>
-								Add
-							</button>
-						) : (
-							<button
-								className="mx-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-								onClick={sendRequestUpdateCustomer}
-							>
-								Update
-							</button>
-						)}
-						<button
-							className="mx-2 text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-							onClick={refresh}
-						>
-							Refresh
-						</button>
-					</div>
+			<div className="mb-8">
+				<div className="flex justify-between">
+					<h1 className="font-bold text-2xl text-gray-700">Customer Management</h1>
+					<button
+						className="mx-2 text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
+						onClick={openCustomerModal}
+					>
+						Add
+					</button>
 				</div>
 				<div className="max-w-screen-xl mx-auto -my-2 mt-8">
 					<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -409,8 +205,14 @@ const CustomerManagement = () => {
 			</div>
 			{deleteModal && (
 				<WarningNotification
-					id={tempId}
-					func={{ refresh: refresh, closeModal: closeDeleteModal, openSuccessModal, openFailureModal, setMessage }}
+					id={customerId}
+					func={{
+						refresh: refresh,
+						closeModal: closeDeleteModal,
+						openSuccessModal,
+						openFailureModal,
+						setMessage,
+					}}
 					type={'customer'}
 					action={'customer'}
 				/>
@@ -425,6 +227,12 @@ const CustomerManagement = () => {
 				<FailureNotification
 					func={{ closeModal: closeFailureModal }}
 					message={message}
+				/>
+			)}
+			{customerModal && (
+				<CustomerForm
+					func={{ closeModal: closeCustomerModal, openSuccessModal, openFailureModal, setMessage, refresh }}
+					customerId={customerId}
 				/>
 			)}
 		</div>

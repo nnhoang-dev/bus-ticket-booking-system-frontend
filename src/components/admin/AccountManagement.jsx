@@ -4,14 +4,14 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../../configs/env';
 import { useNavigate } from 'react-router-dom';
-import ChangePassword from './ChangePassword';
-import UpdateAccount from './UpdateAccount';
 import SuccessNotification from '../Noti/SuccessNotification';
 import FailureNotification from '../Noti/FailureNotification';
 
 import { imageDB } from '../../configs/firebase';
 import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { v4 } from 'uuid';
+import ChangePassword from './modal/ChangePassword';
+import UpdateAccount from './modal/UpdateAccount';
 
 const AccountManagement = () => {
 	const navigate = useNavigate();

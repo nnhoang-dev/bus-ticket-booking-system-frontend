@@ -55,7 +55,7 @@ const ChangeTicketNotification = ({ id, func }) => {
 								</button>
 								<button
 									type="button"
-									className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 "
+									className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10  focus:ring-gray-100 "
 									onClick={func.closeModal}
 								>
 									No, cancel

@@ -215,7 +215,7 @@ const CustomerAccountUpdateModal = ({ closeModal, refresh, setMessage, openFailu
 
 								<button
 									type="button"
-									className="mt-8 w-full text-white bg-red-500 hover:bg-red-600 focus:ring-4  font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+									className="mt-8 w-full text-white bg-red-500 hover:bg-red-600   font-medium rounded-lg text-sm px-5 py-2.5 text-center"
 									onClick={updateAccount}
 								>
 									Cập nhập
