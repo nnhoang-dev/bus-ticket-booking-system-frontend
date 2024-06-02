@@ -33,7 +33,7 @@ function SignupForm() {
 				console.log(res.data);
 				if (res.status === 201) {
 					setMessage(res.data.message);
-					window.location.href = REACT_URL + 'xac-thuc-email?id=' + res.data.id;
+					window.location.href = REACT_URL + 'email-verify?id=' + res.data.id;
 				}
 			})
 			.catch((err) => {
@@ -71,9 +71,9 @@ function SignupForm() {
 	};
 
 	return (
-		<div className="max-w-screen-lg mx-auto mb-20">
+		<div className="max-w-screen-lg mx-auto mb-20 px-2">
 			<div className="w-full -mx-4 border-red-200 border-4 rounded-xl p-8 shadow-xl flex justify-center items-center">
-				<div className="basis-5/12 mx-4">
+				<div className="w-full sm:basis-5/12 mx-4">
 					<h1 className="text-4xl font-bold text-center mb-10">Đăng ký tài khoản</h1>
 					<div>
 						<div className="relative mb-5 flex flex-row gap-x-5">
@@ -259,7 +259,7 @@ function SignupForm() {
 						</div>
 					</div>
 				</div>
-				<div className="flex-grow mx-4">
+				<div className="hidden sm:block flex-grow mx-4">
 					<img
 						alt=""
 						loading="lazy"

@@ -4,20 +4,33 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '../configs/env';
 import { NavLink } from 'react-router-dom';
+import { getDownloadURL, ref } from 'firebase/storage';
+import { imageDB } from '../configs/firebase';
 function Navbar() {
 	const [customer, setCustomer] = useState({});
+	const [avatar, setAvatar] = useState(
+		'https://images.unsplash.com/photo-1618500299034-abce7ed0e8df?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+	);
 
 	useEffect(() => {
 		const token = sessionStorage.getItem('token');
 		if (token) {
 			axios
 				.get(API_URL + 'customer/me', { headers: { Authorization: `Bearer ${token}` } })
-				.then((res) => {
+				.then(async (res) => {
+					await renderAvatar(res.data.customer);
 					setCustomer(res.data?.customer);
 				})
 				.catch((err) => {});
 		}
 	}, []);
+
+	// Render avatar to UI
+	const renderAvatar = async (employee) => {
+		if (employee.avatar) {
+			setAvatar(await getDownloadURL(ref(imageDB, employee.avatar)));
+		}
+	};
 
 	return (
 		<nav className="bg-white w-full z-20 top-0 start-0 border-b border-gray-200">
@@ -33,11 +46,11 @@ function Navbar() {
 					></img>
 					<span className="self-center text-2xl font-semibold whitespace-nowrap">Futa Bus Lines</span>
 				</NavLink>
-				<div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+				<div className="flex lg:order-2 space-x-3 lg:space-x-0 rtl:space-x-reverse">
 					{!customer.id ? (
 						<NavLink
 							to="login"
-							className=" md:hidden text-white bg-red-500 hover:bg-red-600 font-medium rounded-lg text-sm px-4 py-2 text-center"
+							className=" lg:hidden text-white bg-red-500 hover:bg-red-600 font-medium rounded-lg text-sm px-4 py-2 text-center"
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -55,32 +68,46 @@ function Navbar() {
 					) : (
 						<span
 							type="button"
-							className=" md:hidden text-white bg-red-500 hover:bg-red-600 font-medium rounded-lg text-sm px-4 py-2 text-center"
+							className=" lg:hidden text-white bg-red-500 hover:bg-red-600 font-medium rounded-lg text-sm px-4 py-2 text-center"
 						>
-							<div>
-								{customer.first_name} {customer.last_name}
+							<div className="flex items-center justify-center">
+								<img
+									src={avatar}
+									alt="avatar"
+									className="w-6 aspect-square rounded-full object-cover"
+								/>
+								<span className="ml-2 hidden sm:block">
+									{customer.first_name} {customer.last_name}
+								</span>
 							</div>
 						</span>
 					)}
 					{!customer.id ? (
 						<NavLink
 							to="login"
-							className="cursor-pointer hidden md:flex text-white bg-red-500 hover:bg-red-600 font-medium rounded-lg text-sm px-4 py-2 text-center"
+							className="cursor-pointer hidden lg:flex text-white bg-red-500 hover:bg-red-600 font-medium rounded-lg text-sm px-4 py-2 text-center"
 						>
 							Đăng nhập/Đăng ký
 						</NavLink>
 					) : (
 						<NavLink
-							to="/tai-khoan"
-							className="cursor-pointer hidden md:flex text-white bg-red-500 hover:bg-red-600 font-medium rounded-lg text-sm px-4 py-2 text-center"
+							to="/account"
+							className="cursor-pointer hidden lg:flex text-white bg-red-500 hover:bg-red-600 font-medium rounded-lg text-sm px-4 py-2 text-center"
 						>
-							{customer.first_name} {customer.last_name}
+							<img
+								src={avatar}
+								alt="avatar"
+								className="mr-2 w-6 aspect-square rounded-full object-cover"
+							/>
+							<span className="hidden sm:block">
+								{customer.first_name} {customer.last_name}
+							</span>
 						</NavLink>
 					)}
 					<button
 						data-collapse-toggle="navbar-sticky"
 						type="button"
-						className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100"
+						className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100"
 						aria-controls="navbar-sticky"
 						aria-expanded="false"
 					>
@@ -103,15 +130,15 @@ function Navbar() {
 					</button>
 				</div>
 				<div
-					className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+					className="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1"
 					id="navbar-sticky"
 				>
-					<ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
+					<ul className="flex flex-col p-4 lg:p-0 mt-4 font-medium border border-gray-100 rounded-lg lg:space-x-4 rtl:space-x-reverse lg:flex-row lg:mt-0 lg:border-0">
 						<li>
 							<NavLink
 								to=""
 								href="/"
-								className="block py-2 px-3 text-gray-900 rounded md:bg-transparent md:p-0"
+								className="block py-2 px-3 text-gray-900 rounded lg:bg-transparent lg:p-0"
 								aria-current="page"
 							>
 								Trang chủ
@@ -121,23 +148,23 @@ function Navbar() {
 							<NavLink
 								to=""
 								href="/"
-								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-500 md:p-0"
+								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-red-500 lg:p-0"
 							>
 								Tin tức
 							</NavLink>
 						</li>
 						<li>
 							<NavLink
-								to="lich-trinh"
-								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-500 md:p-0"
+								to="search-trip"
+								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-red-500 lg:p-0"
 							>
-								Lịch trình
+								Tìm chuyến
 							</NavLink>
 						</li>
 						<li>
 							<NavLink
-								to="tra-cuu-ve"
-								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-500 md:p-0"
+								to="lookup-ticket"
+								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-red-500 lg:p-0"
 							>
 								Tra cứu vé
 							</NavLink>
@@ -145,7 +172,7 @@ function Navbar() {
 						<li>
 							<NavLink
 								to=""
-								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-500 md:p-0"
+								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-red-500 lg:p-0"
 							>
 								Liên hệ
 							</NavLink>

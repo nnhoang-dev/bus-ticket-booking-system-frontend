@@ -26,7 +26,7 @@ function EmailVerificationForm() {
 	const [second, setSecond] = useState(15);
 	useEffect(() => {
 		if (!customer_id) {
-			window.location.href = REACT_URL + 'dang-ky';
+			window.location.href = REACT_URL + 'signup';
 		}
 		const interval = setInterval(() => {
 			if (second > 0) {
@@ -93,9 +93,9 @@ function EmailVerificationForm() {
 	};
 
 	return (
-		<div className="max-w-screen-lg mx-auto mb-20">
-			<div className="w-full -mx-4 border-red-200 border-4 rounded-xl p-8 shadow-xl flex justify-center items-center">
-				<div className="basis-5/12 mx-4">
+		<div className="max-w-screen-lg mx-auto mb-20 ">
+			<div className="mx-auto w-full border-red-200 border-4 rounded-xl p-8 shadow-xl flex justify-center items-center">
+				<div className="w-full sm:basis-5/12 mx-4">
 					<div className="mb-10">
 						<h1 className="text-4xl font-bold text-center mb-3">Xác thực email</h1>
 						<p className="text-center">
@@ -158,19 +158,8 @@ function EmailVerificationForm() {
 						</button>
 					</div>
 				</div>
-				{successModal && (
-					<SuccessNotification
-						func={{ closeModal: closeSuccessModal }}
-						message={message}
-					/>
-				)}
-				{failureModal && (
-					<FailureNotification
-						func={{ closeModal: closeFailureModal }}
-						message={message}
-					/>
-				)}
-				<div className="flex-grow mx-4">
+
+				<div className="hidden sm:block flex-grow mx-4">
 					<img
 						alt=""
 						loading="lazy"
@@ -183,6 +172,18 @@ function EmailVerificationForm() {
 				</div>
 			</div>
 			<HomePromotion />
+			{successModal && (
+				<SuccessNotification
+					func={{ closeModal: closeSuccessModal }}
+					message={message}
+				/>
+			)}
+			{failureModal && (
+				<FailureNotification
+					func={{ closeModal: closeFailureModal }}
+					message={message}
+				/>
+			)}
 		</div>
 	);
 }

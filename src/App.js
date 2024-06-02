@@ -65,22 +65,22 @@ function App() {
 						/>
 
 						<Route
-							path="/dang-ky"
+							path="/signup"
 							element={<SignupPage />}
 						/>
 
 						<Route
-							path="/xac-thuc-email"
+							path="/email-verify"
 							element={<EmailVerificationPage />}
 						/>
 
 						<Route
-							path="/tra-cuu-ve"
+							path="/lookup-ticket"
 							element={<LookUpPage />}
 						/>
 
 						<Route
-							path="/lich-trinh"
+							path="/search-trip"
 							element={<TravelSchedulePage />}
 						/>
 
@@ -95,7 +95,7 @@ function App() {
 						/>
 
 						<Route
-							path="/tai-khoan"
+							path="/account"
 							element={<ProfileManagementPage />}
 						/>
 					</Route>

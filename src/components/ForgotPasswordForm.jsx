@@ -33,10 +33,10 @@ function ForgotPasswordForm() {
 		<div className="max-w-screen-lg mx-auto mb-20">
 			<div
 				// className="bg-slate-800 border border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative"
-				className="w-full -mx-4 border-red-200 border-4 rounded-xl p-8 shadow-xl flex justify-center items-center"
+				className="mx-auto w-full border-red-200 border-4 rounded-xl p-8 shadow-xl flex justify-center items-center"
 			>
-				<div className="basis-5/12 mx-4">
-					<div className="mb-10">
+				<div className="w-full sm:basis-5/12 mx-4">
+					<div className="mb-4">
 						<h1 className="text-4xl font-bold text-center mb-3">Quên mật khẩu</h1>
 						<p className="text-center">Vui lòng nhập thông tin của tài khoản bạn đã đăng ký</p>
 					</div>
@@ -61,7 +61,7 @@ function ForgotPasswordForm() {
 								htmlFor=""
 								className="absolute text-md duration-300 tranform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-red-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
 							>
-								Nhập số điện thoại hoặc email
+								Nhập số điện thoại/email
 							</label>
 						</div>
 						{message && <div className="text-red-600 mt-2 text-sm font-medium">{message}</div>}
@@ -75,7 +75,7 @@ function ForgotPasswordForm() {
 						</button>
 					</div>
 				</div>
-				<div className="flex-grow mx-4">
+				<div className="hidden sm:block flex-grow mx-4">
 					<img
 						alt=""
 						loading="lazy"

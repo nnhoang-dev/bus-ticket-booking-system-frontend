@@ -10,7 +10,7 @@ import HomeSearch from '../components/HomeSearch';
 
 function HomePage() {
 	return (
-		<div className="App">
+		<div className="App px-2">
 			<Banner />
 			<HomeSearch />
 			<HomePromotion />

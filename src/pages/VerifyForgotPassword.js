@@ -26,7 +26,7 @@ function VerifyForgotPasswordPage() {
 	const [second, setSecond] = useState(15);
 	useEffect(() => {
 		if (!customer_id) {
-			window.location.href = REACT_URL + 'dang-ky';
+			window.location.href = REACT_URL + 'signup';
 		}
 		const interval = setInterval(() => {
 			if (second > 0) {

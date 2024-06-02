@@ -51,9 +51,9 @@ function LoginForm() {
 	};
 
 	return (
-		<div className="max-w-screen-lg mx-auto mb-20">
-			<div className="w-full -mx-4 border-red-200 border-4 rounded-xl p-8 shadow-xl flex justify-center items-center">
-				<div className="basis-5/12 mx-4">
+		<div className="max-w-screen-lg mx-auto mb-20 px-2">
+			<div className="mx-auto w-full border-red-200 border-4 rounded-xl p-8 shadow-xl flex flex-col sm:flex-row justify-center items-center">
+				<div className="w-full sm:basis-5/12 mx-4">
 					<h1 className="text-4xl font-bold text-center mb-10">Đăng nhập</h1>
 					<div>
 						<div className="relative mb-8">
@@ -69,7 +69,7 @@ function LoginForm() {
 							/>
 							<label
 								htmlFor=""
-								className="absolute text-md duration-300 tranform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-red-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
+								className="absolute text-sm duration-300 tranform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-red-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
 							>
 								Nhập số điện thoại
 							</label>
@@ -107,7 +107,7 @@ function LoginForm() {
 							/>
 							<label
 								htmlFor=""
-								className="absolute text-md duration-300 tranform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-red-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
+								className="absolute text-sm duration-300 tranform -translate-y-7 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-red-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-7"
 							>
 								Nhập mật khẩu
 							</label>
@@ -154,7 +154,7 @@ function LoginForm() {
 							<span className="m-4">
 								Chưa có tài khoản?{' '}
 								<NavLink
-									to="/dang-ky"
+									to="/signup"
 									className="text-blue-700"
 								>
 									Đăng ký
@@ -163,7 +163,7 @@ function LoginForm() {
 						</div>
 					</div>
 				</div>
-				<div className="flex-grow mx-4">
+				<div className="hidden sm:block flex-grow mx-4">
 					<img
 						alt=""
 						loading="lazy"

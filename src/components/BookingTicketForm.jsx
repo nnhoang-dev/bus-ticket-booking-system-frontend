@@ -74,7 +74,9 @@ function BookingTicketForm() {
 		await axios.get(API_URL + `employee/trip/${tripID}`).then((res) => {
 			setPrice(res.data.trip.price);
 			console.log(res.data.trip.date);
-			setStartTime(res.data.trip.start_time.substring(0, res.data.trip.start_time.length - 3) + ' ' + res.data.trip.date);
+			setStartTime(
+				res.data.trip.start_time.substring(0, res.data.trip.start_time.length - 3) + ' ' + res.data.trip.date
+			);
 			setRoute(res.data.trip.route.name);
 
 			let newSeat1 = new Array(18).fill('0');
@@ -167,7 +169,7 @@ function BookingTicketForm() {
 
 	return (
 		<div className="w-full bg-slate-50 lg:p-10">
-			<div className="flex max-w-screen-lg flex-col lg:flex-row mx-auto gap-8">
+			<div className="flex max-w-screen-lg flex-col md:flex-row mx-auto gap-8">
 				<div className="basis-2/3 w-full flex flex-col gap-5">
 					<div className="seat-section bg-white rounded-t-xl p-5 border border-slate-200">
 						<h3 className="text-xl font-medium">Chọn ghế</h3>
@@ -193,7 +195,11 @@ function BookingTicketForm() {
 											/>
 											<span
 												className={`absolute text-sm font-semibold sm:text-[12px] ${
-													v === '2' ? 'text-gray-400' : v === '0' ? 'text-blue-400' : 'text-red-400'
+													v === '2'
+														? 'text-gray-400'
+														: v === '0'
+														? 'text-blue-400'
+														: 'text-red-400'
 												} top-1`}
 											>
 												{i + 1}
@@ -224,7 +230,11 @@ function BookingTicketForm() {
 											/>
 											<span
 												className={`absolute text-sm font-semibold sm:text-[12px] ${
-													v === '2' ? 'text-gray-400' : v === '0' ? 'text-blue-400' : 'text-red-400'
+													v === '2'
+														? 'text-gray-400'
+														: v === '0'
+														? 'text-blue-400'
+														: 'text-red-400'
 												} top-1`}
 											>
 												{i + 19}
@@ -301,22 +311,23 @@ function BookingTicketForm() {
 							<div className="basis-1/2 w-full">
 								<h3 className="text-red-500 text-center mb-5 font-semibold">ĐIỀU KHOẢN & LƯU Ý</h3>
 								<p className="text-[15px] text-justify mb-3 font-[500] leading-6">
-									(*) Quý khách vui lòng có mặt tại bến xuất phát của xe trước ít nhất 30 phút giờ xe khởi hành, mang theo thông báo đã thanh
-									toán vé thành công có chứa mã vé được gửi từ hệ thống FUTA BUS LINE. Vui lòng liên hệ Trung tâm tổng đài{' '}
+									(*) Quý khách vui lòng có mặt tại bến xuất phát của xe trước ít nhất 30 phút giờ xe
+									khởi hành, mang theo thông báo đã thanh toán vé thành công có chứa mã vé được gửi từ
+									hệ thống FUTA BUS LINE. Vui lòng liên hệ Trung tâm tổng đài{' '}
 									<span className="text-red-500">1900 6067</span> để được hỗ trợ.
 								</p>
 								<p className="text-[15px] text-justify font-[500] leading-6">
 									(*) Nếu quý khách có nhu cầu trung chuyển, vui lòng liên hệ Tổng đài trung chuyển{' '}
-									<span className="text-red-500">1900 6918</span> trước khi đặt vé. Chúng tôi không đón/trung chuyển tại những điểm xe trung
-									chuyển không thể tới được.
+									<span className="text-red-500">1900 6918</span> trước khi đặt vé. Chúng tôi không
+									đón/trung chuyển tại những điểm xe trung chuyển không thể tới được.
 								</p>
 							</div>
 						</div>
 						<div className="mt-5 text-sm font-[400]">
 							<input type="checkbox"></input>
 							<span>
-								<span className="cursor-pointer text-red-500 underline ml-3">Chấp nhận điều khoản</span> đặt vé &amp; chính sách bảo mật thông
-								tin của FUTABusline
+								<span className="cursor-pointer text-red-500 underline ml-3">Chấp nhận điều khoản</span>{' '}
+								đặt vé &amp; chính sách bảo mật thông tin của FUTABusline
 							</span>
 						</div>
 					</div>
@@ -475,27 +486,6 @@ function BookingTicketForm() {
 						</div>
 						<div className="payment-section"></div>
 					</div> */}
-					<div className="payment-section bg-white border border-slate-200 p-5 rounded-b-xl flex items-center">
-						<div className="flex flex-col">
-							{/* <span className="w-16 rounded-xl bg-blue-600 py-1 text-center text-xs text-white">VNPAY</span> */}
-							<span className="mt-2 text-2xl font-medium text-black">{(price * numberOfSeats) / 1000 + '.000'} đ</span>
-						</div>
-						<div className="flex flex-auto items-center justify-end">
-							{/* <button
-								type="button"
-								className="px-10 py-2 border border-slate-200 text-blue-500 rounded-full mr-6 hover:bg-blue-500 hover:text-white transition-all"
-							>
-								<span className="text-sm font-medium">Hủy</span>
-							</button> */}
-							<button
-								type="button"
-								className="px-5 py-2 text-white rounded-full mr-6 bg-red-500 hover:bg-red-500 transition-all"
-								onClick={payment}
-							>
-								<span className="text-sm font-medium">Thanh toán</span>
-							</button>
-						</div>
-					</div>
 				</div>
 				<div className="basis-1/3 w-full flex flex-col gap-y-5">
 					<div className="bg-white border border-slate-200 p-5 rounded-xl">
@@ -518,7 +508,9 @@ function BookingTicketForm() {
 						</div>
 						<div className="mt-1 flex items-center justify-between">
 							<span className="text-slate-500">Tổng tiền lượt đi</span>
-							<span className="text-green-500 font-medium">{(price * numberOfSeats) / 1000 + '.000'} đ</span>
+							<span className="text-green-500 font-medium">
+								{(price * numberOfSeats) / 1000 + '.000'} đ
+							</span>
 						</div>
 					</div>
 					<div className="bg-white border border-slate-200 p-5 rounded-xl">
@@ -542,7 +534,9 @@ function BookingTicketForm() {
 						</div>
 						<div className="mt-4 flex items-center justify-between">
 							<span className="text-slate-500">Giá vé lượt đi</span>
-							<span className="text-red-500 font-medium">{(price * numberOfSeats) / 1000 + '.000'} đ</span>
+							<span className="text-red-500 font-medium">
+								{(price * numberOfSeats) / 1000 + '.000'} đ
+							</span>
 						</div>
 						<div className="mt-1 flex items-center justify-between">
 							<span className="text-slate-500">Phí thanh toán</span>
@@ -551,10 +545,38 @@ function BookingTicketForm() {
 						<hr className="my-3" />
 						<div className="flex items-center justify-between">
 							<span className="text-slate-500">Tổng tiền</span>
-							<span className="text-red-500 font-medium">{(price * numberOfSeats) / 1000 + '.000'} đ</span>
+							<span className="text-red-500 font-medium">
+								{(price * numberOfSeats) / 1000 + '.000'} đ
+							</span>
 						</div>
 					</div>
 				</div>
+			</div>
+			<div className="mt-5 flex max-w-screen-lg flex-col md:flex-row mx-auto gap-8 ">
+				<div className="md:basis-2/3 w-full gap-5 payment-section bg-white border border-slate-200 p-5 rounded-b-xl flex items-center">
+					<div className="flex flex-col">
+						{/* <span className="w-16 rounded-xl bg-blue-600 py-1 text-center text-xs text-white">VNPAY</span> */}
+						<span className="mt-2 text-2xl font-medium text-black">
+							{(price * numberOfSeats) / 1000 + '.000'} đ
+						</span>
+					</div>
+					<div className="flex flex-auto items-center justify-end">
+						{/* <button
+								type="button"
+								className="px-10 py-2 border border-slate-200 text-blue-500 rounded-full mr-6 hover:bg-blue-500 hover:text-white transition-all"
+							>
+								<span className="text-sm font-medium">Hủy</span>
+							</button> */}
+						<button
+							type="button"
+							className="px-5 py-2 text-white rounded-full mr-6 bg-red-500 hover:bg-red-500 transition-all"
+							onClick={payment}
+						>
+							<span className="text-sm font-medium">Thanh toán</span>
+						</button>
+					</div>
+				</div>
+				<div className="basis-1/3 gap-5"></div>
 			</div>
 			{failureModal && (
 				<FailureNotification
