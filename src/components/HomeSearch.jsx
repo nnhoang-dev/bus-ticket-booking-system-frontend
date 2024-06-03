@@ -32,7 +32,7 @@ function HomeSearch() {
 	// Search Trip
 	const handleSearch = () => {
 		if (start_address && end_address && date) {
-			navigate(`/lich-trinh?start_address=${start_address}
+			navigate(`/search-trip?start_address=${start_address}
 					  &end_address=${end_address}
 					  &date=${date}`);
 			window.location.reload();
