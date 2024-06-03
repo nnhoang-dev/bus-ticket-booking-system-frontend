@@ -40,12 +40,14 @@ function LoginForm() {
 		await axios
 			.post(API_URL + 'customer/login', data)
 			.then((res) => {
+				console.log(res);
 				if (res.status === 200) {
 					sessionStorage.setItem('token', res.data.token);
 					window.location.href = REACT_URL;
 				}
 			})
 			.catch((err) => {
+				console.log(err.response.data);
 				setMessage('Mật khẩu hoặc tài khoản không chính xác');
 			});
 	};

@@ -12,6 +12,7 @@ function HomeBusLine() {
 				<div className="basis-1/3 bus-line-card border border-slate-300 rounded-2xl flex flex-col shadow-2xl cursor-pointer">
 					<div className="img relative">
 						<img
+							loading="lazy"
 							src="https://storage.googleapis.com/futa-busline-cms-dev/Rectangle_23_2_8bf6ed1d78/Rectangle_23_2_8bf6ed1d78.png"
 							alt="busline-1"
 							className="rounded-xl"
@@ -45,6 +46,7 @@ function HomeBusLine() {
 				<div className="basis-1/3 bus-line-card border border-slate-300 rounded-2xl flex flex-col shadow-2xl cursor-pointer">
 					<div className="img relative">
 						<img
+							loading="lazy"
 							src="https://storage.googleapis.com/futa-busline-cms-dev/Rectangle_23_3_2d8ce855bc/Rectangle_23_3_2d8ce855bc.png"
 							alt="busline-2"
 							className="rounded-xl"
@@ -78,6 +80,7 @@ function HomeBusLine() {
 				<div className="basis-1/3 bus-line-card border border-slate-300 rounded-2xl flex flex-col shadow-2xl cursor-pointer">
 					<div className="img relative">
 						<img
+							loading="lazy"
 							src="https://storage.googleapis.com/futa-busline-cms-dev/Rectangle_23_4_061f4249f6/Rectangle_23_4_061f4249f6.png"
 							alt="busline-3"
 							className="rounded-xl"

@@ -10,6 +10,7 @@ function HomeNews() {
 			<div className="max-w-screen-lg mx-auto mt-10 flex flex-col md:flex-row justify-center items-start gap-8">
 				<div className="basis-1/3 shawdow-2xl">
 					<img
+						loading="lazy"
 						src="https://storage.googleapis.com/futa-busline-web-cms-prod/599_x_337_px_min_f4d6bf9dec/599_x_337_px_min_f4d6bf9dec.png"
 						alt="news-1"
 						className="rounded-xl shadow-2xl cursor-pointer"
@@ -24,6 +25,7 @@ function HomeNews() {
 				</div>
 				<div className="basis-1/3 shawdow-2xl">
 					<img
+						loading="lazy"
 						src="https://storage.googleapis.com/futa-busline-web-cms-prod/599_x_337_px_0882f6f487/599_x_337_px_0882f6f487.png"
 						alt="news-2"
 						className="rounded-xl shadow-2xl cursor-pointer"
@@ -38,6 +40,7 @@ function HomeNews() {
 				</div>
 				<div className="basis-1/3 shawdow-2xl">
 					<img
+						loading="lazy"
 						src="https://storage.googleapis.com/futa-busline-web-cms-prod/599_x_337_px_7aab7fa492/599_x_337_px_7aab7fa492.png"
 						alt="news-3"
 						className="rounded-xl shadow-2xl cursor-pointer"
