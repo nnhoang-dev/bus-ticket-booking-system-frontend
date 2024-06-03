@@ -2,14 +2,13 @@
 
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { API_URL } from '../../configs/env';
-import WarningNotification from '../Noti/WarningNotification';
-import SuccessNotification from '../Noti/SuccessNotification';
-import FailureNotification from '../Noti/FailureNotification';
+import { API_URL } from '../../../configs/env';
+import WarningNotification from '../../Noti/WarningNotification';
+import SuccessNotification from '../../Noti/SuccessNotification';
+import FailureNotification from '../../Noti/FailureNotification';
 import { useNavigate } from 'react-router-dom';
-import BusForm from './modal/BusForm';
 
-const BusManagerment = () => {
+const BusBin = () => {
 	const navigate = useNavigate();
 	// Data
 	const [busAll, setBusAll] = useState([]);
@@ -18,7 +17,6 @@ const BusManagerment = () => {
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [successModal, setSuccessModal] = useState(false);
 	const [failureModal, setFailureModal] = useState(false);
-	const [createModal, setCreateModal] = useState(false);
 	const [message, setMessage] = useState('');
 	const [busId, setBusId] = useState('');
 
@@ -34,7 +32,7 @@ const BusManagerment = () => {
 				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
 			)
 			.then((res) => {
-				setBusAll(res.data.data.filter((v) => v.status === 1));
+				setBusAll(res.data.data.filter((v) => v.status === 0));
 			})
 			.catch((err) => {
 				if (err.response.status === 401) {
@@ -44,9 +42,24 @@ const BusManagerment = () => {
 	};
 
 	// Open bus edit modal
-	const editBtn = async (id) => {
-		setBusId(id);
-		setCreateModal(true);
+	const restoreBtn = async (id) => {
+		await axios
+			.put(
+				API_URL + `employee/bus/${id}`,
+				{ status: 1 },
+				{
+					headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
+				}
+			)
+			.then((res) => {
+				setMessage(res.data.message);
+				openSuccessModal();
+				refresh();
+			})
+			.catch((err) => {
+				setMessage(err.response.data.message);
+				openFailureModal();
+			});
 	};
 
 	// Open delete modal
@@ -61,11 +74,6 @@ const BusManagerment = () => {
 		setBusId('');
 	};
 
-	// Close create modal
-	const closeCreateModal = () => {
-		setCreateModal(false);
-		setBusId('');
-	};
 	// Close delete modal
 	const closeDeleteModal = () => {
 		setDeleteModal(false);
@@ -94,21 +102,13 @@ const BusManagerment = () => {
 	return (
 		<div className="w-full p-2">
 			<div className="flex justify-between">
-				<h1 className="ml-16 lg:ml-0 font-bold text-2xl text-gray-700">Bus Management</h1>
-				<div className="flex justify-center items-center">
-					<button
-						className="mr-2 text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
-						onClick={() => setCreateModal(true)}
-					>
-						Add
-					</button>
-					<button
-						className=" text-white bg-yellow-500 hover:bg-yellow-600  font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
-						onClick={() => navigate('bin')}
-					>
-						Bin
-					</button>
-				</div>
+				<h1 className="ml-16 lg:ml-0 font-bold text-2xl text-gray-700">Bus Bin</h1>
+				<button
+					className="text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
+					onClick={() => navigate('/admin/bus')}
+				>
+					Bus Management
+				</button>
 			</div>
 			<div className="mb-8">
 				<div className="flex gap-4  -my-2 mt-2">
@@ -140,10 +140,10 @@ const BusManagerment = () => {
 											<td className="px-6 py-4">{v.license}</td>
 											<td className="px-6 py-4">
 												<button
-													onClick={() => editBtn(v.id)}
+													onClick={() => restoreBtn(v.id)}
 													className="mr-2 font-medium text-blue-500 hover:underline"
 												>
-													Edit
+													Restore
 												</button>
 												<button
 													onClick={() => deleteBtn(v.id)}
@@ -198,10 +198,10 @@ const BusManagerment = () => {
 													<td className="px-6 py-4">{v.license}</td>
 													<td className="px-6 py-4">
 														<button
-															onClick={() => editBtn(v.id)}
+															onClick={() => restoreBtn(v.id)}
 															className="mr-2 font-medium text-blue-500 hover:underline"
 														>
-															Edit
+															Restore
 														</button>
 														<button
 															onClick={() => deleteBtn(v.id)}
@@ -233,7 +233,7 @@ const BusManagerment = () => {
 					}}
 					type={'bus'}
 					action={'bus'}
-					method={'put'}
+					method={'delete'}
 				/>
 			)}
 			{successModal && (
@@ -248,20 +248,8 @@ const BusManagerment = () => {
 					message={message}
 				/>
 			)}
-			{createModal && (
-				<BusForm
-					func={{
-						closeModal: closeCreateModal,
-						openSuccessModal,
-						openFailureModal,
-						setMessage,
-						refresh,
-					}}
-					busId={busId}
-				/>
-			)}
 		</div>
 	);
 };
 
-export default BusManagerment;
+export default BusBin;

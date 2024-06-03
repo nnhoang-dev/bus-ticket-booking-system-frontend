@@ -50,13 +50,10 @@ const BusStationForm = ({ func, busStationId, provinces }) => {
 				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
 			})
 			.then((res) => {
-				console.log(res.data);
 				func.closeModal();
 				func.setMessage(res.data.message);
 				func.openSuccessModal();
 				func.refresh();
-
-				func.getBusStationAll();
 			})
 			.catch((err) => {
 				if (err.response.status === 401) {

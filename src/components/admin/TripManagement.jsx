@@ -9,7 +9,9 @@ import SuccessNotification from '../Noti/SuccessNotification';
 import FailureNotification from '../Noti/FailureNotification';
 import TripForm from './modal/TripForm';
 
-const BusesManagerment = () => {
+const TripManagement = () => {
+	const navigate = useNavigate();
+
 	// Modal
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [successModal, setSuccessModal] = useState(false);
@@ -40,7 +42,7 @@ const BusesManagerment = () => {
 				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
 			)
 			.then((res) => {
-				setRouteAll(res.data.route);
+				setRouteAll(res.data.route.filter((v) => v.status === 1));
 			})
 			.catch((err) => {});
 	};
@@ -53,7 +55,7 @@ const BusesManagerment = () => {
 				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
 			)
 			.then((res) => {
-				setBusAll(res.data.data);
+				setBusAll(res.data.data.filter((v) => v.status === 1));
 			})
 			.catch((err) => {});
 	};
@@ -66,7 +68,7 @@ const BusesManagerment = () => {
 				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
 			)
 			.then((res) => {
-				setDriverAll(res.data.data);
+				setDriverAll(res.data.data.filter((v) => v.status === 1));
 			})
 			.catch((err) => {});
 	};
@@ -81,7 +83,7 @@ const BusesManagerment = () => {
 			.then((res) => {
 				let trips = res.data;
 				trips = trips.filter((v) => new Date() < new Date(v.date + 'T' + v.start_time));
-				setTripAll(trips);
+				setTripAll(trips.filter((v) => v.status === 1));
 			})
 			.catch((err) => {});
 	};
@@ -144,12 +146,20 @@ const BusesManagerment = () => {
 			<div className="mb-8">
 				<div className="flex justify-between">
 					<h1 className="ml-16 lg:ml-0 font-bold text-2xl text-gray-700">Trip Management</h1>
-					<button
-						className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
-						onClick={openTripModal}
-					>
-						Add
-					</button>
+					<div className="flex justify-center items-center">
+						<button
+							className="mr-2 text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
+							onClick={() => openTripModal()}
+						>
+							Add
+						</button>
+						<button
+							className=" text-white bg-yellow-500 hover:bg-yellow-600  font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
+							onClick={() => navigate('bin')}
+						>
+							Bin
+						</button>
+					</div>
 				</div>
 				<div className="-my-2 mt-2">
 					<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -260,6 +270,7 @@ const BusesManagerment = () => {
 					}}
 					type={'trip'}
 					action={'trip'}
+					method={'put'}
 				/>
 			)}
 			{successModal && (
@@ -287,4 +298,4 @@ const BusesManagerment = () => {
 	);
 };
 
-export default BusesManagerment;
+export default TripManagement;

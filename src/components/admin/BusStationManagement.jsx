@@ -7,15 +7,17 @@ import WarningNotification from '../Noti/WarningNotification';
 import SuccessNotification from '../Noti/SuccessNotification';
 import FailureNotification from '../Noti/FailureNotification';
 import BusStationForm from './modal/BusStationForm';
+import { useNavigate } from 'react-router-dom';
 
 const BusStationManagement = () => {
+	const navigate = useNavigate();
+
 	// Modal
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [successModal, setSuccessModal] = useState(false);
 	const [failureModal, setFailureModal] = useState(false);
 	const [busStationModal, setBusStationModal] = useState(false);
 	const [message, setMessage] = useState('');
-	const [tempId, setTempId] = useState('');
 	const [busStationId, setBusStationId] = useState('');
 
 	// Data
@@ -50,7 +52,7 @@ const BusStationManagement = () => {
 				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
 			)
 			.then((res) => {
-				setBusStationAll(res.data.data);
+				setBusStationAll(res.data.data.filter((v) => v.status === '1'));
 			})
 			.catch((err) => {});
 	};
@@ -63,7 +65,7 @@ const BusStationManagement = () => {
 
 	// Open delete modal
 	const deleteBtn = async (id) => {
-		setTempId(id);
+		setBusStationId(id);
 		setDeleteModal(true);
 	};
 
@@ -76,7 +78,7 @@ const BusStationManagement = () => {
 	// Close delete modal
 	const closeDeleteModal = () => {
 		setDeleteModal(false);
-		setTempId('');
+		setBusStationId('');
 	};
 
 	// Close Success Modal
@@ -114,12 +116,20 @@ const BusStationManagement = () => {
 			<div className="mb-8 ">
 				<div className=" flex justify-between">
 					<h1 className="ml-16 lg:ml-0 font-bold text-2xl text-gray-700">Bus Station Management</h1>
-					<button
-						className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
-						onClick={openBusStationModal}
-					>
-						Add
-					</button>
+					<div className="flex justify-center items-center">
+						<button
+							className="mr-2 text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
+							onClick={openBusStationModal}
+						>
+							Add
+						</button>
+						<button
+							className="text-white bg-yellow-500 hover:bg-yellow-600  font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
+							onClick={() => navigate('bin')}
+						>
+							Bin
+						</button>
+					</div>
 				</div>
 				<div className="-my-2 mt-2">
 					<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -199,7 +209,7 @@ const BusStationManagement = () => {
 			</div>
 			{deleteModal && (
 				<WarningNotification
-					id={tempId}
+					id={busStationId}
 					func={{
 						refresh: refresh,
 						closeModal: closeDeleteModal,
@@ -209,6 +219,7 @@ const BusStationManagement = () => {
 					}}
 					type={'bus station'}
 					action={'bus-station'}
+					method={'put'}
 				/>
 			)}
 			{successModal && (

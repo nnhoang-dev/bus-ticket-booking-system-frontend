@@ -2,45 +2,29 @@
 
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { API_URL } from '../../configs/env';
-import WarningNotification from '../Noti/WarningNotification';
-import SuccessNotification from '../Noti/SuccessNotification';
-import FailureNotification from '../Noti/FailureNotification';
-import RouteForm from './modal/RouteForm';
+import { API_URL } from '../../../configs/env';
+import WarningNotification from '../../Noti/WarningNotification';
+import SuccessNotification from '../../Noti/SuccessNotification';
+import FailureNotification from '../../Noti/FailureNotification';
+import RouteForm from '../modal/RouteForm';
 import { useNavigate } from 'react-router-dom';
 
-const RouteManagement = () => {
+const RouteBin = () => {
 	const navigate = useNavigate();
 
 	// Data
-	const [busStationAll, setBusStationAll] = useState([]);
 	const [routeAll, setRouteAll] = useState([]);
 
 	// Modal
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [successModal, setSuccessModal] = useState(false);
 	const [failureModal, setFailureModal] = useState(false);
-	const [routeModal, setRouteModal] = useState(false);
 	const [message, setMessage] = useState('');
 	const [routeId, setRouteId] = useState('');
 
 	useEffect(() => {
-		getBusStationAll();
 		getRouteAll();
 	}, []);
-
-	// Send GET request to retrieve bus stations information
-	const getBusStationAll = async () => {
-		await axios
-			.get(
-				API_URL + 'employee/bus-station'
-				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
-			)
-			.then((res) => {
-				setBusStationAll(res.data.data.filter((v) => v.status === '1'));
-			})
-			.catch((err) => {});
-	};
 
 	// Send GET request to retrieve trip
 	const getRouteAll = async () => {
@@ -50,15 +34,31 @@ const RouteManagement = () => {
 				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
 			)
 			.then((res) => {
-				setRouteAll(res.data.route.filter((v) => v.status === 1));
+				setRouteAll(res.data.route.filter((v) => v.status === 0));
 			})
 			.catch((err) => {});
 	};
 
 	// Open route edit modal
-	const editBtn = async (id) => {
-		setRouteId(id);
-		openRouteModal();
+	const restoreBtn = async (id) => {
+		await axios
+			.put(
+				API_URL + `employee/route/${id}`,
+				{ status: 1 },
+				{
+					headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
+				}
+			)
+			.then((res) => {
+				setMessage(res.data.message);
+				openSuccessModal();
+				refresh();
+			})
+			.catch((err) => {
+				console.log(err.response.data);
+				setMessage(err.response.data.message);
+				openFailureModal();
+			});
 	};
 
 	// Open delete confirm modal
@@ -99,35 +99,17 @@ const RouteManagement = () => {
 		setFailureModal(true);
 	};
 
-	//Open Route Modal
-	const openRouteModal = () => {
-		setRouteModal(true);
-	};
-
-	// Close Route Modal
-	const closeRouteModal = () => {
-		setRouteModal(false);
-	};
-
 	return (
 		<div className="w-full p-2">
 			<div className="mb-8">
 				<div className="flex justify-between">
-					<h1 className="ml-16 lg:ml-0 font-bold text-2xl text-gray-700">Route Management</h1>
-					<div className="flex justify-center items-center">
-						<button
-							className="mr-2 text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
-							onClick={openRouteModal}
-						>
-							Add
-						</button>
-						<button
-							className="text-white bg-yellow-500 hover:bg-yellow-600  font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
-							onClick={() => navigate('bin')}
-						>
-							Bin
-						</button>
-					</div>
+					<h1 className="ml-16 lg:ml-0 font-bold text-2xl text-gray-700">Route Bin</h1>
+					<button
+						className="text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
+						onClick={() => navigate('/admin/route')}
+					>
+						Route Management
+					</button>
 				</div>
 				<div className="-my-2 mt-2">
 					<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -191,10 +173,10 @@ const RouteManagement = () => {
 											<td className="px-6 py-4">{v.time}</td>
 											<td className="px-6 py-4">
 												<button
-													onClick={() => editBtn(v.id)}
+													onClick={() => restoreBtn(v.id)}
 													className="mr-2 font-medium text-blue-500 hover:underline"
 												>
-													Edit
+													Restore
 												</button>
 												<button
 													onClick={() => deleteBtn(v.id)}
@@ -222,7 +204,6 @@ const RouteManagement = () => {
 					}}
 					type={'route'}
 					action={'route'}
-					method={'put'}
 				/>
 			)}
 			{successModal && (
@@ -237,15 +218,8 @@ const RouteManagement = () => {
 					message={message}
 				/>
 			)}
-			{routeModal && (
-				<RouteForm
-					func={{ closeModal: closeRouteModal, openSuccessModal, openFailureModal, setMessage, refresh }}
-					routeId={routeId}
-					busStationAll={busStationAll}
-				/>
-			)}
 		</div>
 	);
 };
 
-export default RouteManagement;
+export default RouteBin;

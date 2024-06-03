@@ -180,7 +180,7 @@ const CustomerManagement = () => {
 											<td className="px-2 py-4 ">
 												<p className="line-clamp-1">{v.address}</p>
 											</td>
-											<td className="px-2 py-4">{v.gender == '0' ? 'Female' : 'Male'}</td>
+											<td className="px-2 py-4">{v.gender === 0 ? 'Female' : 'Male'}</td>
 											<td className="px-2 py-4">{v.date_of_birth}</td>
 											<td className="px-2 py-4">
 												<button

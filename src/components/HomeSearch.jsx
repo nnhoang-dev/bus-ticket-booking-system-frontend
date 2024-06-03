@@ -1,13 +1,12 @@
 /** @format */
 
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import FailureNotification from './Noti/FailureNotification';
 import axios from 'axios';
 
 function HomeSearch() {
 	const navigate = useNavigate();
-	const [searchParams, setSearchParams] = useSearchParams();
 
 	// Data
 	const [provinces, setProvinces] = useState([]);

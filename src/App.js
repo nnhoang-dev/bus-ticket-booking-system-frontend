@@ -27,7 +27,10 @@ import AccountManagement from './components/admin/AccountManagement';
 import TripDriver from './components/admin/TripDriver';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import VerifyForgotPasswordPage from './pages/VerifyForgotPassword';
-import SearchPage from './pages/SearchPage';
+import BusBin from './components/admin/bin/BusBin';
+import BusStationBin from './components/admin/bin/BusStationBin';
+import RouteBin from './components/admin/bin/RouteBin';
+import TripBin from './components/admin/bin/TripBin';
 
 function App() {
 	return (
@@ -118,6 +121,17 @@ function App() {
 							path="home"
 							element={<></>}
 						/>
+
+						<Route
+							path="trip/bin"
+							element={
+								<ProtectRoute
+									children={<TripBin />}
+									allowedRoles={['manager', 'operator']}
+								/>
+							}
+						/>
+
 						<Route
 							path="trip"
 							element={
@@ -138,6 +152,15 @@ function App() {
 							}
 						/>
 						<Route
+							path="bus/bin"
+							element={
+								<ProtectRoute
+									children={<BusBin />}
+									allowedRoles={['manager', 'operator']}
+								/>
+							}
+						/>
+						<Route
 							path="bus"
 							element={
 								<ProtectRoute
@@ -146,6 +169,17 @@ function App() {
 								/>
 							}
 						/>
+
+						<Route
+							path="bus-station/bin"
+							element={
+								<ProtectRoute
+									children={<BusStationBin />}
+									allowedRoles={['manager', 'operator']}
+								/>
+							}
+						/>
+
 						<Route
 							path="bus-station"
 							element={
@@ -155,6 +189,17 @@ function App() {
 								/>
 							}
 						/>
+
+						<Route
+							path="route/bin"
+							element={
+								<ProtectRoute
+									children={<RouteBin />}
+									allowedRoles={['manager', 'operator']}
+								/>
+							}
+						/>
+
 						<Route
 							path="route"
 							element={

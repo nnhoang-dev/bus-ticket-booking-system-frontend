@@ -2,31 +2,27 @@
 
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { API_URL } from '../../configs/env';
-import WarningNotification from '../Noti/WarningNotification';
-import SuccessNotification from '../Noti/SuccessNotification';
-import FailureNotification from '../Noti/FailureNotification';
-import RouteForm from './modal/RouteForm';
+import { API_URL } from '../../../configs/env';
+import WarningNotification from '../../Noti/WarningNotification';
+import SuccessNotification from '../../Noti/SuccessNotification';
+import FailureNotification from '../../Noti/FailureNotification';
 import { useNavigate } from 'react-router-dom';
 
-const RouteManagement = () => {
+const BusStationBin = () => {
 	const navigate = useNavigate();
-
-	// Data
-	const [busStationAll, setBusStationAll] = useState([]);
-	const [routeAll, setRouteAll] = useState([]);
 
 	// Modal
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [successModal, setSuccessModal] = useState(false);
 	const [failureModal, setFailureModal] = useState(false);
-	const [routeModal, setRouteModal] = useState(false);
 	const [message, setMessage] = useState('');
-	const [routeId, setRouteId] = useState('');
+	const [busStationId, setBusStationId] = useState('');
+
+	// Data
+	const [busStationAll, setBusStationAll] = useState([]);
 
 	useEffect(() => {
 		getBusStationAll();
-		getRouteAll();
 	}, []);
 
 	// Send GET request to retrieve bus stations information
@@ -37,46 +33,48 @@ const RouteManagement = () => {
 				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
 			)
 			.then((res) => {
-				setBusStationAll(res.data.data.filter((v) => v.status === '1'));
+				setBusStationAll(res.data.data.filter((v) => v.status === '0'));
 			})
 			.catch((err) => {});
 	};
 
-	// Send GET request to retrieve trip
-	const getRouteAll = async () => {
+	// Open bus station edit modal
+	const restoreBtn = async (id) => {
 		await axios
-			.get(
-				API_URL + 'employee/route'
-				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
+			.put(
+				API_URL + `employee/bus-station/${id}`,
+				{ status: 1 },
+				{
+					headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
+				}
 			)
 			.then((res) => {
-				setRouteAll(res.data.route.filter((v) => v.status === 1));
+				setMessage(res.data.message);
+				openSuccessModal();
+				refresh();
 			})
-			.catch((err) => {});
+			.catch((err) => {
+				setMessage(err.response.data.message);
+				openFailureModal();
+			});
 	};
 
-	// Open route edit modal
-	const editBtn = async (id) => {
-		setRouteId(id);
-		openRouteModal();
-	};
-
-	// Open delete confirm modal
+	// Open delete modal
 	const deleteBtn = async (id) => {
-		setRouteId(id);
+		setBusStationId(id);
 		setDeleteModal(true);
 	};
 
 	// Refresh page
 	const refresh = () => {
-		setRouteId('');
-		getRouteAll();
+		getBusStationAll();
+		setBusStationId('');
 	};
 
 	// Close delete modal
 	const closeDeleteModal = () => {
 		setDeleteModal(false);
-		setRouteId('');
+		setBusStationId('');
 	};
 
 	// Close Success Modal
@@ -99,35 +97,17 @@ const RouteManagement = () => {
 		setFailureModal(true);
 	};
 
-	//Open Route Modal
-	const openRouteModal = () => {
-		setRouteModal(true);
-	};
-
-	// Close Route Modal
-	const closeRouteModal = () => {
-		setRouteModal(false);
-	};
-
 	return (
 		<div className="w-full p-2">
-			<div className="mb-8">
-				<div className="flex justify-between">
-					<h1 className="ml-16 lg:ml-0 font-bold text-2xl text-gray-700">Route Management</h1>
-					<div className="flex justify-center items-center">
-						<button
-							className="mr-2 text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
-							onClick={openRouteModal}
-						>
-							Add
-						</button>
-						<button
-							className="text-white bg-yellow-500 hover:bg-yellow-600  font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
-							onClick={() => navigate('bin')}
-						>
-							Bin
-						</button>
-					</div>
+			<div className="mb-8 ">
+				<div className=" flex justify-between">
+					<h1 className="ml-16 lg:ml-0 font-bold text-2xl text-gray-700">Bus Station Bin</h1>
+					<button
+						className="text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
+						onClick={() => navigate('/admin/bus-station')}
+					>
+						Bus Station Management
+					</button>
 				</div>
 				<div className="-my-2 mt-2">
 					<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -144,25 +124,19 @@ const RouteManagement = () => {
 										scope="col"
 										className="px-6 py-3"
 									>
-										Start Address
+										City/Province
 									</th>
 									<th
 										scope="col"
 										className="px-6 py-3"
 									>
-										End Address
+										Address
 									</th>
 									<th
 										scope="col"
 										className="px-6 py-3"
 									>
-										Price
-									</th>
-									<th
-										scope="col"
-										className="px-6 py-3"
-									>
-										Time
+										Phone Number
 									</th>
 									<th
 										scope="col"
@@ -173,8 +147,8 @@ const RouteManagement = () => {
 								</tr>
 							</thead>
 							<tbody>
-								{routeAll &&
-									routeAll.map((v, i) => (
+								{busStationAll.length !== 0 &&
+									busStationAll.map((v, i) => (
 										<tr
 											key={i}
 											className="odd:bg-white even:bg-gray-50 border-b "
@@ -185,13 +159,14 @@ const RouteManagement = () => {
 											>
 												{v.name}
 											</th>
-											<td className="px-6 py-4">{v.start_address.name}</td>
-											<td className="px-6 py-4">{v.end_address.name}</td>
-											<td className="px-6 py-4">{v.price}</td>
-											<td className="px-6 py-4">{v.time}</td>
+											<td className="px-6 py-4">{v.city}</td>
+											<td className="px-6 py-4">
+												<p className="line-clamp-1">{v.address}</p>
+											</td>
+											<td className="px-6 py-4">{v.phone_number}</td>
 											<td className="px-6 py-4">
 												<button
-													onClick={() => editBtn(v.id)}
+													onClick={() => restoreBtn(v.id)}
 													className="mr-2 font-medium text-blue-500 hover:underline"
 												>
 													Edit
@@ -212,7 +187,7 @@ const RouteManagement = () => {
 			</div>
 			{deleteModal && (
 				<WarningNotification
-					id={routeId}
+					id={busStationId}
 					func={{
 						refresh: refresh,
 						closeModal: closeDeleteModal,
@@ -220,9 +195,8 @@ const RouteManagement = () => {
 						openFailureModal,
 						setMessage,
 					}}
-					type={'route'}
-					action={'route'}
-					method={'put'}
+					type={'bus station'}
+					action={'bus-station'}
 				/>
 			)}
 			{successModal && (
@@ -237,15 +211,8 @@ const RouteManagement = () => {
 					message={message}
 				/>
 			)}
-			{routeModal && (
-				<RouteForm
-					func={{ closeModal: closeRouteModal, openSuccessModal, openFailureModal, setMessage, refresh }}
-					routeId={routeId}
-					busStationAll={busStationAll}
-				/>
-			)}
 		</div>
 	);
 };
 
-export default RouteManagement;
+export default BusStationBin;

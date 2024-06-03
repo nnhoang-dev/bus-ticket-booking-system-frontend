@@ -2,81 +2,83 @@
 
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { API_URL } from '../../configs/env';
-import WarningNotification from '../Noti/WarningNotification';
-import SuccessNotification from '../Noti/SuccessNotification';
-import FailureNotification from '../Noti/FailureNotification';
-import RouteForm from './modal/RouteForm';
+import { API_URL } from '../../../configs/env';
 import { useNavigate } from 'react-router-dom';
+import WarningNotification from '../../Noti/WarningNotification';
+import SuccessNotification from '../../Noti/SuccessNotification';
+import FailureNotification from '../../Noti/FailureNotification';
 
-const RouteManagement = () => {
+const TripBin = () => {
 	const navigate = useNavigate();
-
-	// Data
-	const [busStationAll, setBusStationAll] = useState([]);
-	const [routeAll, setRouteAll] = useState([]);
 
 	// Modal
 	const [deleteModal, setDeleteModal] = useState(false);
 	const [successModal, setSuccessModal] = useState(false);
 	const [failureModal, setFailureModal] = useState(false);
-	const [routeModal, setRouteModal] = useState(false);
 	const [message, setMessage] = useState('');
-	const [routeId, setRouteId] = useState('');
+	const [tripId, setTripId] = useState('');
 
+	// Data
+	const [tripAll, setTripAll] = useState([]);
+
+	// Get data for input
 	useEffect(() => {
-		getBusStationAll();
-		getRouteAll();
+		getTripAll();
 	}, []);
 
-	// Send GET request to retrieve bus stations information
-	const getBusStationAll = async () => {
+	// Send GET request to retrieve trips information
+	const getTripAll = async () => {
 		await axios
 			.get(
-				API_URL + 'employee/bus-station'
+				API_URL + 'employee/trip'
 				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
 			)
 			.then((res) => {
-				setBusStationAll(res.data.data.filter((v) => v.status === '1'));
-			})
-			.catch((err) => {});
-	};
-
-	// Send GET request to retrieve trip
-	const getRouteAll = async () => {
-		await axios
-			.get(
-				API_URL + 'employee/route'
-				// , {headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },}
-			)
-			.then((res) => {
-				setRouteAll(res.data.route.filter((v) => v.status === 1));
+				let trips = res.data;
+				trips = trips.filter((v) => new Date() < new Date(v.date + 'T' + v.start_time));
+				setTripAll(trips.filter((v) => v.status === 0));
 			})
 			.catch((err) => {});
 	};
 
 	// Open route edit modal
-	const editBtn = async (id) => {
-		setRouteId(id);
-		openRouteModal();
+	const restoreBtn = async (id) => {
+		await axios
+			.put(
+				API_URL + `employee/trip/${id}`,
+				{ status: 1 },
+				{
+					headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
+				}
+			)
+			.then((res) => {
+				setMessage(res.data.message);
+				openSuccessModal();
+				refresh();
+			})
+			.catch((err) => {
+				console.log(err.response.data);
+				setMessage(err.response.data.message);
+				openFailureModal();
+			});
 	};
 
 	// Open delete confirm modal
 	const deleteBtn = async (id) => {
-		setRouteId(id);
+		setTripId(id);
 		setDeleteModal(true);
 	};
 
 	// Refresh page
 	const refresh = () => {
-		setRouteId('');
-		getRouteAll();
+		getTripAll();
+		setTripId('');
 	};
 
 	// Close delete modal
 	const closeDeleteModal = () => {
 		setDeleteModal(false);
-		setRouteId('');
+		setTripId('');
 	};
 
 	// Close Success Modal
@@ -84,14 +86,13 @@ const RouteManagement = () => {
 		setSuccessModal(false);
 	};
 
-	// Close Failure Modal
-	const closeFailureModal = () => {
-		setFailureModal(false);
-	};
-
 	// Open Success Modal
 	const openSuccessModal = () => {
 		setSuccessModal(true);
+	};
+	// Close Failure Modal
+	const closeFailureModal = () => {
+		setFailureModal(false);
 	};
 
 	// Open Failure Modal
@@ -99,35 +100,17 @@ const RouteManagement = () => {
 		setFailureModal(true);
 	};
 
-	//Open Route Modal
-	const openRouteModal = () => {
-		setRouteModal(true);
-	};
-
-	// Close Route Modal
-	const closeRouteModal = () => {
-		setRouteModal(false);
-	};
-
 	return (
 		<div className="w-full p-2">
 			<div className="mb-8">
 				<div className="flex justify-between">
-					<h1 className="ml-16 lg:ml-0 font-bold text-2xl text-gray-700">Route Management</h1>
-					<div className="flex justify-center items-center">
-						<button
-							className="mr-2 text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
-							onClick={openRouteModal}
-						>
-							Add
-						</button>
-						<button
-							className="text-white bg-yellow-500 hover:bg-yellow-600  font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
-							onClick={() => navigate('bin')}
-						>
-							Bin
-						</button>
-					</div>
+					<h1 className="ml-16 lg:ml-0 font-bold text-2xl text-gray-700">Trip Bin</h1>
+					<button
+						className="mr-2 text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm w-auto px-5 py-2.5 text-center"
+						onClick={() => navigate('/admin/trip')}
+					>
+						Trip Management
+					</button>
 				</div>
 				<div className="-my-2 mt-2">
 					<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -138,25 +121,13 @@ const RouteManagement = () => {
 										scope="col"
 										className="px-6 py-3"
 									>
-										Name
+										Route
 									</th>
 									<th
 										scope="col"
 										className="px-6 py-3"
 									>
-										Start Address
-									</th>
-									<th
-										scope="col"
-										className="px-6 py-3"
-									>
-										End Address
-									</th>
-									<th
-										scope="col"
-										className="px-6 py-3"
-									>
-										Price
+										Seat
 									</th>
 									<th
 										scope="col"
@@ -168,13 +139,37 @@ const RouteManagement = () => {
 										scope="col"
 										className="px-6 py-3"
 									>
+										Date
+									</th>
+									<th
+										scope="col"
+										className="px-6 py-3"
+									>
+										Bus Station
+									</th>
+									<th
+										scope="col"
+										className="px-6 py-3"
+									>
+										Price
+									</th>
+									<th
+										scope="col"
+										className="px-6 py-3"
+									>
+										Bus
+									</th>
+									<th
+										scope="col"
+										className="px-6 py-3"
+									>
 										Action
 									</th>
 								</tr>
 							</thead>
 							<tbody>
-								{routeAll &&
-									routeAll.map((v, i) => (
+								{tripAll.length !== 0 &&
+									tripAll.map((v, i) => (
 										<tr
 											key={i}
 											className="odd:bg-white even:bg-gray-50 border-b "
@@ -183,18 +178,22 @@ const RouteManagement = () => {
 												scope="row"
 												className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
 											>
-												{v.name}
+												{v.route.name}
 											</th>
-											<td className="px-6 py-4">{v.start_address.name}</td>
-											<td className="px-6 py-4">{v.end_address.name}</td>
-											<td className="px-6 py-4">{v.price}</td>
-											<td className="px-6 py-4">{v.time}</td>
+											<td className="px-6 py-4">{v.seat}</td>
+											<td className="px-6 py-4">{v.start_time + '-' + v.end_time}</td>
+											<td className="px-6 py-4">{v.date}</td>
+											<td className="px-6 py-4">
+												{v.route.start_address.name + ' - ' + v.route.end_address.name}
+											</td>
+											<td className="px-6 py-4">{v.price / 1000 + '.000'}</td>
+											<td className="px-6 py-4">{v.bus.license}</td>
 											<td className="px-6 py-4">
 												<button
-													onClick={() => editBtn(v.id)}
+													onClick={() => restoreBtn(v.id)}
 													className="mr-2 font-medium text-blue-500 hover:underline"
 												>
-													Edit
+													Restore
 												</button>
 												<button
 													onClick={() => deleteBtn(v.id)}
@@ -212,7 +211,7 @@ const RouteManagement = () => {
 			</div>
 			{deleteModal && (
 				<WarningNotification
-					id={routeId}
+					id={tripId}
 					func={{
 						refresh: refresh,
 						closeModal: closeDeleteModal,
@@ -220,9 +219,8 @@ const RouteManagement = () => {
 						openFailureModal,
 						setMessage,
 					}}
-					type={'route'}
-					action={'route'}
-					method={'put'}
+					type={'trip'}
+					action={'trip'}
 				/>
 			)}
 			{successModal && (
@@ -237,15 +235,8 @@ const RouteManagement = () => {
 					message={message}
 				/>
 			)}
-			{routeModal && (
-				<RouteForm
-					func={{ closeModal: closeRouteModal, openSuccessModal, openFailureModal, setMessage, refresh }}
-					routeId={routeId}
-					busStationAll={busStationAll}
-				/>
-			)}
 		</div>
 	);
 };
 
-export default RouteManagement;
+export default TripBin;

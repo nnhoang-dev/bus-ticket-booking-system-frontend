@@ -1,7 +1,7 @@
 /** @format */
 
 import React from 'react';
-import { Avatar, Customer, Logout, Ticket, Trip } from '../../../svg/svg';
+import { Avatar, Logout, Trip } from '../../../svg/svg';
 import axios from 'axios';
 import { API_URL } from '../../../configs/env';
 import { useNavigate } from 'react-router-dom';

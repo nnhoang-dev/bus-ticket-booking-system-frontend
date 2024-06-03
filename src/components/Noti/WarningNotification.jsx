@@ -5,23 +5,47 @@ import { WarningIcon } from '../../svg/svg';
 import axios from 'axios';
 import { API_URL } from '../../configs/env';
 
-const WarningNotification = ({ type, action, func, id }) => {
+const WarningNotification = ({ type, action, func, id, method }) => {
 	const handleDelete = async () => {
-		await axios
-			.delete(API_URL + `employee/${action}/${id}`, {
-				headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
-			})
-			.then((res) => {
-				func.closeModal();
-				func.setMessage(res.data.message);
-				func.openSuccessModal();
-				func.refresh();
-			})
-			.catch((err) => {
-				func.setMessage(err.response.data.message);
-				func.openFailureModal();
-				func.closeModal();
-			});
+		if (method === 'put') {
+			await axios
+				.put(
+					API_URL + `employee/${action}/${id}`,
+					{ status: 0 },
+					{
+						headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
+					}
+				)
+				.then((res) => {
+					console.log(res.data);
+					func.closeModal();
+					func.setMessage(res.data.message);
+					func.openSuccessModal();
+					func.refresh();
+				})
+				.catch((err) => {
+					console.log(err.response);
+					func.setMessage(err.response.data.message);
+					func.openFailureModal();
+					func.closeModal();
+				});
+		} else {
+			await axios
+				.delete(API_URL + `employee/${action}/${id}`, {
+					headers: { Authorization: 'Bearer' + sessionStorage.getItem('token') },
+				})
+				.then((res) => {
+					func.closeModal();
+					func.setMessage(res.data.message);
+					func.openSuccessModal();
+					func.refresh();
+				})
+				.catch((err) => {
+					func.setMessage(err.response.data.message);
+					func.openFailureModal();
+					func.closeModal();
+				});
+		}
 	};
 	return (
 		<div className="fixed z-50 top-0 left-0 w-full h-screen justify-center bg-black/20 ">
