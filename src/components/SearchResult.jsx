@@ -26,7 +26,7 @@ function SearchResult() {
 					res.data?.map((v) => {
 						start_city = v.tuyen_xe.start_address.city.toLowerCase().toString().trim();
 						end_city = v.tuyen_xe.end_address.city.toLowerCase().toString().trim();
-
+						console.log(v);
 						if (start_city.includes(start_address) && end_city.includes(end_address) && date === v.date) {
 							setTravelInfo([
 								...travelInfo,
@@ -164,7 +164,9 @@ function SearchResult() {
 
 							<div className="basis-full mx-2">
 								<div className="flex flex-col">
-									<div className="text-orange-500 text-md sm:text-lg font-semibold mb-3 text-center">Giá vé: {data.price}</div>
+									<div className="text-orange-500 text-md sm:text-lg font-semibold mb-3 text-center">
+										Giá vé: {data.price}
+									</div>
 									<div className="mx-auto">
 										<button
 											className=" text-md sm:text-lg font-semibold text-white  hover:bg-red-600 transition-all mx-auto border border-transparent bg-red-500 px-5 py-3 rounded-3xl"

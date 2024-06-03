@@ -27,6 +27,7 @@ import AccountManagement from './components/admin/AccountManagement';
 import TripDriver from './components/admin/TripDriver';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import VerifyForgotPasswordPage from './pages/VerifyForgotPassword';
+import SearchPage from './pages/SearchPage';
 
 function App() {
 	return (
