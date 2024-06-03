@@ -152,7 +152,7 @@ function ProfileManagementForm() {
 
 	return (
 		<div className="flex-1">
-			<div className="flex flex-col md:flex-row w-full lg:w-[80%] 2xl:w-[60%] mx-auto p-5 gap-y-8 md:gap-x-8 my-8">
+			<div className="flex flex-col-reverse md:flex-row w-full lg:w-[80%] 2xl:w-[60%] mx-auto p-5 gap-y-8 md:gap-x-8 my-8">
 				<div className="flex basis-1/4 border border-slate-300 p-2 flex-col rounded-xl">
 					{/* <div className="flex flex-row p-2 mb-2 items-center hover:bg-slate-100 cursor-pointer">
 						<div className="basis-1/4">
@@ -162,7 +162,7 @@ function ProfileManagementForm() {
 							/>
 						</div>
 						<div className="basis-3/4 ml-3">FUTAPay</div>
-					</div> */}
+					</div>
 					<div className="flex flex-row p-2 mb-2 items-center hover:bg-slate-100 cursor-pointer">
 						<div className="basis-1/4">
 							<img
@@ -189,7 +189,7 @@ function ProfileManagementForm() {
 							/>
 						</div>
 						<div className="basis-3/4 ml-3">Địa chỉ của bạn</div>
-					</div>
+					</div> */}
 					<div
 						className="flex flex-row p-2 mb-2 items-center hover:bg-slate-100 cursor-pointer"
 						onClick={openChangePasswordModal}
@@ -244,7 +244,9 @@ function ProfileManagementForm() {
 									className="hidden"
 								/>
 							</div>
-							<div className="text-center text-slate-500">Dung lượng file tối đa 1 MB Định dạng:.JPEG, .PNG</div>
+							<div className="text-center text-slate-500">
+								Dung lượng file tối đa 1 MB Định dạng:.JPEG, .PNG
+							</div>
 						</div>
 						<div className="basis-2/3 w-full flex flex-col p-3 md:p-5">
 							<div className="flex flex-row mb-3 items-center">

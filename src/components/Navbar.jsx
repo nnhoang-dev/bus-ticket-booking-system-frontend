@@ -47,6 +47,7 @@ function Navbar() {
 					<span className="self-center text-2xl font-semibold whitespace-nowrap">Futa Bus Lines</span>
 				</NavLink>
 				<div className="flex lg:order-2 space-x-3 lg:space-x-0 rtl:space-x-reverse">
+					{/* Mobile */}
 					{!customer.id ? (
 						<NavLink
 							to="login"
@@ -66,8 +67,8 @@ function Navbar() {
 							</svg>
 						</NavLink>
 					) : (
-						<span
-							type="button"
+						<NavLink
+							to="account"
 							className=" lg:hidden text-white bg-red-500 hover:bg-red-600 font-medium rounded-lg text-sm px-4 py-2 text-center"
 						>
 							<div className="flex items-center justify-center">
@@ -80,8 +81,10 @@ function Navbar() {
 									{customer.first_name} {customer.last_name}
 								</span>
 							</div>
-						</span>
+						</NavLink>
 					)}
+
+					{/* Desktop */}
 					{!customer.id ? (
 						<NavLink
 							to="login"
