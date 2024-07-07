@@ -1,70 +1,40 @@
-# Getting Started with Create React App
+## Description
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- Leveraged **ReactJS** and **Tailwind CSS** to construct a user-friendly interface that facilitates bus ticket booking and VNPAY integration for secure payments.
+- Implemented API calls to a **Laravel** backend, enabling functionalities for adding, editing, and deleting data within the **MySQL** database.
+- Enhanced user security by employing **JWT** for user authentication.
+- Integrated **email sending functionality** to streamline communication and user experience.
+- Utilized **Firebase Storage** for efficient image archiving.
+- Front-end:  https://github.com/nnhoang-dev/bus-ticket-booking-system-frontend
+- Back-end:  https://github.com/nnhoang-dev/bus-ticket-booking-system-backend
 
-## Available Scripts
+## Feature
 
-In the project directory, you can run:
+- ### General features
+    - Register, Login, Logout
+    - Change Password
+    - Manage individual profile
 
-### `npm start`
+- ### Customer 
+    - Book tickets and then payment with VNPAY
+    - Check ticket information
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- ### Driver Empoloyee
+    - View trips they are assigned  
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- ### Customer Service Employee
+    - Manage ticket (cancel, change)
+    - Manage customer
+    
+- ### Operator Employee 
+    - Manage Trip, Route, Bus Station, Bus
 
-### `npm test`
+- ### Manager Employee
+    - All functions for employees
+    
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Technologies 
 
-### `npm run build`
+Reactjs, Tailwind, Laravel 11, JWT, MySQL, Firebase Storage
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
